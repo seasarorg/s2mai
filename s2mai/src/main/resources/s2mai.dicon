@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.3//EN"
+	"http://www.seasar.org/dtd/components23.dtd">
+<components namespace="s2mai" >
+	<include path="mailProperties.dicon"/>
+	<component name="s2MaiIntereceptor" class="org.seasar.mai.intereceptors.S2MaiIntereceptor"/>
+	<component class="org.seasar.mai.meta.impl.MaiMetaDataFactoryImpl"/>
+	<component class="org.seasar.mai.annotation.impl.AnnotationReaderFactoryImpl"/>
+	<component class="org.seasar.mai.mail.impl.SendMailImpl">
+		<property name="host">host</property>
+		<property name="port">port</property>
+		<property name="username">username</property>
+		<property name="password">password</property>
+		<property name="returnPath">returnPath</property>
+		<property name="messageId">messageId</property>
+		<property name="connectionTimeout">10000</property>
+		<property name="readTimeout">10000</property>
+	</component>
+</components>
