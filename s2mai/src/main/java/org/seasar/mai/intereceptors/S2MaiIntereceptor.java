@@ -69,6 +69,9 @@ public class S2MaiIntereceptor extends AbstractInterceptor {
     }
 
     private void setServerProperty(SendMail sendMail, Object data) {
+        if (data == null) {
+            return;
+        }
         BeanDesc desc = BeanDescFactory.getBeanDesc(data.getClass());
         if (desc.hasPropertyDesc("host")) {
             PropertyDesc host = desc.getPropertyDesc("host");
@@ -78,6 +81,9 @@ public class S2MaiIntereceptor extends AbstractInterceptor {
     }
 
     private void setMailProperty(Mail mail, Object data) {
+        if (data == null) {
+            return;
+        }
         BeanDesc desc = BeanDescFactory.getBeanDesc(data.getClass());
         if (desc.hasPropertyDesc("from")) {
             PropertyDesc from = desc.getPropertyDesc("from");
