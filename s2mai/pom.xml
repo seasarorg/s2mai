@@ -7,7 +7,7 @@
   <artifactId>s2mai</artifactId>
   <packaging>jar</packaging>
   <name>s2mai</name>
-  <version>0.9.0</version>
+  <version>0.1.0</version>
   <description></description>
   <url>http://s2mai.sandbox.seasar.org/</url>
   <inceptionYear>2006</inceptionYear>
@@ -109,13 +109,19 @@
       <version>1.1.4</version>
       <type>jar</type>
     </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4</version>
+      <type>jar</type>
+    </dependency>    
   </dependencies>
   <distributionManagement>
     <repository>
       <uniqueVersion>false</uniqueVersion>
       <id>maven.seasar.org</id>
       <name>The Seasar Foundation Maven2 Repository</name>
-      <url>scp://www.seasar.org/home/groups/s2mai/maven/maven2</url>
+      <url>scp://www.seasar.org/home/groups/sandbox/s2mai/maven/maven2</url>
     </repository>
   </distributionManagement>
 </project>
