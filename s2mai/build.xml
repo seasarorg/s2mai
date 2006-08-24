@@ -2,8 +2,17 @@
 	<property name="ver" value="0.1.0"/>
 	
 	<target name="dist">
-		<jar
-			jarfile="lib/s2mai-${ver}.jar"
-			basedir="build/classes"/>
+		<mkdir dir="target"/>
+		<zip zipfile="target/S2mai-V${ver}.zip">
+			<zipfileset prefix="s2mai" dir=".">
+				<exclude name="**/build/**"/>
+				<exclude name="**/target/**"/>
+				<exclude name="**/.settings/**"/>
+			</zipfileset>
+			<zipfileset prefix="s2mai/lib" dir="target">
+				<include name="s2mai-${ver}.jar"/>
+				<include name="s2mai-${ver}-sources.jar"/>
+			</zipfileset>
+		</zip>
 	</target>
 </project>
