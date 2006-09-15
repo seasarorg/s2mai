@@ -21,11 +21,15 @@ import org.seasar.mai.mail.SendMail;
  * @author Satsohi Kimura
  */
 public class SendMailImpl extends com.ozacc.mail.impl.SendMailImpl implements SendMail, Cloneable {
-    private int connectionTimeout = 5000;
+    private static final int DEFAULT_CONNECTION_TIMEOUT = 5000;
+
+    private static final int DEFAULT_READ_TIMEOUT = 5000;
+
+    private int connectionTimeout = DEFAULT_CONNECTION_TIMEOUT;
 
     private String messageId;
 
-    private int readTimeout = 5000;
+    private int readTimeout = DEFAULT_READ_TIMEOUT;
 
     public SendMailImpl() {
         super();

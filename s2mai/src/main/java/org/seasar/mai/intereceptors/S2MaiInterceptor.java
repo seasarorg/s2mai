@@ -31,17 +31,17 @@ import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.meta.MaiMetaDataFactory;
-import org.seasar.mai.util.FreeMarkerrUtil;
+import org.seasar.mai.util.FreeMarkerUtil;
 
 import com.ozacc.mail.Mail;
 
 /**
  * @author Satoshi Kimura
  */
-public class S2MaiIntereceptor extends AbstractInterceptor {
+public class S2MaiInterceptor extends AbstractInterceptor {
     private static final long serialVersionUID = -3003054499497347849L;
 
-    private Logger logger = Logger.getLogger(S2MaiIntereceptor.class);
+    private Logger logger = Logger.getLogger(S2MaiInterceptor.class);
 
     private MaiMetaDataFactory maiMetaDataFactory;
 
@@ -124,7 +124,7 @@ public class S2MaiIntereceptor extends AbstractInterceptor {
     private Mail createMail(Method method, Object data, MaiMetaData metaData) {
         Mail mail = metaData.getMail(method);
         String path = metaData.getTemplatePath(method);
-        String text = FreeMarkerrUtil.processResource(path, data);
+        String text = FreeMarkerUtil.processResource(path, data);
         String subject = getSubject(text);
         text = getText(text);
         mail.setSubject(subject);
@@ -134,7 +134,7 @@ public class S2MaiIntereceptor extends AbstractInterceptor {
 
     private void init() {
         String enc = (String) container.getComponent(S2MaiConstants.TEMPLATE_ENCODING);
-        FreeMarkerrUtil.setDefaultEncoding(enc);
+        FreeMarkerUtil.setDefaultEncoding(enc);
     }
 
     private String getText(String text) {

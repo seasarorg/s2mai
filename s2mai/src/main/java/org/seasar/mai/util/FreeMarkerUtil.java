@@ -33,7 +33,7 @@ import freemarker.template.TemplateException;
 /**
  * @author Satsohi Kimura
  */
-public class FreeMarkerrUtil {
+public class FreeMarkerUtil {
     private static final Configuration defaultConfig = new Configuration();
 
     public static void setDefaultEncoding(String enc) {

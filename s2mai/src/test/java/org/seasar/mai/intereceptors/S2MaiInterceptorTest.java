@@ -20,7 +20,7 @@ import org.seasar.extension.unit.S2TestCase;
 /**
  * @author Satsohi Kimura
  */
-public class S2MaiIntereceptorTest extends S2TestCase {
+public class S2MaiInterceptorTest extends S2TestCase {
     private TestMai testMai;
 
     protected void setUp() throws Exception {
