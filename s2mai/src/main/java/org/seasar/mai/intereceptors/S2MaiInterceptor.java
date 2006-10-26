@@ -28,12 +28,15 @@ import org.seasar.framework.container.S2Container;
 import org.seasar.framework.log.Logger;
 import org.seasar.framework.util.MethodUtil;
 import org.seasar.mai.S2MaiConstants;
+import org.seasar.mai.mail.MailExceptionHandler;
 import org.seasar.mai.mail.SendMail;
+import org.seasar.mai.mail.impl.MailExceptionHandlerImpl;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.meta.MaiMetaDataFactory;
 import org.seasar.mai.util.FreeMarkerUtil;
 
 import com.ozacc.mail.Mail;
+import com.ozacc.mail.MailException;
 
 /**
  * @author Satoshi Kimura
@@ -48,6 +51,8 @@ public class S2MaiInterceptor extends AbstractInterceptor {
     private S2Container container;
 
     private SendMail sendMail;
+
+    private MailExceptionHandler mailExceptionHandler = new MailExceptionHandlerImpl();
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
@@ -117,7 +122,11 @@ public class S2MaiInterceptor extends AbstractInterceptor {
     private void send(Mail mail, SendMail sendMail) {
         logger.debug("send mail...");
         logger.debug(mail);
-        sendMail.send(mail);
+        try {
+            sendMail.send(mail);
+        } catch (MailException e) {
+            mailExceptionHandler.handle(e);
+        }
         logger.debug("success send mail.");
     }
 
@@ -161,6 +170,10 @@ public class S2MaiInterceptor extends AbstractInterceptor {
 
     public void setContainer(S2Container container) {
         this.container = container;
+    }
+
+    public void setMailExceptionHandler(MailExceptionHandler mailExceptionHandler) {
+        this.mailExceptionHandler = mailExceptionHandler;
     }
 
 }
