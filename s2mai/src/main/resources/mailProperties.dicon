@@ -29,4 +29,10 @@
 	<component name="templateEncoding">
 		"UTF-8"
 	</component>
+	<component name="connectionTimeout">
+		10000
+	</component>
+	<component name="readTimeout">
+		10000
+	</component>
 </components>

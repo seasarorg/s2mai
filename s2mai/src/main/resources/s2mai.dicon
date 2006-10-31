@@ -13,7 +13,7 @@
 		<property name="password">password</property>
 		<property name="returnPath">returnPath</property>
 		<property name="messageId">messageId</property>
-		<property name="connectionTimeout">10000</property>
-		<property name="readTimeout">10000</property>
+		<property name="connectionTimeout">connectionTimeout</property>
+		<property name="readTimeout">readTimeout</property>
 	</component>
 </components>
