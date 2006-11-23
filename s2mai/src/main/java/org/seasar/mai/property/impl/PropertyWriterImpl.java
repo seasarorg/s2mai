@@ -37,22 +37,18 @@ public class PropertyWriterImpl implements PropertyWriter,S2MaiConstants {
             return;
         }
         
+        String[] propNames = new String[]{FROM, TO, CC};
+        
         BeanDesc desc = BeanDescFactory.getBeanDesc(bean.getClass());
         MailPropertyWriter propWriter = null;
-        if (desc.hasPropertyDesc(FROM)) {        
-            propWriter = mailPropertyWriterFactory.getMailPropertyWriter(FROM);
-            propWriter.setProperty(mail,bean);
-        }
         
-        if (desc.hasPropertyDesc(TO)) {            
-            propWriter = mailPropertyWriterFactory.getMailPropertyWriter(TO);
-            propWriter.setProperty(mail,bean);
-        }
+        for(int i=0; i < propNames.length; i++){
+            if (desc.hasPropertyDesc(propNames[i])) {        
+                propWriter = mailPropertyWriterFactory.getMailPropertyWriter(propNames[i]);
+                propWriter.setProperty(mail,bean);
+            }
+        }        
         
-        if (desc.hasPropertyDesc(CC)) {
-            propWriter = mailPropertyWriterFactory.getMailPropertyWriter(CC);
-            propWriter.setProperty(mail,bean);
-        }
     }
 
     public void setServerProperty(SendMail sendMail, Object bean) {

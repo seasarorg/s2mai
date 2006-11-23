@@ -15,7 +15,9 @@
  */
 package org.seasar.mai.property.mail.impl;
 
-import org.seasar.framework.container.S2Container;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 import org.seasar.mai.property.mail.MailPropertyWriterFactory;
@@ -24,25 +26,17 @@ import org.seasar.mai.property.mail.MailPropertyWriterFactory;
  * @author rokugen
  */
 public class MailPropertyWriterFactoryImpl implements MailPropertyWriterFactory ,S2MaiConstants{
-    private S2Container container; 
-
-    public MailPropertyWriter getMailPropertyWriter(String propName) {
-        Class clazz = null;
-        if(FROM.equals(propName)){
-            clazz = MailPropertyWriterFrom.class;
-        }else if(TO.equals(propName)){
-            clazz = MailPropertyWriterTo.class;
-        }else if(CC.equals(propName)){
-            clazz = MailPropertyWriterCc.class;
-        }
-        return (MailPropertyWriter)container.getComponent(clazz);
+    private Map writerMap = new HashMap();
+    
+    public MailPropertyWriterFactoryImpl(){
+        writerMap.put(FROM, new MailPropertyWriterFrom());
+        writerMap.put(TO, new MailPropertyWriterTo());
+        writerMap.put(CC, new MailPropertyWriterCc());
     }
 
-    /**
-     * @param container The container to set.
-     */
-    public void setContainer(S2Container container) {
-        this.container = container;
+    public MailPropertyWriter getMailPropertyWriter(String propName) {
+        
+        return (MailPropertyWriter)writerMap.get(propName);
     }
 
 }
