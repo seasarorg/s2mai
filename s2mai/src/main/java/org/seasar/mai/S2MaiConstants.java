@@ -25,5 +25,17 @@ public interface S2MaiConstants {
 
     String SUBJECT = "Subject: ";
     
+    String FROM = "from";
+    
+    String TO = "to";
+    
+    String HOST = "host";
+    
+    String PORT = "port";
+    
+    String USERNAME = "username";
+    
+    String PASSWORD = "password";
+    
     String TEMPLATE_ENCODING = "templateEncoding";
 }

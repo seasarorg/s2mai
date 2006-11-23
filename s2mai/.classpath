@@ -8,7 +8,7 @@
 	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-api.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
-	<classpathentry kind="lib" path="lib/ozacc-mail-1.1.7.jar"/>
+	<classpathentry sourcepath="lib-src/ozacc-mail-1.1.7-src.zip" kind="lib" path="lib/ozacc-mail-1.1.7.jar"/>
 	<classpathentry kind="lib" path="lib/s2-extension-2.3.10.jar"/>
 	<classpathentry kind="lib" path="lib/s2-framework-2.3.10.jar"/>
 	<classpathentry kind="lib" path="lib/aopalliance-1.0.jar"/>
@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/geronimo-j2ee_1.4_spec-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/freemarker.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/seasar2"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
