@@ -15,6 +15,10 @@
  */
 package org.seasar.mai.interceptors;
 
+import java.io.UnsupportedEncodingException;
+
+import javax.mail.internet.InternetAddress;
+
 import org.seasar.extension.unit.S2TestCase;
 
 /**
@@ -41,7 +45,7 @@ public class S2MaiInterceptorTest extends S2TestCase {
         
     }
     
-    public void testInvokeWithDynamicProperty(){
+    public void testInvokeWithDynamicProperty() throws UnsupportedEncodingException{
         TestData data = new TestData();
         data.setDay(22);
         data.setMonth(11);
@@ -50,7 +54,7 @@ public class S2MaiInterceptorTest extends S2TestCase {
         
         //プロパティ動的にセット
         data.setFrom("kei");
-        data.setTo("rokugen");
+        data.setTo(new InternetAddress("rokugen","六","ISO-2022-JP"));
         testMai.sendMail(data);
     }
 

@@ -15,12 +15,14 @@
  */
 package org.seasar.mai.interceptors;
 
+import javax.mail.internet.InternetAddress;
+
 /**
  * @author Satsohi Kimura
  */
 public class TestData {
     private String from;
-    private String to;
+    private InternetAddress to;
     
     private int no;
 
@@ -79,14 +81,14 @@ public class TestData {
     /**
      * @return Returns the to.
      */
-    public String getTo() {
+    public InternetAddress getTo() {
         return to;
     }
 
     /**
      * @param to The to to set.
      */
-    public void setTo(String to) {
+    public void setTo(InternetAddress to) {
         this.to = to;
     }
 

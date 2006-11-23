@@ -15,6 +15,7 @@
  */
 package org.seasar.mai.property.mail.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -48,7 +49,15 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
         if(value instanceof String){ 
             this.setPropertyImpl(mail,(String)value);            
         }else if(value instanceof InternetAddress){
-            this.setPropertyImpl(mail,(InternetAddress)value);
+            InternetAddress iaValue = (InternetAddress)value;
+            try {
+                //TODO ISO-2022-JP外出し
+                iaValue.setPersonal(iaValue.getPersonal(),"ISO-2022-JP");
+            } catch (UnsupportedEncodingException e) {
+                // TODO キャッチしてどうしよう。
+                e.printStackTrace();
+            }
+            this.setPropertyImpl(mail,iaValue);
         }else if(value instanceof List){
             Object addrValue = null;
             for(Iterator itr = ((List)value).iterator(); itr.hasNext();){
