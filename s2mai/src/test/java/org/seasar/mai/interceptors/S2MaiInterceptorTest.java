@@ -13,12 +13,30 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.intereceptors;
+package org.seasar.mai.interceptors;
+
+import org.seasar.extension.unit.S2TestCase;
 
 /**
  * @author Satsohi Kimura
  */
-public interface TestMai {
+public class S2MaiInterceptorTest extends S2TestCase {
+    private TestMai testMai;
 
-    void sendMail(TestData data);
+    protected void setUp() throws Exception {
+        include("test.dicon");
+    }
+
+    /*
+     * Test method for 'org.seasar.mai.interceptors.S2MaiIntereceptor.invoke(MethodInvocation)'
+     */
+    public void testInvoke() {
+        TestData data = new TestData();
+        data.setDay(22);
+        data.setMonth(11);
+        data.setYear(2006);
+        data.setNo(12345);
+        testMai.sendMail(data);
+    }
+
 }
