@@ -13,31 +13,14 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai;
+package org.seasar.mai.property.mail;
+
+import com.ozacc.mail.Mail;
 
 /**
- * @author Satsohi Kimura
+ * @author kei
  */
-public interface S2MaiConstants {
-    String FREEMARKER_EXT = "ftl";
+public interface MailPropertyWriter {
+    void setProperty(Mail mail, Object data);
 
-    String DATA_NAME = "data";
-
-    String SUBJECT = "Subject: ";
-    
-    String FROM = "from";
-    
-    String TO = "to";
-    
-    String CC = "cc";
-    
-    String HOST = "host";
-    
-    String PORT = "port";
-    
-    String USERNAME = "username";
-    
-    String PASSWORD = "password";
-    
-    String TEMPLATE_ENCODING = "templateEncoding";
 }

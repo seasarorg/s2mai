@@ -19,6 +19,9 @@ package org.seasar.mai.interceptors;
  * @author Satsohi Kimura
  */
 public class TestData {
+    private String from;
+    private String to;
+    
     private int no;
 
     private int year;
@@ -57,6 +60,34 @@ public class TestData {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    /**
+     * @return Returns the from.
+     */
+    public String getFrom() {
+        return from;
+    }
+
+    /**
+     * @param from The from to set.
+     */
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    /**
+     * @return Returns the to.
+     */
+    public String getTo() {
+        return to;
+    }
+
+    /**
+     * @param to The to to set.
+     */
+    public void setTo(String to) {
+        this.to = to;
     }
 
 }

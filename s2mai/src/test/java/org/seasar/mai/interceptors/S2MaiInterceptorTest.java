@@ -31,11 +31,26 @@ public class S2MaiInterceptorTest extends S2TestCase {
      * Test method for 'org.seasar.mai.interceptors.S2MaiIntereceptor.invoke(MethodInvocation)'
      */
     public void testInvoke() {
+        
         TestData data = new TestData();
         data.setDay(22);
         data.setMonth(11);
         data.setYear(2006);
         data.setNo(12345);
+        testMai.sendMail(data);
+        
+    }
+    
+    public void testInvokeWithDynamicProperty(){
+        TestData data = new TestData();
+        data.setDay(22);
+        data.setMonth(11);
+        data.setYear(2006);
+        data.setNo(12345);
+        
+        //プロパティ動的にセット
+        data.setFrom("kei");
+        data.setTo("rokugen");
         testMai.sendMail(data);
     }
 

@@ -6,6 +6,13 @@
 	<component name="s2MaiInterceptor" class="org.seasar.mai.interceptors.S2MaiInterceptor"/>
 	<component class="org.seasar.mai.meta.impl.MaiMetaDataFactoryImpl"/>
 	<component class="org.seasar.mai.annotation.impl.AnnotationReaderFactoryImpl"/>
+	
+	<component class="org.seasar.mai.property.impl.PropertyWriterImpl" />	
+	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterFactoryImpl" />
+	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterFrom" />
+	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterTo" />
+	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterCc" />
+	
 	<component class="org.seasar.mai.mail.impl.SendMailImpl">
 		<property name="host">host</property>
 		<property name="port">port</property>

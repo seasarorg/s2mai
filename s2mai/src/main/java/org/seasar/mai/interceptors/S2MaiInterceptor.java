@@ -21,9 +21,6 @@ import java.util.Map;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.seasar.framework.aop.interceptors.AbstractInterceptor;
-import org.seasar.framework.beans.BeanDesc;
-import org.seasar.framework.beans.PropertyDesc;
-import org.seasar.framework.beans.factory.BeanDescFactory;
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.log.Logger;
 import org.seasar.framework.util.MethodUtil;
@@ -33,6 +30,7 @@ import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.mail.impl.MailExceptionHandlerImpl;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.meta.MaiMetaDataFactory;
+import org.seasar.mai.property.PropertyWriter;
 import org.seasar.mai.util.FreeMarkerUtil;
 
 import com.ozacc.mail.Mail;
@@ -53,6 +51,8 @@ public class S2MaiInterceptor extends AbstractInterceptor {
     private SendMail sendMail;
 
     private MailExceptionHandler mailExceptionHandler = new MailExceptionHandlerImpl();
+    
+    private PropertyWriter propertyWriter;
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
@@ -64,37 +64,14 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         }
         init();
         MaiMetaData metaData = maiMetaDataFactory.getMaiMetaData(getTargetClass(invocation));
-        Object data = getData(invocation);
+        Object bean = getBean(invocation);
+        Object data = getData(bean);
         Mail mail = createMail(method, data, metaData);
-        setMailProperty(mail, data);
+        propertyWriter.setMailProperty(mail, bean);        
         SendMail sendMail = (SendMail) this.sendMail.clone();
-        setServerProperty(sendMail, data);
+        propertyWriter.setServerProperty(sendMail, bean);
         send(mail, sendMail);
         return null;
-    }
-
-    private void setServerProperty(SendMail sendMail, Object data) {
-        if (data == null) {
-            return;
-        }
-        BeanDesc desc = BeanDescFactory.getBeanDesc(data.getClass());
-        if (desc.hasPropertyDesc("host")) {
-            PropertyDesc host = desc.getPropertyDesc("host");
-            sendMail.setHost((String) host.getValue(data));
-        }
-        // TODO 他のプロパティーも
-    }
-
-    private void setMailProperty(Mail mail, Object data) {
-        if (data == null) {
-            return;
-        }
-        BeanDesc desc = BeanDescFactory.getBeanDesc(data.getClass());
-        if (desc.hasPropertyDesc("from")) {
-            PropertyDesc from = desc.getPropertyDesc("from");
-            mail.setFrom((String) from.getValue(data));
-        }
-        // TODO 他のプロパティーも
     }
 
     private boolean isGetSendMail(Method method) {
@@ -104,18 +81,25 @@ public class S2MaiInterceptor extends AbstractInterceptor {
             return false;
         }
     }
-
-    private Object getData(MethodInvocation invocation) {
+    
+    private Object getBean(MethodInvocation invocation){
         Object[] arguments = invocation.getArguments();
         if (arguments == null || arguments.length == 0) {
             return null;
         }
-        Object data = arguments[0];
-        if (data instanceof Map) {
-            return data;
+        return arguments[0];
+    }
+
+    private Object getData(Object arg) {
+        if(arg == null){
+            return null;
+        }
+        
+        if (arg instanceof Map) {
+            return arg;
         }
         Map map = new HashMap();
-        map.put(S2MaiConstants.DATA_NAME, data);
+        map.put(S2MaiConstants.DATA_NAME, arg);
         return map;
     }
 
@@ -174,6 +158,13 @@ public class S2MaiInterceptor extends AbstractInterceptor {
 
     public void setMailExceptionHandler(MailExceptionHandler mailExceptionHandler) {
         this.mailExceptionHandler = mailExceptionHandler;
+    }
+
+    /**
+     * @param propertyWriter The propertyWriter to set.
+     */
+    public void setPropertyWriter(PropertyWriter propertyWriter) {
+        this.propertyWriter = propertyWriter;
     }
 
 }

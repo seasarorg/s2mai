@@ -13,31 +13,32 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai;
+package org.seasar.mai.property.mail.impl;
+
+import javax.mail.internet.InternetAddress;
+
+import org.seasar.mai.S2MaiConstants;
+
+import com.ozacc.mail.Mail;
 
 /**
- * @author Satsohi Kimura
+ * @author rokugen
  */
-public interface S2MaiConstants {
-    String FREEMARKER_EXT = "ftl";
+public class MailPropertyWriterCc extends AbstractMailPropertyWriter{
 
-    String DATA_NAME = "data";
+    protected void init(Mail mail) {
+        mail.clearCc();        
+    }
+    protected String getPropertyName() {
+        return S2MaiConstants.CC;
+    }
 
-    String SUBJECT = "Subject: ";
-    
-    String FROM = "from";
-    
-    String TO = "to";
-    
-    String CC = "cc";
-    
-    String HOST = "host";
-    
-    String PORT = "port";
-    
-    String USERNAME = "username";
-    
-    String PASSWORD = "password";
-    
-    String TEMPLATE_ENCODING = "templateEncoding";
+    protected void setPropertyImpl(Mail mail, String value) {
+        mail.addCc(value);
+    }
+
+    protected void setPropertyImpl(Mail mail, InternetAddress value) {
+        mail.addCc(value);
+    }
+
 }
