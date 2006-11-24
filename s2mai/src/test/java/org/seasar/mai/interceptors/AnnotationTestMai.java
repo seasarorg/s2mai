@@ -19,7 +19,7 @@ package org.seasar.mai.interceptors;
  * @author rokugen
  */
 public interface AnnotationTestMai {
-    //static final String TO = "kei";
+    static final String[] TO = new String[]{"kei","rokugen"};
     static final String sendMailWithAnnotationAndNoMethodDicon_TO = "rokugen";
 
     void sendMail(TestData data);
