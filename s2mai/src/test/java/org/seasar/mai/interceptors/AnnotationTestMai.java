@@ -13,25 +13,16 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.annotation;
-
-import java.lang.reflect.Method;
+package org.seasar.mai.interceptors;
 
 /**
- * @author Satsohi Kimura
+ * @author rokugen
  */
-public interface AnnotationReader {
-    Object getTo(Method method);
+public interface AnnotationTestMai {
+    //static final String TO = "kei";
+    static final String sendMailWithAnnotationAndNoMethodDicon_TO = "rokugen";
 
-    String[] getCc(Method method);
-
-    String[] getBcc(Method method);
-
-    String getSubject(Method method);
-
-    String getReplyTo(Method method);
-
-    String getReturnPath(Method method);
-
-    String getFrom(Method method);
+    void sendMail(TestData data);
+    void sendMailWithAnnotationAndNoMethodDicon(TestData data);
+    void sendMailWithMethodDicon(TestData data);
 }

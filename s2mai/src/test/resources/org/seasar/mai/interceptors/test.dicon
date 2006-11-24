@@ -6,4 +6,8 @@
 	<component class="org.seasar.mai.interceptors.TestMai">
 		<aspect>s2MaiInterceptor</aspect>
 	</component>
+
+	<component class="org.seasar.mai.interceptors.AnnotationTestMai">
+		<aspect>s2MaiInterceptor</aspect>
+	</component>
 </components>

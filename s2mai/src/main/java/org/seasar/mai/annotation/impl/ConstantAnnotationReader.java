@@ -17,13 +17,34 @@ package org.seasar.mai.annotation.impl;
 
 import java.lang.reflect.Method;
 
+import org.seasar.framework.beans.BeanDesc;
+import org.seasar.framework.beans.factory.BeanDescFactory;
 import org.seasar.mai.annotation.AnnotationReader;
 
 public class ConstantAnnotationReader implements AnnotationReader {
+    private static final String TO = "TO";    
 
-    public String[] getTo(Method method) {
-        // TODO Auto-generated method stub
-        return null;
+    public Object getTo(Method method) {
+        Class mai = method.getDeclaringClass();
+        BeanDesc maiBeanDesc = BeanDescFactory.getBeanDesc(mai);
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append(method.getName());
+        sb.append("_");
+        sb.append(TO);
+        String fieldName = sb.toString();
+        
+        Object value = null;
+        if(maiBeanDesc.hasField(fieldName)){
+            value = maiBeanDesc.getFieldValue(sb.toString(),null);            
+        }else{
+            if(maiBeanDesc.hasField(TO)){
+                value = maiBeanDesc.getFieldValue(TO,null);            
+            }
+            
+        }        
+
+        return value;
     }
 
     public String[] getCc(Method method) {

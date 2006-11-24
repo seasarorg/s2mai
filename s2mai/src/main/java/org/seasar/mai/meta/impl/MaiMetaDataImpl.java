@@ -30,6 +30,8 @@ import org.seasar.framework.util.ResourceNotFoundRuntimeException;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.annotation.AnnotationReader;
 import org.seasar.mai.meta.MaiMetaData;
+import org.seasar.mai.property.mail.MailPropertyWriter;
+import org.seasar.mai.property.mail.MailPropertyWriterFactory;
 
 import com.ozacc.mail.Mail;
 
@@ -41,7 +43,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
 
     private Map templatePaths = new HashMap();
 
-    public MaiMetaDataImpl(Class maiClass, AnnotationReader annotationReader) {
+    public MaiMetaDataImpl(Class maiClass, AnnotationReader annotationReader, MailPropertyWriterFactory mailPropertyWriterFactory) {
         Mail classMail = null;
         try {
             String path = maiClass.getName().replaceAll("\\.", "/") + ".dicon";
@@ -57,13 +59,14 @@ public class MaiMetaDataImpl implements MaiMetaData {
 
             mails.put(method, mail);
 
-            setAnnotationValues(annotationReader, method, mail);
+            setAnnotationValues(annotationReader, mailPropertyWriterFactory, method, mail);
         }
     }
 
-    private void setAnnotationValues(AnnotationReader annotationReader, Method method, Mail mail) {
-        String[] to = annotationReader.getTo(method);
-        setTo(to, mail);
+    private void setAnnotationValues(AnnotationReader annotationReader, MailPropertyWriterFactory mailPropertyWriterFactory, Method method, Mail mail) {
+        Object to = annotationReader.getTo(method);
+        MailPropertyWriter writer = mailPropertyWriterFactory.getMailPropertyWriter(S2MaiConstants.TO);
+        setTo(to, mail, writer);
         String[] cc = annotationReader.getCc(method);
         setCc(cc, mail);
         String[] bcc = annotationReader.getBcc(method);
@@ -85,7 +88,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
             S2Container container = S2ContainerFactory.create(path);
             mail = (Mail) container.getComponent(Mail.class);
         } catch (ResourceNotFoundRuntimeException e) {
-            mail = classMail;
+            mail = new Mail(classMail);
         }
         if (mail == null) {
             mail = new Mail();
@@ -115,15 +118,12 @@ public class MaiMetaDataImpl implements MaiMetaData {
         }
     }
 
-    private void setTo(String[] to, Mail mail) {
-        if (to == null || to.length == 0) {
+    private void setTo(Object to, Mail mail, MailPropertyWriter writer) {
+        if (to == null ) {
             return;
         }
         mail.clearTo();
-        for (int i = 0; i < to.length; i++) {
-            String val = to[i].trim();
-            mail.addTo(val, toSafetyText(val));
-        }
+        writer.setProperty(mail,to);
     }
 
     private void setReplyTo(String replyTo, Mail mail) {

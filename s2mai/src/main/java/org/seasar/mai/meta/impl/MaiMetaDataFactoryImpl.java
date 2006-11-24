@@ -22,6 +22,7 @@ import org.seasar.mai.annotation.AnnotationReader;
 import org.seasar.mai.annotation.AnnotationReaderFactory;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.meta.MaiMetaDataFactory;
+import org.seasar.mai.property.mail.MailPropertyWriterFactory;
 
 /**
  * @author Satoshi Kimura
@@ -29,6 +30,7 @@ import org.seasar.mai.meta.MaiMetaDataFactory;
  */
 public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
     private AnnotationReaderFactory annotationReaderFactory;
+    private MailPropertyWriterFactory mailPropertyWriterFactory;
 
     private Map maiMetaDataCache = new HashMap();
 
@@ -37,12 +39,19 @@ public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
             return (MaiMetaData) maiMetaDataCache.get(maiClass);
         }
         AnnotationReader annotationReader = annotationReaderFactory.createMaiAnnotationReader();
-        MaiMetaData metaData = new MaiMetaDataImpl(maiClass, annotationReader);
+        MaiMetaData metaData = new MaiMetaDataImpl(maiClass, annotationReader, mailPropertyWriterFactory);
         maiMetaDataCache.put(maiClass, metaData);
         return metaData;
     }
 
     public void setAnnotationReaderFactory(AnnotationReaderFactory annotationReaderFactory) {
         this.annotationReaderFactory = annotationReaderFactory;
+    }
+
+    /**
+     * @param mailPropertyWriterFactory The mailPropertyWriterFactory to set.
+     */
+    public final void setMailPropertyWriterFactory(MailPropertyWriterFactory mailPropertyWriterFactory) {
+        this.mailPropertyWriterFactory = mailPropertyWriterFactory;
     }
 }
