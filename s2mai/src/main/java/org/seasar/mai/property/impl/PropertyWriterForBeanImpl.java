@@ -35,19 +35,19 @@ public class PropertyWriterForBeanImpl implements PropertyWriterForBean,S2MaiCon
     public void setMailProperty(Mail mail, Object bean) {
         if (bean == null) {
             return;
-        }
+        }        
         
-        String[] propNames = new String[]{FROM, TO, CC, BCC, REPLY_TO};
         
         BeanDesc desc = BeanDescFactory.getBeanDesc(bean.getClass());
         MailPropertyWriter propWriter = null;
         
-        for(int i=0; i < propNames.length; i++){
-            if (desc.hasPropertyDesc(propNames[i])) {
-                PropertyDesc pd = desc.getPropertyDesc(propNames[i]);            
+        for(int i=0; i < MAIL_PROPERTIES.length; i++){
+            String propertyName = MAIL_PROPERTIES[i];
+            if (desc.hasPropertyDesc(propertyName)) {
+                PropertyDesc pd = desc.getPropertyDesc(propertyName);            
                 Object value = pd.getValue(bean);
                 if(value != null){                    
-                    propWriter = mailPropertyWriterFactory.getMailPropertyWriter(propNames[i]);
+                    propWriter = mailPropertyWriterFactory.getMailPropertyWriter(propertyName);
                     propWriter.init(mail);
                     propWriter.setProperty(mail,value);
                 }

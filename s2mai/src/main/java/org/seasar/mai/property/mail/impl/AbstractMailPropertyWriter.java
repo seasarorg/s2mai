@@ -16,13 +16,17 @@
 package org.seasar.mai.property.mail.impl;
 
 import java.io.IOException;
+import java.nio.BufferOverflowException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeUtility;
 
+import org.seasar.framework.container.S2Container;
 import org.seasar.framework.exception.IORuntimeException;
+import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 
 import com.ozacc.mail.Mail;
@@ -31,35 +35,66 @@ import com.ozacc.mail.Mail;
  * @author rokugen
  */
 public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
+    private S2Container container;
 
     
     public void setProperty(Mail mail, Object value){
-        if(value instanceof String){ 
-            this.setPropertyToMail(mail,(String)value);            
+        
+        if(value instanceof String){
+            
+            this.setPropertyToMail(mail,(String)value);
+            
         }else if(value instanceof InternetAddress){
+            
             InternetAddress iaValue = (InternetAddress)value;
             try {
-                //TODO ISO-2022-JP外出し
-                iaValue.setPersonal(iaValue.getPersonal(),"ISO-2022-JP");
+                //TODO もうっちょっとマシなやり方できないかなあと
+                iaValue.setPersonal(this.toSafetyText(iaValue.getPersonal()));
             } catch (IOException e) {
                 throw new IORuntimeException(e);
             }
             this.setPropertyToMail(mail,iaValue);
+            
         }else if(value instanceof List){
+            
             Object addrValue = null;
             for(Iterator itr = ((List)value).iterator(); itr.hasNext();){
                 addrValue = itr.next();
                 this.setProperty(mail, addrValue);
             }
+            
         }else if(value instanceof Object[]){
+            
             List addrList = Arrays.asList((Object[])value);
             this.setProperty(mail, addrList);
+        }
+    }
+    
+    private String toSafetyText(String text) {
+        if (text == null) {
+            text = "";
+        }
+        try {
+            String charset = (String)container.getComponent(S2MaiConstants.MAIL_CHARSET);
+            MimeUtility.encodeText(text, charset, "B"); 
+            return text;
+        } catch (BufferOverflowException e) {
+            return toSafetyText(text + " ");
+        } catch (IOException e) {
+            throw new IORuntimeException(e);
         }
     }
     
     protected abstract String getPropertyName();
     
     protected abstract void setPropertyToMail(Mail mail, String value);
-    protected abstract void setPropertyToMail(Mail mail, InternetAddress value);    
+    protected abstract void setPropertyToMail(Mail mail, InternetAddress value);
+
+    /**
+     * @param container The container to set.
+     */
+    public final void setContainer(S2Container container) {
+        this.container = container;
+    }    
 
 }

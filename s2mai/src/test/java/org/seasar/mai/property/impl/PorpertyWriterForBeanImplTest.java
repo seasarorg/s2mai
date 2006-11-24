@@ -60,6 +60,7 @@ public class PorpertyWriterForBeanImplTest extends S2TestCase {
         Mail mail = new Mail();
         TestDto testDto = new TestDto();
         testDto.setFrom("from@address");
+        testDto.setSubject("件名です");
         
         List toList = new ArrayList();        
         toList.add("to1@localhost.locadomain");
@@ -82,6 +83,7 @@ public class PorpertyWriterForBeanImplTest extends S2TestCase {
         testDto.setBcc(bccList);
         
         testDto.setReplyTo("replyTo@address");
+        testDto.setReturnPath("returnPath@address");
         
         propertyWriterImpl.setMailProperty(mail,testDto);
         assertEquals("from address only", testDto.getFrom(),mail.getFrom().getAddress());
@@ -90,7 +92,7 @@ public class PorpertyWriterForBeanImplTest extends S2TestCase {
         InternetAddress[] actualCcAddrs = mail.getCc();
         InternetAddress[] actualBccAddrs = mail.getBcc();
         
-        
+        assertEquals("subject", testDto.getSubject(), mail.getSubject());
         assertEquals("to address 1", (String)toList.get(0), actualToAddrs[0].getAddress());
         assertEquals("to address 2", ((InternetAddress)toList.get(1)).getAddress(), actualToAddrs[1].getAddress());
         assertEquals("to name 2", ((InternetAddress)toList.get(1)).getPersonal(), actualToAddrs[1].getPersonal());
@@ -98,7 +100,8 @@ public class PorpertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("bcc address 1", (String)bccList.get(0), actualBccAddrs[0].getAddress());
         assertEquals("bcc address 2", ((InternetAddress)bccList.get(1)).getAddress(), actualBccAddrs[1].getAddress());
         assertEquals("bcc name 2", ((InternetAddress)bccList.get(1)).getPersonal(), actualBccAddrs[1].getPersonal());
-        assertEquals("replyTo address 1", testDto.getReplyTo(), mail.getReplyTo().getAddress());
+        assertEquals("replyTo address ", testDto.getReplyTo(), mail.getReplyTo().getAddress());
+        assertEquals("return path address", testDto.getReturnPath(), mail.getReturnPath().getAddress());
         
         
         
@@ -150,11 +153,13 @@ public class PorpertyWriterForBeanImplTest extends S2TestCase {
         private String port;
         private String username;
         private String password;
+        private String subject;
         private String from;
         private List to;
         private List cc;
         private List bcc;
         private String replyTo;
+        private String returnPath;
         public String getHost() {return host;}
         public void setHost(String host) {this.host = host;}
         public String getPassword() {return password;}
@@ -173,12 +178,17 @@ public class PorpertyWriterForBeanImplTest extends S2TestCase {
         public final void setBcc(List bcc) {this.bcc = bcc;}
         public final String getReplyTo() {return replyTo;}
         public final void setReplyTo(String replyTo) {this.replyTo = replyTo;}
+        public final String getSubject() {return subject;}
+        public final void setSubject(String subject) {this.subject = subject;}
+        public final String getReturnPath() {return returnPath;}
+        public final void setReturnPath(String returnPath) {this.returnPath = returnPath;}
         
     }
     
     public class TestDto2{
         private InternetAddress from;
-        private String to;        
+        private String to;       
+        
         public InternetAddress getFrom() {return from;}
         public void setFrom(InternetAddress from) {this.from = from;}
         public String getTo() {return to;}

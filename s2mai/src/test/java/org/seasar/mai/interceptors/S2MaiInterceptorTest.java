@@ -55,7 +55,9 @@ public class S2MaiInterceptorTest extends S2TestCase {
         //プロパティ動的にセット
         data.setFrom("kei");
         data.setTo(new InternetAddress("rokugen","六","ISO-2022-JP"));
+        data.setSubject("件名です");
         testMai.sendMail(data);
+        
     }
 
 }

@@ -23,6 +23,7 @@ import javax.mail.internet.InternetAddress;
 public class TestData {
     private String from;
     private InternetAddress to;
+    private String subject;
     
     private int no;
 
@@ -90,6 +91,20 @@ public class TestData {
      */
     public void setTo(InternetAddress to) {
         this.to = to;
+    }
+
+    /**
+     * @return Returns the subject.
+     */
+    public final String getSubject() {
+        return subject;
+    }
+
+    /**
+     * @param subject The subject to set.
+     */
+    public final void setSubject(String subject) {
+        this.subject = subject;
     }
 
 }

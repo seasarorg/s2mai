@@ -9,12 +9,14 @@
 	
 	<component class="org.seasar.mai.property.impl.PropertyWriterForBeanImpl" />	
 	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterFactoryImpl" />
-	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterFrom" />
-	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterTo" />
-	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterCc" />
-	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterBcc" />
-	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterReplyTo" />
-	
+	<component name="fromWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterFrom" />
+	<component name="toWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterTo" />
+	<component name="ccWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterCc" />
+	<component name="bccWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterBcc" />
+	<component name="replyToWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterReplyTo" />
+	<component name="subjectWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterSubject" />
+	<component name="returnPathWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterReturnPath" />
+		
 	<component class="org.seasar.mai.mail.impl.SendMailImpl">
 		<property name="host">host</property>
 		<property name="port">port</property>
@@ -24,5 +26,6 @@
 		<property name="messageId">messageId</property>
 		<property name="connectionTimeout">connectionTimeout</property>
 		<property name="readTimeout">readTimeout</property>
+		<property name="charset">mailCharset</property>
 	</component>
 </components>

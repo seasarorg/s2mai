@@ -131,17 +131,17 @@ public class S2MaiInterceptor extends AbstractInterceptor {
     }
 
     private String getText(String text) {
-        if (text.startsWith(S2MaiConstants.SUBJECT) == false) {
+        if (text.startsWith(S2MaiConstants.TEMPLATE_SUBJECT) == false) {
             return text;
         }
         return text.substring(text.indexOf("\n") + "\r\n".length() + 1, text.length());
     }
 
     private String getSubject(String text) {
-        if (text.startsWith(S2MaiConstants.SUBJECT) == false) {
+        if (text.startsWith(S2MaiConstants.TEMPLATE_SUBJECT) == false) {
             return null;
         }
-        return text.substring(S2MaiConstants.SUBJECT.length(), text.indexOf("\r"));
+        return text.substring(S2MaiConstants.TEMPLATE_SUBJECT.length(), text.indexOf("\r"));
     }
 
     public void setMaiMetaDataFactory(MaiMetaDataFactory maiMetaDataFactory) {

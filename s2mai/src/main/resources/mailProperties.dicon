@@ -35,4 +35,7 @@
 	<component name="readTimeout">
 		10000
 	</component>
+	<component name="mailCharset">
+		"ISO-2022-JP"
+	</component>
 </components>

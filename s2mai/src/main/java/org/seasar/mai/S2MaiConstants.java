@@ -23,7 +23,9 @@ public interface S2MaiConstants {
 
     String DATA_NAME = "data";
 
-    String SUBJECT = "Subject: ";
+    String TEMPLATE_SUBJECT = "Subject: ";
+    
+    String SUBJECT = "subject";
     
     String FROM = "from";
     
@@ -35,6 +37,10 @@ public interface S2MaiConstants {
     
     String REPLY_TO = "replyTo";
     
+    String RETURN_PATH = "returnPath";
+    
+    String[] MAIL_PROPERTIES = new String[]{FROM, TO, CC, BCC, REPLY_TO, SUBJECT, RETURN_PATH};
+    
     String HOST = "host";
     
     String PORT = "port";
@@ -44,4 +50,8 @@ public interface S2MaiConstants {
     String PASSWORD = "password";
     
     String TEMPLATE_ENCODING = "templateEncoding";
+    
+    String MAIL_CHARSET = "mailCharset";
+
+    
 }

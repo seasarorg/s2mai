@@ -15,27 +15,31 @@
  */
 package org.seasar.mai.property.mail.impl;
 
-import org.seasar.framework.container.S2Container;
+import javax.mail.internet.InternetAddress;
+
 import org.seasar.mai.S2MaiConstants;
-import org.seasar.mai.property.mail.MailPropertyWriter;
-import org.seasar.mai.property.mail.MailPropertyWriterFactory;
+
+
+import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen
  */
-public class MailPropertyWriterFactoryImpl implements MailPropertyWriterFactory ,S2MaiConstants{
-    private S2Container container;
-    
+public class MailPropertyWriterSubject extends AbstractMailPropertyWriter{
 
-    public MailPropertyWriter getMailPropertyWriter(String propName) {
-        return (MailPropertyWriter)container.getComponent(propName + "Writer");
+    public void init(Mail mail) {
+                
+    }
+    protected String getPropertyName() {
+        return S2MaiConstants.SUBJECT;
     }
 
-    /**
-     * @param container The container to set.
-     */
-    public final void setContainer(S2Container container) {
-        this.container = container;
+    protected void setPropertyToMail(Mail mail, String value) {
+        mail.setSubject(value);
+    }
+
+    protected void setPropertyToMail(Mail mail, InternetAddress value) {
+        
     }
 
 }
