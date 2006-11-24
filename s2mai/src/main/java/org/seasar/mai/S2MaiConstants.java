@@ -49,6 +49,8 @@ public interface S2MaiConstants {
     
     String PASSWORD = "password";
     
+    String[] SERVER_PROPERTIES = new String[]{HOST,PORT,USERNAME,PASSWORD};
+    
     String TEMPLATE_ENCODING = "templateEncoding";
     
     String MAIL_CHARSET = "mailCharset";

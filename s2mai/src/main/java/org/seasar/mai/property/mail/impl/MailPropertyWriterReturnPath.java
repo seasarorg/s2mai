@@ -17,8 +17,6 @@ package org.seasar.mai.property.mail.impl;
 
 import javax.mail.internet.InternetAddress;
 
-import org.seasar.mai.S2MaiConstants;
-
 import com.ozacc.mail.Mail;
 
 /**
@@ -28,9 +26,6 @@ public class MailPropertyWriterReturnPath extends AbstractMailPropertyWriter{
 
     public void init(Mail mail) {
         
-    }
-    protected String getPropertyName() {
-        return S2MaiConstants.RETURN_PATH;
     }
 
     protected void setPropertyToMail(Mail mail, String value) {

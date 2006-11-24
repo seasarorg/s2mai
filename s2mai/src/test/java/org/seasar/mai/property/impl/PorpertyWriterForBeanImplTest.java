@@ -50,10 +50,10 @@ public class PorpertyWriterForBeanImplTest extends S2TestCase {
         
         propertyWriterImpl.setServerProperty(sendMail,testDto);
         
-        assertEquals("host", sendMail.getHost(), testDto.getHost());
-        assertEquals("port",sendMail.getPort(), Integer.parseInt(testDto.getPort()));
-        assertEquals("username",sendMail.getUsername(),testDto.getUsername());
-        assertEquals("password",sendMail.getPassword(), testDto.getPassword());
+        assertEquals("host", testDto.getHost(), sendMail.getHost());
+        assertEquals("port", Integer.parseInt(testDto.getPort()),sendMail.getPort());
+        assertEquals("username", testDto.getUsername(), sendMail.getUsername());
+        assertEquals("password", testDto.getPassword(), sendMail.getPassword());
     }
     
     public void testSetMailProperty() throws UnsupportedEncodingException{

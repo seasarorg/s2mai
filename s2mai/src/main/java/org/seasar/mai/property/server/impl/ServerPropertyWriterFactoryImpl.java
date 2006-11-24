@@ -13,28 +13,27 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.property.mail.impl;
+package org.seasar.mai.property.server.impl;
 
-import javax.mail.internet.InternetAddress;
-
-import com.ozacc.mail.Mail;
+import org.seasar.framework.container.S2Container;
+import org.seasar.mai.property.server.ServerPropertyWriter;
+import org.seasar.mai.property.server.ServerPropertyWriterFactory;
 
 /**
  * @author rokugen
  */
-public class MailPropertyWriterFrom extends AbstractMailPropertyWriter{
+public class ServerPropertyWriterFactoryImpl implements ServerPropertyWriterFactory {
+    private S2Container container;
 
-    public void init(Mail mail) {
-        
-        
+    public ServerPropertyWriter getServerPropertyWriter(String propertyName) {
+        return (ServerPropertyWriter)container.getComponent(propertyName + "Writer");
     }
 
-    protected void setPropertyToMail(Mail mail, String value) {
-        mail.setFrom(value);
-    }
-
-    protected void setPropertyToMail(Mail mail, InternetAddress value) {
-        mail.setFrom(value);
+    /**
+     * @param container The container to set.
+     */
+    public final void setContainer(S2Container container) {
+        this.container = container;
     }
 
 }

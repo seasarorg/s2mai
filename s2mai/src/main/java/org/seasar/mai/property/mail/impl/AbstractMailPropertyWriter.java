@@ -85,8 +85,6 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
         }
     }
     
-    protected abstract String getPropertyName();
-    
     protected abstract void setPropertyToMail(Mail mail, String value);
     protected abstract void setPropertyToMail(Mail mail, InternetAddress value);
 

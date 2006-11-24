@@ -13,28 +13,11 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.property.mail.impl;
-
-import javax.mail.internet.InternetAddress;
-
-import com.ozacc.mail.Mail;
+package org.seasar.mai.property.server;
 
 /**
  * @author rokugen
  */
-public class MailPropertyWriterFrom extends AbstractMailPropertyWriter{
-
-    public void init(Mail mail) {
-        
-        
-    }
-
-    protected void setPropertyToMail(Mail mail, String value) {
-        mail.setFrom(value);
-    }
-
-    protected void setPropertyToMail(Mail mail, InternetAddress value) {
-        mail.setFrom(value);
-    }
-
+public interface ServerPropertyWriterFactory {
+    ServerPropertyWriter getServerPropertyWriter(String propertyName);
 }

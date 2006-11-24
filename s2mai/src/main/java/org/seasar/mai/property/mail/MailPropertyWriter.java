@@ -18,7 +18,7 @@ package org.seasar.mai.property.mail;
 import com.ozacc.mail.Mail;
 
 /**
- * @author kei
+ * @author rokugen
  */
 public interface MailPropertyWriter {
     void setProperty(Mail mail, Object value);
