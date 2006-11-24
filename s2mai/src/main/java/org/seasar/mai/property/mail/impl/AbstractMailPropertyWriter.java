@@ -15,7 +15,7 @@
  */
 package org.seasar.mai.property.mail.impl;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +25,7 @@ import javax.mail.internet.InternetAddress;
 import org.seasar.framework.beans.BeanDesc;
 import org.seasar.framework.beans.PropertyDesc;
 import org.seasar.framework.beans.factory.BeanDescFactory;
+import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 
 import com.ozacc.mail.Mail;
@@ -53,9 +54,8 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
             try {
                 //TODO ISO-2022-JP外出し
                 iaValue.setPersonal(iaValue.getPersonal(),"ISO-2022-JP");
-            } catch (UnsupportedEncodingException e) {
-                // TODO キャッチしてどうしよう。
-                e.printStackTrace();
+            } catch (IOException e) {
+                throw new IORuntimeException(e);
             }
             this.setPropertyImpl(mail,iaValue);
         }else if(value instanceof List){
