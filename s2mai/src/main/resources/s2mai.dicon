@@ -7,8 +7,13 @@
 	<component class="org.seasar.mai.meta.impl.MaiMetaDataFactoryImpl"/>
 	<component class="org.seasar.mai.annotation.impl.AnnotationReaderFactoryImpl"/>
 	
-	<component class="org.seasar.mai.property.impl.PropertyWriterImpl" />	
+	<component class="org.seasar.mai.property.impl.PropertyWriterForBeanImpl" />	
 	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterFactoryImpl" />
+	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterFrom" />
+	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterTo" />
+	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterCc" />
+	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterBcc" />
+	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterReplyTo" />
 	
 	<component class="org.seasar.mai.mail.impl.SendMailImpl">
 		<property name="host">host</property>

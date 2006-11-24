@@ -26,7 +26,7 @@ import com.ozacc.mail.Mail;
  */
 public class MailPropertyWriterFrom extends AbstractMailPropertyWriter{
 
-    protected void init(Mail mail) {
+    public void init(Mail mail) {
         
         
     }
@@ -34,11 +34,11 @@ public class MailPropertyWriterFrom extends AbstractMailPropertyWriter{
         return S2MaiConstants.FROM;
     }
 
-    protected void setPropertyImpl(Mail mail, String value) {
+    protected void setPropertyToMail(Mail mail, String value) {
         mail.setFrom(value);
     }
 
-    protected void setPropertyImpl(Mail mail, InternetAddress value) {
+    protected void setPropertyToMail(Mail mail, InternetAddress value) {
         mail.setFrom(value);
     }
 

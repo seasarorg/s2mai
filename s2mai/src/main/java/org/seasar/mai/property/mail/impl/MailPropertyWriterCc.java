@@ -26,18 +26,18 @@ import com.ozacc.mail.Mail;
  */
 public class MailPropertyWriterCc extends AbstractMailPropertyWriter{
 
-    protected void init(Mail mail) {
+    public void init(Mail mail) {
         mail.clearCc();        
     }
     protected String getPropertyName() {
         return S2MaiConstants.CC;
     }
 
-    protected void setPropertyImpl(Mail mail, String value) {
+    protected void setPropertyToMail(Mail mail, String value) {
         mail.addCc(value);
     }
 
-    protected void setPropertyImpl(Mail mail, InternetAddress value) {
+    protected void setPropertyToMail(Mail mail, InternetAddress value) {
         mail.addCc(value);
     }
 

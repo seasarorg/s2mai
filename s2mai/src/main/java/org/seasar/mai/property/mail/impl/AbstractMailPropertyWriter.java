@@ -22,9 +22,6 @@ import java.util.List;
 
 import javax.mail.internet.InternetAddress;
 
-import org.seasar.framework.beans.BeanDesc;
-import org.seasar.framework.beans.PropertyDesc;
-import org.seasar.framework.beans.factory.BeanDescFactory;
 import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 
@@ -35,20 +32,10 @@ import com.ozacc.mail.Mail;
  */
 public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
 
-
-    public void setProperty(Mail mail, Object data) {
-        BeanDesc beanDesc = BeanDescFactory.getBeanDesc(data.getClass());
-        PropertyDesc pd = beanDesc.getPropertyDesc(this.getPropertyName());            
-        Object value = pd.getValue(data);
-        if(value != null){
-            this.init(mail);
-            this.setPropertyToMail(mail,value);
-        }
-    }
     
-    private void setPropertyToMail(Mail mail, Object value){
+    public void setProperty(Mail mail, Object value){
         if(value instanceof String){ 
-            this.setPropertyImpl(mail,(String)value);            
+            this.setPropertyToMail(mail,(String)value);            
         }else if(value instanceof InternetAddress){
             InternetAddress iaValue = (InternetAddress)value;
             try {
@@ -57,24 +44,22 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
             } catch (IOException e) {
                 throw new IORuntimeException(e);
             }
-            this.setPropertyImpl(mail,iaValue);
+            this.setPropertyToMail(mail,iaValue);
         }else if(value instanceof List){
             Object addrValue = null;
             for(Iterator itr = ((List)value).iterator(); itr.hasNext();){
                 addrValue = itr.next();
-                this.setPropertyToMail(mail, addrValue);
+                this.setProperty(mail, addrValue);
             }
         }else if(value instanceof Object[]){
             List addrList = Arrays.asList((Object[])value);
-            this.setPropertyToMail(mail, addrList);
+            this.setProperty(mail, addrList);
         }
     }
     
-    protected abstract void init(Mail mail);
-    
     protected abstract String getPropertyName();
     
-    protected abstract void setPropertyImpl(Mail mail, String value);
-    protected abstract void setPropertyImpl(Mail mail, InternetAddress value);    
+    protected abstract void setPropertyToMail(Mail mail, String value);
+    protected abstract void setPropertyToMail(Mail mail, InternetAddress value);    
 
 }

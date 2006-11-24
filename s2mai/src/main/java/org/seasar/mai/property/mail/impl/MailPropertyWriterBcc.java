@@ -13,16 +13,32 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.property;
+package org.seasar.mai.property.mail.impl;
 
-import org.seasar.mai.mail.SendMail;
+import javax.mail.internet.InternetAddress;
+
+import org.seasar.mai.S2MaiConstants;
 
 import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen
  */
-public interface PropertyWriter {
-    void setMailProperty(Mail mail, Object bean);
-    void setServerProperty(SendMail sendMail, Object bean);
+public class MailPropertyWriterBcc extends AbstractMailPropertyWriter{
+
+    public void init(Mail mail) {
+        mail.clearBcc();        
+    }
+    protected String getPropertyName() {
+        return S2MaiConstants.BCC;
+    }
+
+    protected void setPropertyToMail(Mail mail, String value) {
+        mail.addBcc(value);
+    }
+
+    protected void setPropertyToMail(Mail mail, InternetAddress value) {
+        mail.addBcc(value);
+    }
+
 }

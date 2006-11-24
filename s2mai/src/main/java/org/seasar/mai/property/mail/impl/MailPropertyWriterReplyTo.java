@@ -24,21 +24,21 @@ import com.ozacc.mail.Mail;
 /**
  * @author rokugen
  */
-public class MailPropertyWriterTo extends AbstractMailPropertyWriter{
+public class MailPropertyWriterReplyTo extends AbstractMailPropertyWriter{
 
     public void init(Mail mail) {
-        mail.clearTo();
+        
     }
     protected String getPropertyName() {
-        return S2MaiConstants.TO;
+        return S2MaiConstants.REPLY_TO;
     }
 
     protected void setPropertyToMail(Mail mail, String value) {
-        mail.addTo(value);
+        mail.setReplyTo(value);
     }
 
     protected void setPropertyToMail(Mail mail, InternetAddress value) {
-        mail.addTo(value);
+        mail.setReplyTo(value);
     }
 
 }

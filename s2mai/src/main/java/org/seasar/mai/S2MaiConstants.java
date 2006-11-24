@@ -31,6 +31,10 @@ public interface S2MaiConstants {
     
     String CC = "cc";
     
+    String BCC = "bcc";
+    
+    String REPLY_TO = "replyTo";
+    
     String HOST = "host";
     
     String PORT = "port";

@@ -20,7 +20,7 @@ import org.seasar.framework.beans.PropertyDesc;
 import org.seasar.framework.beans.factory.BeanDescFactory;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.mail.SendMail;
-import org.seasar.mai.property.PropertyWriter;
+import org.seasar.mai.property.PropertyWriterForBean;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 import org.seasar.mai.property.mail.MailPropertyWriterFactory;
 
@@ -29,7 +29,7 @@ import com.ozacc.mail.Mail;
 /**
  * @author rokugen
  */
-public class PropertyWriterImpl implements PropertyWriter,S2MaiConstants {
+public class PropertyWriterForBeanImpl implements PropertyWriterForBean,S2MaiConstants {
     private MailPropertyWriterFactory mailPropertyWriterFactory;
 
     public void setMailProperty(Mail mail, Object bean) {
@@ -37,15 +37,21 @@ public class PropertyWriterImpl implements PropertyWriter,S2MaiConstants {
             return;
         }
         
-        String[] propNames = new String[]{FROM, TO, CC};
+        String[] propNames = new String[]{FROM, TO, CC, BCC, REPLY_TO};
         
         BeanDesc desc = BeanDescFactory.getBeanDesc(bean.getClass());
         MailPropertyWriter propWriter = null;
         
         for(int i=0; i < propNames.length; i++){
-            if (desc.hasPropertyDesc(propNames[i])) {        
-                propWriter = mailPropertyWriterFactory.getMailPropertyWriter(propNames[i]);
-                propWriter.setProperty(mail,bean);
+            if (desc.hasPropertyDesc(propNames[i])) {
+                PropertyDesc pd = desc.getPropertyDesc(propNames[i]);            
+                Object value = pd.getValue(bean);
+                if(value != null){                    
+                    propWriter = mailPropertyWriterFactory.getMailPropertyWriter(propNames[i]);
+                    propWriter.init(mail);
+                    propWriter.setProperty(mail,value);
+                }
+                
             }
         }        
         

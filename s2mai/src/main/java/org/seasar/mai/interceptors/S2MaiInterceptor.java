@@ -30,7 +30,7 @@ import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.mail.impl.MailExceptionHandlerImpl;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.meta.MaiMetaDataFactory;
-import org.seasar.mai.property.PropertyWriter;
+import org.seasar.mai.property.PropertyWriterForBean;
 import org.seasar.mai.util.FreeMarkerUtil;
 
 import com.ozacc.mail.Mail;
@@ -52,7 +52,7 @@ public class S2MaiInterceptor extends AbstractInterceptor {
 
     private MailExceptionHandler mailExceptionHandler = new MailExceptionHandlerImpl();
     
-    private PropertyWriter propertyWriter;
+    private PropertyWriterForBean propertyWriter;
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
@@ -163,7 +163,7 @@ public class S2MaiInterceptor extends AbstractInterceptor {
     /**
      * @param propertyWriter The propertyWriter to set.
      */
-    public void setPropertyWriter(PropertyWriter propertyWriter) {
+    public void setPropertyWriter(PropertyWriterForBean propertyWriter) {
         this.propertyWriter = propertyWriter;
     }
 

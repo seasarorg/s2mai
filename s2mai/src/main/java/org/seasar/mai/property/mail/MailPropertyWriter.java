@@ -21,6 +21,7 @@ import com.ozacc.mail.Mail;
  * @author kei
  */
 public interface MailPropertyWriter {
-    void setProperty(Mail mail, Object data);
+    void setProperty(Mail mail, Object value);
+    void init(Mail mail);
 
 }
