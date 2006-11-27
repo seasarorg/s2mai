@@ -1,5 +1,3 @@
-Subject: アノテーションテスト-classのdicon - No.${data.no}
-
                   ==================================== 
                        Tech Info Library - Japan 
                          ${data.year}年${data.month}月${data.day}日 No.${data.no} 

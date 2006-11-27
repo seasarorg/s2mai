@@ -36,10 +36,11 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
         data.setDay(22);
         data.setMonth(11);
         data.setYear(2006);
-        data.setNo(12345);        
+        data.setNo(12345);
         annotationTestMai.sendMail(data);
-        annotationTestMai.sendMailWithAnnotationAndNoMethodDicon(data);
-        annotationTestMai.sendMailWithMethodDicon(data);
+        annotationTestMai.sendMail2(data);
+        // methodのdiconあり
+        annotationTestMai.sendMail3(data);
         
     }
     

@@ -8,6 +8,7 @@
 	<component class="org.seasar.mai.annotation.impl.AnnotationReaderFactoryImpl"/>
 	
 	<component class="org.seasar.mai.property.impl.PropertyWriterForBeanImpl" />	
+	<component class="org.seasar.mai.property.impl.PropertyWriterForAnnotationImpl" />
 	
 	<component class="org.seasar.mai.property.mail.impl.MailPropertyWriterFactoryImpl" />
 	<component name="fromWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterFrom" />

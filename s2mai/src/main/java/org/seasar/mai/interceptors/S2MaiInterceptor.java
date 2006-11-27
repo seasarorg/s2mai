@@ -120,7 +120,9 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         String text = FreeMarkerUtil.processResource(path, data);
         String subject = getSubject(text);
         text = getText(text);
-        mail.setSubject(subject);
+        if(subject != null){
+            mail.setSubject(subject);
+        }
         mail.setText(text);
         return mail;
     }

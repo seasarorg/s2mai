@@ -23,58 +23,62 @@ import org.seasar.mai.annotation.AnnotationReader;
 
 public class ConstantAnnotationReader implements AnnotationReader {
     private static final String TO = "TO";    
-
-    public Object getTo(Method method) {
+    private static final String CC = "CC";
+    private static final String BCC = "BCC";
+    private static final String SUBJECT = "SUBJECT";
+    private static final String REPLY_TO = "REPLY_TO";
+    private static final String RETURN_PATH = "RETURN_PATH";
+    private static final String FROM = "FROM";
+    
+    private Object getAnnotationValue(String annotation, Method method){
         Class mai = method.getDeclaringClass();
         BeanDesc maiBeanDesc = BeanDescFactory.getBeanDesc(mai);
         
         StringBuilder sb = new StringBuilder();
         sb.append(method.getName());
         sb.append("_");
-        sb.append(TO);
+        sb.append(annotation);
         String fieldName = sb.toString();
         
         Object value = null;
         if(maiBeanDesc.hasField(fieldName)){
             value = maiBeanDesc.getFieldValue(sb.toString(),null);            
         }else{
-            if(maiBeanDesc.hasField(TO)){
-                value = maiBeanDesc.getFieldValue(TO,null);            
-            }
-            
-        }        
-
-        return value;
+            if(maiBeanDesc.hasField(annotation)){
+                value = maiBeanDesc.getFieldValue(annotation, null);
+            }            
+        }
+        
+        return value;        
     }
 
-    public String[] getCc(Method method) {
-        // TODO Auto-generated method stub
-        return null;
+    public Object getTo(Method method) {
+
+        return getAnnotationValue(TO, method);
     }
 
-    public String[] getBcc(Method method) {
-        // TODO Auto-generated method stub
-        return null;
+    public Object getCc(Method method) {
+        return getAnnotationValue(CC, method);
     }
 
-    public String getSubject(Method method) {
-        // TODO Auto-generated method stub
-        return null;
+    public Object getBcc(Method method) {
+        return getAnnotationValue(BCC, method);
     }
 
-    public String getReplyTo(Method method) {
-        // TODO Auto-generated method stub
-        return null;
+    public Object getSubject(Method method) {
+        return getAnnotationValue(SUBJECT, method);
     }
 
-    public String getReturnPath(Method method) {
-        // TODO Auto-generated method stub
-        return null;
+    public Object getReplyTo(Method method) {
+        return getAnnotationValue(REPLY_TO, method);
     }
 
-    public String getFrom(Method method) {
-        // TODO Auto-generated method stub
-        return null;
+    public Object getReturnPath(Method method) {
+        return getAnnotationValue(RETURN_PATH, method);
+    }
+
+    public Object getFrom(Method method) {
+        return getAnnotationValue(FROM, method);
     }
 
 }

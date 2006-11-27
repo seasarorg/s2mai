@@ -20,9 +20,19 @@ package org.seasar.mai.interceptors;
  */
 public interface AnnotationTestMai {
     static final String[] TO = new String[]{"kei","rokugen"};
-    static final String sendMailWithAnnotationAndNoMethodDicon_TO = "rokugen";
+    static final String sendMail2_TO = "rokugen";
+    static final String [] sendMail2_CC = new String[]{"kei","rokugen"};
+    static final String sendMail2_BCC = "rokugen";
+    static final String[] sendMail3_BCC = new String[]{"kei","rokugen"};    
+    static final String sendMail3_REPLY_TO = "rokugen";
+    static final String sendMail2_RETURN_PATH = "kimura";
+    
+    static final String FROM = "takeuchi";
+    static final String sendMail_SUBJECT = "件名置き換えテスト";    
+    static final String sendMail2_SUBJECT = "テンプレート優先で無効";
+    
 
     void sendMail(TestData data);
-    void sendMailWithAnnotationAndNoMethodDicon(TestData data);
-    void sendMailWithMethodDicon(TestData data);
+    void sendMail2(TestData data);
+    void sendMail3(TestData data);
 }

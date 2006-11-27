@@ -13,25 +13,15 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.annotation;
+package org.seasar.mai.property;
 
 import java.lang.reflect.Method;
 
+import com.ozacc.mail.Mail;
+
 /**
- * @author Satsohi Kimura
+ * @author rokugen
  */
-public interface AnnotationReader {
-    Object getTo(Method method);
-
-    Object getCc(Method method);
-
-    Object getBcc(Method method);
-
-    Object getSubject(Method method);
-
-    Object getReplyTo(Method method);
-
-    Object getReturnPath(Method method);
-
-    Object getFrom(Method method);
+public interface PropertyWriterForAnnotation {
+    void setMailProperty(Mail mail, Method method );
 }

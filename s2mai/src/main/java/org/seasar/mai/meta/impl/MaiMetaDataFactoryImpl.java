@@ -18,19 +18,17 @@ package org.seasar.mai.meta.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.seasar.mai.annotation.AnnotationReader;
-import org.seasar.mai.annotation.AnnotationReaderFactory;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.meta.MaiMetaDataFactory;
-import org.seasar.mai.property.mail.MailPropertyWriterFactory;
+import org.seasar.mai.property.PropertyWriterForAnnotation;
 
 /**
  * @author Satoshi Kimura
  * 
  */
 public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
-    private AnnotationReaderFactory annotationReaderFactory;
-    private MailPropertyWriterFactory mailPropertyWriterFactory;
+    private PropertyWriterForAnnotation propertyWriterForAnnotation;    
+    
 
     private Map maiMetaDataCache = new HashMap();
 
@@ -38,20 +36,19 @@ public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
         if (maiMetaDataCache.containsKey(maiClass)) {
             return (MaiMetaData) maiMetaDataCache.get(maiClass);
         }
-        AnnotationReader annotationReader = annotationReaderFactory.createMaiAnnotationReader();
-        MaiMetaData metaData = new MaiMetaDataImpl(maiClass, annotationReader, mailPropertyWriterFactory);
+        
+        MaiMetaData metaData = new MaiMetaDataImpl(maiClass, propertyWriterForAnnotation);
         maiMetaDataCache.put(maiClass, metaData);
         return metaData;
     }
 
-    public void setAnnotationReaderFactory(AnnotationReaderFactory annotationReaderFactory) {
-        this.annotationReaderFactory = annotationReaderFactory;
-    }
 
     /**
-     * @param mailPropertyWriterFactory The mailPropertyWriterFactory to set.
+     * @param propertyWriterForAnnotation The propertyWriterForAnnotation to set.
      */
-    public final void setMailPropertyWriterFactory(MailPropertyWriterFactory mailPropertyWriterFactory) {
-        this.mailPropertyWriterFactory = mailPropertyWriterFactory;
+    public final void setPropertyWriterForAnnotation(PropertyWriterForAnnotation propertyWriterForAnnotation) {
+        this.propertyWriterForAnnotation = propertyWriterForAnnotation;
     }
+
+
 }

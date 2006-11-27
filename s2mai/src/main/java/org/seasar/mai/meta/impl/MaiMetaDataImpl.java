@@ -15,23 +15,16 @@
  */
 package org.seasar.mai.meta.impl;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.nio.BufferOverflowException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.mail.internet.MimeUtility;
-
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.container.factory.S2ContainerFactory;
-import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.framework.util.ResourceNotFoundRuntimeException;
 import org.seasar.mai.S2MaiConstants;
-import org.seasar.mai.annotation.AnnotationReader;
 import org.seasar.mai.meta.MaiMetaData;
-import org.seasar.mai.property.mail.MailPropertyWriter;
-import org.seasar.mai.property.mail.MailPropertyWriterFactory;
+import org.seasar.mai.property.PropertyWriterForAnnotation;
 
 import com.ozacc.mail.Mail;
 
@@ -43,7 +36,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
 
     private Map templatePaths = new HashMap();
 
-    public MaiMetaDataImpl(Class maiClass, AnnotationReader annotationReader, MailPropertyWriterFactory mailPropertyWriterFactory) {
+    public MaiMetaDataImpl(Class maiClass, PropertyWriterForAnnotation propertyWriterForAnnotation) {
         Mail classMail = null;
         try {
             String path = maiClass.getName().replaceAll("\\.", "/") + ".dicon";
@@ -58,27 +51,10 @@ public class MaiMetaDataImpl implements MaiMetaData {
             Mail mail = getMail(maiClass, classMail, method);
 
             mails.put(method, mail);
-
-            setAnnotationValues(annotationReader, mailPropertyWriterFactory, method, mail);
+            
+            propertyWriterForAnnotation.setMailProperty(mail, method);
+            
         }
-    }
-
-    private void setAnnotationValues(AnnotationReader annotationReader, MailPropertyWriterFactory mailPropertyWriterFactory, Method method, Mail mail) {
-        Object to = annotationReader.getTo(method);
-        MailPropertyWriter writer = mailPropertyWriterFactory.getMailPropertyWriter(S2MaiConstants.TO);
-        setTo(to, mail, writer);
-        String[] cc = annotationReader.getCc(method);
-        setCc(cc, mail);
-        String[] bcc = annotationReader.getBcc(method);
-        setBcc(bcc, mail);
-        String subject = annotationReader.getSubject(method);
-        setSubject(subject, mail);
-        String from = annotationReader.getFrom(method);
-        setFrom(from, mail);
-        String replyTo = annotationReader.getReplyTo(method);
-        setReplyTo(replyTo, mail);
-        String returnPath = annotationReader.getReturnPath(method);
-        setReturnPath(returnPath, mail);
     }
 
     private Mail getMail(Class maiClass, Mail classMail, Method method) {
@@ -96,80 +72,9 @@ public class MaiMetaDataImpl implements MaiMetaData {
         return mail;
     }
 
-    private void setBcc(String[] bcc, Mail mail) {
-        if (bcc == null || bcc.length == 0) {
-            return;
-        }
-        mail.clearBcc();
-        for (int i = 0; i < bcc.length; i++) {
-            String val = bcc[i].trim();
-            mail.addBcc(toSafetyText(val));
-        }
-    }
-
-    private void setCc(String[] cc, Mail mail) {
-        if (cc == null || cc.length == 0) {
-            return;
-        }
-        mail.clearCc();
-        for (int i = 0; i < cc.length; i++) {
-            String val = cc[i].trim();
-            mail.addCc(toSafetyText(val));
-        }
-    }
-
-    private void setTo(Object to, Mail mail, MailPropertyWriter writer) {
-        if (to == null ) {
-            return;
-        }
-        mail.clearTo();
-        writer.setProperty(mail,to);
-    }
-
-    private void setReplyTo(String replyTo, Mail mail) {
-        if (replyTo == null) {
-            return;
-        }
-        mail.setReplyTo(toSafetyText(replyTo));
-    }
-
-    private void setReturnPath(String returnPath, Mail mail) {
-        if (returnPath == null) {
-            return;
-        }
-        mail.setReturnPath(toSafetyText(returnPath));
-    }
-
-    private void setSubject(String subject, Mail mail) {
-        if (subject == null) {
-            return;
-        }
-        mail.setSubject(toSafetyText(subject));
-    }
-
-    private void setFrom(String from, Mail mail) {
-        if (from == null) {
-            return;
-        }
-        mail.setFrom(from);
-    }
 
     public Mail getMail(Method method) {
         return (Mail) mails.get(method);
-    }
-
-    private String toSafetyText(String text) {
-        if (text == null) {
-            text = "";
-        }
-        try {
-            MimeUtility.encodeText(text, "ISO-2022-JP", "B"); // TODO ISO-2022-JPを外出し
-            return text;
-        } catch (BufferOverflowException e) {
-            return toSafetyText(text + " ");
-        } catch (IOException e) {
-            throw new IORuntimeException(e);
-        }
     }
 
     public String getTemplatePath(Method method) {
