@@ -17,7 +17,7 @@ package org.seasar.mai.property.mail.impl;
 
 import javax.mail.internet.InternetAddress;
 
-import org.seasar.mai.property.mail.MailAddress;
+import org.seasar.mai.mail.MailAddress;
 
 import com.ozacc.mail.Mail;
 

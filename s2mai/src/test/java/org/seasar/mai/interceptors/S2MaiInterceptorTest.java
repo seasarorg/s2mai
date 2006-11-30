@@ -21,8 +21,8 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
-import org.seasar.mai.property.mail.AttachedFile;
-import org.seasar.mai.property.mail.MailAddress;
+import org.seasar.mai.mail.AttachedFile;
+import org.seasar.mai.mail.MailAddress;
 
 /**
  * @author Satsohi Kimura

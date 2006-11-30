@@ -22,8 +22,8 @@ import java.util.List;
 import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
+import org.seasar.mai.mail.MailAddress;
 import org.seasar.mai.mail.impl.SendMailImpl;
-import org.seasar.mai.property.mail.MailAddress;
 
 import com.ozacc.mail.Mail;
 

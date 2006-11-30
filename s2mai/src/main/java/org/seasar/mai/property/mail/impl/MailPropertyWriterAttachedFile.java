@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.seasar.mai.property.mail.AttachedFile;
+import org.seasar.mai.mail.AttachedFile;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 
 import com.ozacc.mail.Mail;

@@ -27,7 +27,7 @@ import javax.mail.internet.MimeUtility;
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.mai.S2MaiConstants;
-import org.seasar.mai.property.mail.MailAddress;
+import org.seasar.mai.mail.MailAddress;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 
 import com.ozacc.mail.Mail;
