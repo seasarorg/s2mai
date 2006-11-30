@@ -17,12 +17,15 @@ package org.seasar.mai.interceptors;
 
 import javax.mail.internet.InternetAddress;
 
+import org.seasar.mai.property.mail.MailAddress;
+
 /**
  * @author Satsohi Kimura
  */
 public class TestData {
     private String from;
     private InternetAddress to;
+    private MailAddress cc;
     private String subject;
     
     private int no;
@@ -105,6 +108,20 @@ public class TestData {
      */
     public final void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    /**
+     * @return Returns the cc.
+     */
+    public final MailAddress getCc() {
+        return cc;
+    }
+
+    /**
+     * @param cc The cc to set.
+     */
+    public final void setCc(MailAddress cc) {
+        this.cc = cc;
     }
 
 }

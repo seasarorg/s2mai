@@ -27,6 +27,7 @@ import javax.mail.internet.MimeUtility;
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.mai.S2MaiConstants;
+import org.seasar.mai.property.mail.MailAddress;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 
 import com.ozacc.mail.Mail;
@@ -54,6 +55,11 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
                 throw new IORuntimeException(e);
             }
             this.setPropertyToMail(mail,iaValue);
+            
+        }else if(value instanceof MailAddress){
+            
+            MailAddress maValue = (MailAddress)value;
+            this.setPropertyToMail(mail,maValue);
             
         }else if(value instanceof List){
             
@@ -86,6 +92,7 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
     }
     
     protected abstract void setPropertyToMail(Mail mail, String value);
+    protected abstract void setPropertyToMail(Mail mail, MailAddress mailAddress);
     protected abstract void setPropertyToMail(Mail mail, InternetAddress value);
 
     /**

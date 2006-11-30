@@ -17,6 +17,8 @@ package org.seasar.mai.property.mail.impl;
 
 import javax.mail.internet.InternetAddress;
 
+import org.seasar.mai.property.mail.MailAddress;
+
 import com.ozacc.mail.Mail;
 
 /**
@@ -35,5 +37,12 @@ public class MailPropertyWriterBcc extends AbstractMailPropertyWriter{
     protected void setPropertyToMail(Mail mail, InternetAddress value) {
         mail.addBcc(value);
     }
+
+    protected void setPropertyToMail(Mail mail, MailAddress mailAddress) {
+        mail.addBcc(mailAddress.getAddress());
+        
+    }
+    
+    
 
 }

@@ -23,6 +23,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
 import org.seasar.mai.mail.impl.SendMailImpl;
+import org.seasar.mai.property.mail.MailAddress;
 
 import com.ozacc.mail.Mail;
 
@@ -112,12 +113,16 @@ public class PorpertyWriterForBeanImplTest extends S2TestCase {
         from.setPersonal("test user");
         testDto2.setFrom(from);
         testDto2.setTo("to@address");
+        MailAddress ccAddress = new MailAddress("cc@adderss","CC送信先");
+        testDto2.setCc(ccAddress);
         
         propertyWriterImpl.setMailProperty(mail,testDto2);
         assertEquals("from address", testDto2.getFrom().getAddress(),mail.getFrom().getAddress());
         assertEquals("from name", testDto2.getFrom().getPersonal(),mail.getFrom().getPersonal());
         assertEquals("to count", 1, mail.getTo().length);
         assertEquals("to address", testDto2.getTo(), mail.getTo()[0].getAddress());
+        assertEquals("cc address", testDto2.getCc().getAddress(), mail.getCc()[0].getAddress());
+        assertEquals("cc name", testDto2.getCc().getPersonal(), mail.getCc()[0].getPersonal());
         
         //配列の場合とか
         mail = new Mail();
@@ -187,12 +192,15 @@ public class PorpertyWriterForBeanImplTest extends S2TestCase {
     
     public class TestDto2{
         private InternetAddress from;
-        private String to;       
+        private String to;
+        private MailAddress cc;
         
         public InternetAddress getFrom() {return from;}
         public void setFrom(InternetAddress from) {this.from = from;}
         public String getTo() {return to;}
         public void setTo(String to) {this.to = to;}
+        public final MailAddress getCc() {return cc;}
+        public final void setCc(MailAddress cc) {this.cc = cc;}
     }
     
     public class TestDto3{

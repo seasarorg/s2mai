@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
+import org.seasar.mai.property.mail.MailAddress;
 
 /**
  * @author Satsohi Kimura
@@ -54,7 +55,8 @@ public class S2MaiInterceptorTest extends S2TestCase {
         
         //プロパティ動的にセット
         data.setFrom("kei");
-        data.setTo(new InternetAddress("rokugen","六","ISO-2022-JP"));
+        data.setTo(new InternetAddress("rokugen","六"));
+        data.setCc(new MailAddress("rokugen","六のCC"));
         data.setSubject("件名です");
         testMai.sendMail(data);
         

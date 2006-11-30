@@ -17,6 +17,8 @@ package org.seasar.mai.property.mail.impl;
 
 import javax.mail.internet.InternetAddress;
 
+import org.seasar.mai.property.mail.MailAddress;
+
 import com.ozacc.mail.Mail;
 
 /**
@@ -35,6 +37,10 @@ public class MailPropertyWriterFrom extends AbstractMailPropertyWriter{
 
     protected void setPropertyToMail(Mail mail, InternetAddress value) {
         mail.setFrom(value);
+    }
+
+    protected void setPropertyToMail(Mail mail, MailAddress mailAddress) {
+        mail.setFrom(mailAddress.getAddress(), mailAddress.getPersonal());        
     }
 
 }
