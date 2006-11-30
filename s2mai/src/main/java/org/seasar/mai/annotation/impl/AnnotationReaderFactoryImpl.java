@@ -15,6 +15,11 @@
  */
 package org.seasar.mai.annotation.impl;
 
+import java.lang.reflect.Constructor;
+
+import org.seasar.framework.exception.ClassNotFoundRuntimeException;
+import org.seasar.framework.util.ClassUtil;
+import org.seasar.framework.util.ConstructorUtil;
 import org.seasar.mai.annotation.AnnotationReader;
 import org.seasar.mai.annotation.AnnotationReaderFactory;
 
@@ -23,9 +28,25 @@ import org.seasar.mai.annotation.AnnotationReaderFactory;
  */
 public class AnnotationReaderFactoryImpl implements AnnotationReaderFactory {
 
+    private static final String TIGER_ANNOTATION_HANDLER_CLASS_NAME = "org.seasar.mai.annotation.impl.TigerAnnotationReader";
+
+    private AnnotationReader annotationHandler;
+
+    public AnnotationReaderFactoryImpl() {
+        annotationHandler = new ConstantAnnotationReader();
+        try {
+            final Class clazz = ClassUtil
+                    .forName(TIGER_ANNOTATION_HANDLER_CLASS_NAME);
+            final Constructor ctor = ClassUtil.getConstructor(clazz,
+                    new Class[] { AnnotationReader.class });
+            annotationHandler = (AnnotationReader) ConstructorUtil.newInstance(
+                    ctor, new Object[] { annotationHandler });
+        } catch (final ClassNotFoundRuntimeException ignore) {
+        }
+    }
+
     public AnnotationReader createMaiAnnotationReader() {
-        // TODO Auto-generated method stub
-        return new ConstantAnnotationReader();
+        return annotationHandler;    
     }
 
 }
