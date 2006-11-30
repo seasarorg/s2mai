@@ -23,7 +23,7 @@ import java.util.List;
 import org.seasar.mai.annotation.AnnotationReader;
 import org.seasar.mai.annotation.MailAddr;
 import org.seasar.mai.annotation.To;
-import org.seasar.mai.property.mail.MailAddress;
+import org.seasar.mai.mail.MailAddress;
 
 /**
  * @author rokugen

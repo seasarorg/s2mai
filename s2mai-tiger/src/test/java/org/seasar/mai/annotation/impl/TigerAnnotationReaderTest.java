@@ -15,9 +15,15 @@
  */
 package org.seasar.mai.annotation.impl;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
 import org.seasar.extension.unit.S2TestCase;
 import org.seasar.mai.annotation.AnnotationReader;
 import org.seasar.mai.annotation.AnnotationReaderFactory;
+import org.seasar.mai.annotation.MailAddr;
+import org.seasar.mai.annotation.To;
+import org.seasar.mai.mail.MailAddress;
 
 
 
@@ -36,11 +42,23 @@ public class TigerAnnotationReaderTest extends S2TestCase {
 		include("TigerAnnotationReaderTest.dicon");
 	}
 	
-	public void testGetValue(){
+	@SuppressWarnings("unchecked")
+    public void testGetValue() throws SecurityException, NoSuchMethodException{
 		AnnotationReader annotationReader = factory.createMaiAnnotationReader();
+        
+        Method method = TestMai.class.getMethod("sendMail",null);
 		
 		assertEquals("class", TigerAnnotationReader.class, annotationReader.getClass());
+        assertEquals("to 1 address", "to1@address", ((List<MailAddress>)annotationReader.getTo(method)).get(0).getAddress());
+        assertEquals("to 1 name", "TO1送信先", ((List<MailAddress>)annotationReader.getTo(method)).get(0).getPersonal());
+        assertEquals("to 2 address", "to2@address", ((List<MailAddress>)annotationReader.getTo(method)).get(1).getAddress());
 	}
+    
+    @To({@MailAddr(address="to1@address",personal="TO1送信先"),@MailAddr(address="to2@address")})
+    public interface TestMai{
+        void sendMail();        
+    }
+    
 
 	/**
 	 * @param factory The factory to set.

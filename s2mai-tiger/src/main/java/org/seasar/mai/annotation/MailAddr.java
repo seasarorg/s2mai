@@ -20,5 +20,5 @@ package org.seasar.mai.annotation;
  */
 public @interface MailAddr {
 	String address();
-	String personal();
+	String personal() default "";
 }
