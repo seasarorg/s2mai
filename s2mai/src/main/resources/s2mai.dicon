@@ -18,6 +18,7 @@
 	<component name="replyToWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterReplyTo" />
 	<component name="subjectWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterSubject" />
 	<component name="returnPathWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterReturnPath" />
+	<component name="attachedFileWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterAttachedFile" />	
 	
 	<component class="org.seasar.mai.property.server.impl.ServerPropertyWriterFactoryImpl" />
 	<component name="hostWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterHost" />

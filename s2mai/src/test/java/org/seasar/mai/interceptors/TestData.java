@@ -17,6 +17,7 @@ package org.seasar.mai.interceptors;
 
 import javax.mail.internet.InternetAddress;
 
+import org.seasar.mai.property.mail.AttachedFile;
 import org.seasar.mai.property.mail.MailAddress;
 
 /**
@@ -27,6 +28,7 @@ public class TestData {
     private InternetAddress to;
     private MailAddress cc;
     private String subject;
+    private AttachedFile attachedFile;
     
     private int no;
 
@@ -122,6 +124,20 @@ public class TestData {
      */
     public final void setCc(MailAddress cc) {
         this.cc = cc;
+    }
+
+    /**
+     * @return Returns the attachedFile.
+     */
+    public final AttachedFile getAttachedFile() {
+        return attachedFile;
+    }
+
+    /**
+     * @param attachedFile The attachedFile to set.
+     */
+    public final void setAttachedFile(AttachedFile attachedFile) {
+        this.attachedFile = attachedFile;
     }
 
 }

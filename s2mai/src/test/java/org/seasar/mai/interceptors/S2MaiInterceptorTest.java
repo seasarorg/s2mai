@@ -15,11 +15,13 @@
  */
 package org.seasar.mai.interceptors;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 
 import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
+import org.seasar.mai.property.mail.AttachedFile;
 import org.seasar.mai.property.mail.MailAddress;
 
 /**
@@ -58,6 +60,11 @@ public class S2MaiInterceptorTest extends S2TestCase {
         data.setTo(new InternetAddress("rokugen","六"));
         data.setCc(new MailAddress("rokugen","六のCC"));
         data.setSubject("件名です");
+        
+        String path = this.getClass().getResource("attachedFileTest.txt").getPath();
+        File file = new File(path);
+        AttachedFile af = new AttachedFile(file,"添付ファイル.txt");
+        data.setAttachedFile(af);
         testMai.sendMail(data);
         
     }

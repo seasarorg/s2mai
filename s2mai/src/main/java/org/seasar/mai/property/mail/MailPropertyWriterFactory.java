@@ -16,7 +16,7 @@
 package org.seasar.mai.property.mail;
 
 /**
- * @author kei
+ * @author rokugen
  */
 public interface MailPropertyWriterFactory {
     MailPropertyWriter getMailPropertyWriter(String propName);

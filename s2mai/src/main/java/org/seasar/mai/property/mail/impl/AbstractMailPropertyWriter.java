@@ -59,7 +59,11 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
         }else if(value instanceof MailAddress){
             
             MailAddress maValue = (MailAddress)value;
-            this.setPropertyToMail(mail,maValue);
+            if(maValue.getPersonal() == null){
+                this.setPropertyToMail(mail, maValue.getAddress());
+            }else{
+                this.setPropertyToMail(mail,maValue);
+            }
             
         }else if(value instanceof List){
             

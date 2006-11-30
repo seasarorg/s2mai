@@ -22,10 +22,6 @@ public class MailAddress {
     private String personal;
     private String address;
     
-    public MailAddress() {
-     
-    }
-    
     public MailAddress(String address){
         this.address = address;
     }
@@ -42,22 +38,10 @@ public class MailAddress {
         return address;
     }
     /**
-     * @param address The address to set.
-     */
-    public final void setAddress(String address) {
-        this.address = address;
-    }
-    /**
      * @return Returns the personal.
      */
     public final String getPersonal() {
         return personal;
-    }
-    /**
-     * @param personal The personal to set.
-     */
-    public final void setPersonal(String personal) {
-        this.personal = personal;
     }
 
 }

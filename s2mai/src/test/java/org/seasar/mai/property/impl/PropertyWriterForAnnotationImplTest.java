@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.seasar.extension.unit.S2TestCase;
 import org.seasar.mai.property.PropertyWriterForAnnotation;
+import org.seasar.mai.property.mail.MailAddress;
 
 import com.ozacc.mail.Mail;
 
@@ -55,7 +56,7 @@ public class PropertyWriterForAnnotationImplTest extends S2TestCase {
         mail = new Mail();
         propertyWriterForAnnotation.setMailProperty(mail,method);
         
-        assertEquals("method 2 to", "to@address", mail.getTo()[0].getAddress());
+        assertEquals("method 2 to", "to@address", mail.getTo()[0].getAddress());        
         assertEquals("method 2 from", "from@address", mail.getFrom().getAddress());
         assertEquals("method 2 cc", "cc@address", mail.getCc()[0].getAddress());
         assertEquals("method 2 bcc", "bcc@address", mail.getBcc()[0].getAddress());
@@ -69,6 +70,7 @@ public class PropertyWriterForAnnotationImplTest extends S2TestCase {
         propertyWriterForAnnotation.setMailProperty(mail,method);
         
         assertEquals("method 3 to", "to2@address", mail.getTo()[0].getAddress());
+        assertEquals("method 3 to name", "TO2送信先", mail.getTo()[0].getPersonal());
         assertEquals("method 3 from", "from2@address", mail.getFrom().getAddress());
         assertEquals("method 3 cc", "cc2@address", mail.getCc()[0].getAddress());
         assertEquals("method 3 bcc", "bcc2@address", mail.getBcc()[0].getAddress());
@@ -94,8 +96,8 @@ public class PropertyWriterForAnnotationImplTest extends S2TestCase {
     }
     
     interface AnnotationTestMai{
-        static final String TO = "to@address";
-        static final String sendMail3_TO = "to2@address";
+        static final MailAddress TO = new MailAddress("to@address");
+        static final MailAddress sendMail3_TO = new MailAddress("to2@address","TO2送信先");
         static final String FROM = "from@address";
         static final String sendMail3_FROM = "from2@address";
         static final String CC = "cc@address";
