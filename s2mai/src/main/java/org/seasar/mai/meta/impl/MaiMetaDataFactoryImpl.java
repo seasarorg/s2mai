@@ -18,6 +18,8 @@ package org.seasar.mai.meta.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.seasar.framework.util.Disposable;
+import org.seasar.framework.util.DisposableUtil;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.meta.MaiMetaDataFactory;
 import org.seasar.mai.property.PropertyWriterForAnnotation;
@@ -28,9 +30,16 @@ import org.seasar.mai.property.PropertyWriterForAnnotation;
  */
 public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
     private PropertyWriterForAnnotation propertyWriterForAnnotation;    
-    
 
     private Map maiMetaDataCache = new HashMap();
+
+    {
+        DisposableUtil.add(new Disposable() {
+            public void dispose() {
+                clear();
+            }
+        });
+    }
 
     public MaiMetaData getMaiMetaData(Class maiClass) {
         if (maiMetaDataCache.containsKey(maiClass)) {
@@ -50,5 +59,8 @@ public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
         this.propertyWriterForAnnotation = propertyWriterForAnnotation;
     }
 
+    public void clear() {
+        maiMetaDataCache.clear();
+    }
 
 }

@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.container.factory.S2ContainerFactory;
+import org.seasar.framework.util.Disposable;
+import org.seasar.framework.util.DisposableUtil;
 import org.seasar.framework.util.ResourceNotFoundRuntimeException;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.meta.MaiMetaData;
@@ -35,6 +37,14 @@ public class MaiMetaDataImpl implements MaiMetaData {
     private Map mails = new HashMap();
 
     private Map templatePaths = new HashMap();
+
+    {
+        DisposableUtil.add(new Disposable() {
+            public void dispose() {
+                clear();
+            }
+        });
+    }
 
     public MaiMetaDataImpl(Class maiClass, PropertyWriterForAnnotation propertyWriterForAnnotation) {
         Mail classMail = null;
@@ -51,9 +61,9 @@ public class MaiMetaDataImpl implements MaiMetaData {
             Mail mail = getMail(maiClass, classMail, method);
 
             mails.put(method, mail);
-            
+
             propertyWriterForAnnotation.setMailProperty(mail, method);
-            
+
         }
     }
 
@@ -72,7 +82,6 @@ public class MaiMetaDataImpl implements MaiMetaData {
         return mail;
     }
 
-
     public Mail getMail(Method method) {
         return (Mail) mails.get(method);
     }
@@ -90,4 +99,8 @@ public class MaiMetaDataImpl implements MaiMetaData {
         return path;
     }
 
+    public void clear() {
+        mails.clear();
+        templatePaths.clear();
+    }
 }

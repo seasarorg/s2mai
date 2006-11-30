@@ -34,7 +34,7 @@ public class ConstantAnnotationReader implements AnnotationReader {
         Class mai = method.getDeclaringClass();
         BeanDesc maiBeanDesc = BeanDescFactory.getBeanDesc(mai);
         
-        StringBuilder sb = new StringBuilder();
+        StringBuffer sb = new StringBuffer();
         sb.append(method.getName());
         sb.append("_");
         sb.append(annotation);
