@@ -21,6 +21,7 @@ import java.util.List;
 import org.seasar.extension.unit.S2TestCase;
 import org.seasar.mai.annotation.AnnotationReader;
 import org.seasar.mai.annotation.AnnotationReaderFactory;
+import org.seasar.mai.annotation.From;
 import org.seasar.mai.annotation.MailAddr;
 import org.seasar.mai.annotation.To;
 import org.seasar.mai.mail.MailAddress;
@@ -52,11 +53,23 @@ public class TigerAnnotationReaderTest extends S2TestCase {
         assertEquals("to 1 address", "to1@address", ((List<MailAddress>)annotationReader.getTo(method)).get(0).getAddress());
         assertEquals("to 1 name", "TO1送信先", ((List<MailAddress>)annotationReader.getTo(method)).get(0).getPersonal());
         assertEquals("to 2 address", "to2@address", ((List<MailAddress>)annotationReader.getTo(method)).get(1).getAddress());
+        assertEquals("from 1 address", "from1@address", ((MailAddress)annotationReader.getFrom(method)).getAddress());
+        assertEquals("from 1 name", "FROM1名前", ((MailAddress)annotationReader.getFrom(method)).getPersonal());
+        
+        method = TestMai.class.getMethod("sendMail2",null);
+        assertEquals("to 3 address", "to3@address", ((List<MailAddress>)annotationReader.getTo(method)).get(0).getAddress());
+        assertEquals("to 3 name", "TO3送信先", ((List<MailAddress>)annotationReader.getTo(method)).get(0).getPersonal());
+        assertEquals("from 2 address", "from2@address", ((MailAddress)annotationReader.getFrom(method)).getAddress());
+        assertEquals("from 2 name", "FROM2名前", ((MailAddress)annotationReader.getFrom(method)).getPersonal());
+        
 	}
-    
+    @From(@MailAddr(address="from1@address",personal="FROM1名前"))
     @To({@MailAddr(address="to1@address",personal="TO1送信先"),@MailAddr(address="to2@address")})
     public interface TestMai{
-        void sendMail();        
+        void sendMail();    
+        @From(@MailAddr(address="from2@address",personal="FROM2名前"))
+        @To(@MailAddr(address="to3@address",personal="TO3送信先"))
+        void sendMail2();
     }
     
 

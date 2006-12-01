@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.seasar.mai.annotation.AnnotationReader;
+import org.seasar.mai.annotation.From;
 import org.seasar.mai.annotation.MailAddr;
 import org.seasar.mai.annotation.To;
 import org.seasar.mai.mail.MailAddress;
@@ -72,15 +73,24 @@ public class TigerAnnotationReader implements AnnotationReader {
 	}
 
 	public Object getFrom(Method method) {
-		// TODO Auto-generated method stub
-		return null;
+        final From from = getAnnotation(method, From.class);
+        if (from != null) {           
+            return convertMailAddress(from.value());
+        }
+        if (next != null) {
+            return next.getTo(method);
+        }
+        return null;
 	}
+    
+    protected MailAddress convertMailAddress(MailAddr addr){
+        return  new MailAddress(addr.address(), addr.personal());
+    }
 	
 	protected List<MailAddress> convertMailAddress(MailAddr[] addrs){
 		List<MailAddress> list = new ArrayList<MailAddress>();
 		for(int i=0; i < addrs.length; i++){
-			MailAddress mailAddress = new MailAddress(
-					addrs[i].address(), addrs[i].personal());
+			MailAddress mailAddress = this.convertMailAddress(addrs[i]);
 			list.add(mailAddress);
 		}
 		
@@ -88,11 +98,11 @@ public class TigerAnnotationReader implements AnnotationReader {
 	}
 	
     protected <T extends Annotation> T getAnnotation(final Method method, final Class<T> annotationType) {
-    	Class<?> clazz = method.getDeclaringClass();
-        final T annotation = method.getAnnotation(annotationType);
+    	final T annotation = method.getAnnotation(annotationType);
         if (annotation != null) {
             return annotation;
         }
+        Class<?> clazz = method.getDeclaringClass();        
         return clazz.getAnnotation(annotationType);
     }
 

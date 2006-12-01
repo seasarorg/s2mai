@@ -15,9 +15,13 @@
  */
 package org.seasar.mai.annotation;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * @author rokugen
  */
+@Retention(RetentionPolicy.RUNTIME)
 public @interface MailAddr {
 	String address();
 	String personal() default "";
