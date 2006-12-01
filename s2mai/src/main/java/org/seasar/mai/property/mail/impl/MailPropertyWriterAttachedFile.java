@@ -28,39 +28,43 @@ import com.ozacc.mail.Mail;
 /**
  * @author rokugen
  */
-public class MailPropertyWriterAttachedFile implements MailPropertyWriter{
+public class MailPropertyWriterAttachedFile implements MailPropertyWriter {
 
     public void setProperty(Mail mail, Object value) {
-        if(value instanceof File){
-            mail.addFile((File)value);
-        }else if(value instanceof AttachedFile){
-            AttachedFile af = (AttachedFile)value;
-            
-            if(af.getFile() != null){
-                if(af.getFileName() == null){
-                    mail.addFile(af.getFile());
-                }else{
-                    mail.addFile(af.getFile(), af.getFileName());
-                }
-            }else if(af.getInputStream() != null){
-                mail.addFile(af.getInputStream(), af.getFileName());
-            }else if(af.getUrl() != null){
-                mail.addFile(af.getUrl(), af.getFileName());
-            }                     
-            
-        }else if(value instanceof List){
-            
-            Object addrValue = null;
-            for(Iterator itr = ((List)value).iterator(); itr.hasNext();){
-                addrValue = itr.next();
-                this.setProperty(mail, addrValue);
+        if (value instanceof File) {
+            addFile(mail, value);
+        } else if (value instanceof AttachedFile) {
+            addAttachedFile(mail, (AttachedFile) value);
+        } else if (value instanceof List) {
+            addList(mail, value);
+        } else if (value instanceof Object[]) {
+            addList(mail, Arrays.asList((Object[]) value));
+        }
+    }
+
+    private void addList(Mail mail, Object value) {
+        List listValue = (List) value;
+        for (Iterator itr = listValue.iterator(); itr.hasNext();) {
+            this.setProperty(mail, itr.next());
+        }
+    }
+
+    private void addAttachedFile(Mail mail, AttachedFile af) {
+        if (af.getFile() != null) {
+            if (af.getFileName() == null) {
+                mail.addFile(af.getFile());
+            } else {
+                mail.addFile(af.getFile(), af.getFileName());
             }
-            
-        }else if(value instanceof Object[]){
-            
-            List addrList = Arrays.asList((Object[])value);
-            this.setProperty(mail, addrList);
-        }        
+        } else if (af.getInputStream() != null) {
+            mail.addFile(af.getInputStream(), af.getFileName());
+        } else if (af.getUrl() != null) {
+            mail.addFile(af.getUrl(), af.getFileName());
+        }
+    }
+
+    private void addFile(Mail mail, Object value) {
+        mail.addFile((File) value);
     }
 
     public void init(Mail mail) {

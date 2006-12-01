@@ -35,58 +35,63 @@ import com.ozacc.mail.Mail;
 /**
  * @author rokugen
  */
-public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
+public abstract class AbstractMailPropertyWriter implements MailPropertyWriter {
     private S2Container container;
 
-    
-    public void setProperty(Mail mail, Object value){
-        
-        if(value instanceof String){
-            
-            this.setPropertyToMail(mail,(String)value);
-            
-        }else if(value instanceof InternetAddress){
-            
-            InternetAddress iaValue = (InternetAddress)value;
-            try {
-                //TODO もうっちょっとマシなやり方できないかなあと
-                iaValue.setPersonal(this.toSafetyText(iaValue.getPersonal()));
-            } catch (IOException e) {
-                throw new IORuntimeException(e);
-            }
-            this.setPropertyToMail(mail,iaValue);
-            
-        }else if(value instanceof MailAddress){
-            
-            MailAddress maValue = (MailAddress)value;
-            if(maValue.getPersonal() == null){
-                this.setPropertyToMail(mail, maValue.getAddress());
-            }else{
-                this.setPropertyToMail(mail,maValue);
-            }
-            
-        }else if(value instanceof List){
-            
-            Object addrValue = null;
-            for(Iterator itr = ((List)value).iterator(); itr.hasNext();){
-                addrValue = itr.next();
-                this.setProperty(mail, addrValue);
-            }
-            
-        }else if(value instanceof Object[]){
-            
-            List addrList = Arrays.asList((Object[])value);
-            this.setProperty(mail, addrList);
+    public void setProperty(Mail mail, Object value) {
+        if (value instanceof String) {
+            setString(mail, value);
+        } else if (value instanceof InternetAddress) {
+            setInternetAddress(mail, value);
+        } else if (value instanceof MailAddress) {
+            setMailAddress(mail, value);
+        } else if (value instanceof List) {
+            setList(mail, value);
+        } else if (value instanceof Object[]) {
+            setList(mail, Arrays.asList((Object[]) value));
         }
     }
-    
+
+    private void setList(Mail mail, Object value) {
+        List listValue = (List) value;
+        Object addrValue = null;
+        for (Iterator itr = listValue.iterator(); itr.hasNext();) {
+            addrValue = itr.next();
+            this.setProperty(mail, addrValue);
+        }
+    }
+
+    private void setMailAddress(Mail mail, Object value) {
+        MailAddress maValue = (MailAddress) value;
+        if (maValue.getPersonal() == null) {
+            this.setPropertyToMail(mail, maValue.getAddress());
+        } else {
+            this.setPropertyToMail(mail, maValue);
+        }
+    }
+
+    private void setInternetAddress(Mail mail, Object value) {
+        InternetAddress iaValue = (InternetAddress) value;
+        try {
+            // TODO もうっちょっとマシなやり方できないかなあと
+            iaValue.setPersonal(this.toSafetyText(iaValue.getPersonal()));
+        } catch (IOException e) {
+            throw new IORuntimeException(e);
+        }
+        this.setPropertyToMail(mail, iaValue);
+    }
+
+    private void setString(Mail mail, Object value) {
+        this.setPropertyToMail(mail, (String) value);
+    }
+
     private String toSafetyText(String text) {
         if (text == null) {
             text = "";
         }
         try {
-            String charset = (String)container.getComponent(S2MaiConstants.MAIL_CHARSET);
-            MimeUtility.encodeText(text, charset, "B"); 
+            String charset = (String) container.getComponent(S2MaiConstants.MAIL_CHARSET);
+            MimeUtility.encodeText(text, charset, "B");
             return text;
         } catch (BufferOverflowException e) {
             return toSafetyText(text + " ");
@@ -94,16 +99,19 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter{
             throw new IORuntimeException(e);
         }
     }
-    
+
     protected abstract void setPropertyToMail(Mail mail, String value);
+
     protected abstract void setPropertyToMail(Mail mail, MailAddress mailAddress);
+
     protected abstract void setPropertyToMail(Mail mail, InternetAddress value);
 
     /**
-     * @param container The container to set.
+     * @param container
+     *            The container to set.
      */
     public final void setContainer(S2Container container) {
         this.container = container;
-    }    
+    }
 
 }

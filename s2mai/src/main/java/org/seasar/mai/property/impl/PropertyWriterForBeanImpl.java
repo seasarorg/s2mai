@@ -31,71 +31,68 @@ import com.ozacc.mail.Mail;
 /**
  * @author rokugen
  */
-public class PropertyWriterForBeanImpl implements PropertyWriterForBean,S2MaiConstants {
+public class PropertyWriterForBeanImpl implements PropertyWriterForBean, S2MaiConstants {
     private MailPropertyWriterFactory mailPropertyWriterFactory;
+
     private ServerPropertyWriterFactory serverPropertyWriterFactory;
 
     public void setMailProperty(Mail mail, Object bean) {
         if (bean == null) {
             return;
-        }        
-        
-        
+        }
+
         BeanDesc desc = BeanDescFactory.getBeanDesc(bean.getClass());
-        MailPropertyWriter propWriter = null;
-        
-        for(int i=0; i < MAIL_PROPERTIES.length; i++){
-            String propertyName = MAIL_PROPERTIES[i];
-            if (desc.hasPropertyDesc(propertyName)) {
-                PropertyDesc pd = desc.getPropertyDesc(propertyName);            
-                Object value = pd.getValue(bean);
-                if(value != null){                    
-                    propWriter = mailPropertyWriterFactory.getMailPropertyWriter(propertyName);
-                    propWriter.init(mail);
-                    propWriter.setProperty(mail,value);
-                }
-                
+        for (int i = 0; i < MAIL_PROPERTIES.length; i++) {
+            setMailProperty(mail, bean, desc, i);
+        }
+    }
+
+    private void setMailProperty(Mail mail, Object bean, BeanDesc desc, int index) {
+        String propertyName = MAIL_PROPERTIES[index];
+        if (desc.hasPropertyDesc(propertyName)) {
+            PropertyDesc pd = desc.getPropertyDesc(propertyName);
+            Object value = pd.getValue(bean);
+            if (value != null) {
+                MailPropertyWriter propWriter = mailPropertyWriterFactory.getMailPropertyWriter(propertyName);
+                propWriter.init(mail);
+                propWriter.setProperty(mail, value);
             }
-        }        
-        
+        }
     }
 
     public void setServerProperty(SendMail sendMail, Object bean) {
         if (bean == null) {
             return;
-        }       
-        
+        }
+
         BeanDesc desc = BeanDescFactory.getBeanDesc(bean.getClass());
         ServerPropertyWriter propWriter = null;
-        for(int i=0; i < SERVER_PROPERTIES.length; i++){
+        for (int i = 0; i < SERVER_PROPERTIES.length; i++) {
             String propertyName = SERVER_PROPERTIES[i];
-            if(desc.hasPropertyDesc(propertyName)){
+            if (desc.hasPropertyDesc(propertyName)) {
                 PropertyDesc pd = desc.getPropertyDesc(propertyName);
                 Object value = pd.getValue(bean);
-                if(value != null){
+                if (value != null) {
                     propWriter = serverPropertyWriterFactory.getServerPropertyWriter(propertyName);
-                    propWriter.setProperty(sendMail,value);
+                    propWriter.setProperty(sendMail, value);
                 }
-            }            
-        }        
-
+            }
+        }
     }
-    
 
     /**
-     * @param mailPropertyWriterFactory The mailPropertyWriterFactory to set.
+     * @param mailPropertyWriterFactory
+     *            The mailPropertyWriterFactory to set.
      */
     public void setMailPropertyWriterFactory(MailPropertyWriterFactory mailPropertyWriterFactory) {
         this.mailPropertyWriterFactory = mailPropertyWriterFactory;
     }
 
     /**
-     * @param serverPropertyWriterFactory The serverPropertyWriterFactory to set.
+     * @param serverPropertyWriterFactory
+     *            The serverPropertyWriterFactory to set.
      */
     public final void setServerPropertyWriterFactory(ServerPropertyWriterFactory serverPropertyWriterFactory) {
         this.serverPropertyWriterFactory = serverPropertyWriterFactory;
     }
-    
-
-
 }

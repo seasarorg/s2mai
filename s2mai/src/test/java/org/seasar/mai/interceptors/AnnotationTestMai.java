@@ -19,17 +19,17 @@ package org.seasar.mai.interceptors;
  * @author rokugen
  */
 public interface AnnotationTestMai {
-    static final String[] TO = new String[]{"kei","rokugen"};
-    static final String sendMail2_TO = "rokugen";
-    static final String [] sendMail2_CC = new String[]{"kei","rokugen"};
-    static final String sendMail2_BCC = "rokugen";
-    static final String[] sendMail3_BCC = new String[]{"kei","rokugen"};    
-    static final String sendMail3_REPLY_TO = "rokugen";
-    static final String sendMail2_RETURN_PATH = "kimura";
+    String[] TO = new String[]{"kei","rokugen"};
+    String sendMail2_TO = "rokugen";
+    String [] sendMail2_CC = new String[]{"kei","rokugen"};
+    String sendMail2_BCC = "rokugen";
+    String[] sendMail3_BCC = new String[]{"kei","rokugen"};    
+    String sendMail3_REPLY_TO = "rokugen";
+    String sendMail2_RETURN_PATH = "kimura";
     
-    static final String FROM = "takeuchi";
-    static final String sendMail_SUBJECT = "件名置き換えテスト";    
-    static final String sendMail2_SUBJECT = "テンプレート優先で無効";
+    String FROM = "takeuchi";
+    String sendMail_SUBJECT = "件名置き換えテスト";    
+    String sendMail2_SUBJECT = "テンプレート優先で無効";
     
 
     void sendMail(TestData data);

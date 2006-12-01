@@ -30,7 +30,7 @@ import com.ozacc.mail.Mail;
 /**
  * @author rokugen
  */
-public class PorpertyWriterForBeanImplTest extends S2TestCase {
+public class PorpertyWriterForBeanImplTest extends S2TestCase { // TODO クラス名修正
     private PropertyWriterForBeanImpl propertyWriterImpl;
 
     public static void main(String[] args) {

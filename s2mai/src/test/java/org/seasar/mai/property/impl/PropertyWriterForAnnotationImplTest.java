@@ -96,20 +96,20 @@ public class PropertyWriterForAnnotationImplTest extends S2TestCase {
     }
     
     interface AnnotationTestMai{
-        static final MailAddress TO = new MailAddress("to@address");
-        static final MailAddress sendMail3_TO = new MailAddress("to2@address","TO2送信先");
-        static final String FROM = "from@address";
-        static final String sendMail3_FROM = "from2@address";
-        static final String CC = "cc@address";
-        static final String sendMail3_CC = "cc2@address";
-        static final String BCC = "bcc@address";
-        static final String sendMail3_BCC = "bcc2@address";
-        static final String SUBJECT = "件名";
-        static final String sendMail3_SUBJECT = "件名2";
-        static final String REPLY_TO = "reply-to@address";
-        static final String sendMail3_REPLY_TO = "reply-to2@address";
-        static final String RETURN_PATH = "return-path@address";
-        static final String sendMail3_RETURN_PATH = "return-path2@address";
+        MailAddress TO = new MailAddress("to@address");
+        MailAddress sendMail3_TO = new MailAddress("to2@address","TO2送信先");
+        String FROM = "from@address";
+        String sendMail3_FROM = "from2@address";
+        String CC = "cc@address";
+        String sendMail3_CC = "cc2@address";
+        String BCC = "bcc@address";
+        String sendMail3_BCC = "bcc2@address";
+        String SUBJECT = "件名";
+        String sendMail3_SUBJECT = "件名2";
+        String REPLY_TO = "reply-to@address";
+        String sendMail3_REPLY_TO = "reply-to2@address";
+        String RETURN_PATH = "return-path@address";
+        String sendMail3_RETURN_PATH = "return-path2@address";
         
         void sendMail();
         void sendMail2();
@@ -117,8 +117,8 @@ public class PropertyWriterForAnnotationImplTest extends S2TestCase {
     }
     
     interface AnnotationTestMai2{
-        static final String[] TO = {"to@address","to2@address"};
-        static final List CC = Arrays.asList(new String[]{"cc@address","cc2@address","cc3@address"});
+        String[] TO = {"to@address","to2@address"};
+        List CC = Arrays.asList(new String[]{"cc@address","cc2@address","cc3@address"});
         void sendMail();        
     }
 
