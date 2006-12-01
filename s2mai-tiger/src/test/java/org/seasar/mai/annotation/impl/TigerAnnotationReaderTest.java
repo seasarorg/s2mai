@@ -130,13 +130,13 @@ public class TigerAnnotationReaderTest extends S2TestCase {
     }
 	
 	public interface TigerTestMai2{
-		static final String SUBJECT = "件名";
-		static final MailAddress FROM = new MailAddress("from@address","FROM名前");
-		static final String TO = "to@address";
-		static final String[] CC = {"cc1@address","cc2@address"};
-		static final String BCC = "bcc@address";
-		static final String REPLY_TO = "replyTo@address";
-		static final String RETURN_PATH = "returnPath@address";
+		String SUBJECT = "件名";
+		MailAddress FROM = new MailAddress("from@address","FROM名前");
+		String TO = "to@address";
+		String[] CC = {"cc1@address","cc2@address"};
+		String BCC = "bcc@address";
+		String REPLY_TO = "replyTo@address";
+		String RETURN_PATH = "returnPath@address";
 		
 		void sendMail();
 	}
