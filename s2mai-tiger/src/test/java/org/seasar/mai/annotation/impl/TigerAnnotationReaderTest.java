@@ -52,7 +52,7 @@ public class TigerAnnotationReaderTest extends S2TestCase {
     public void testGetValue() throws SecurityException, NoSuchMethodException{
 		AnnotationReader annotationReader = factory.createMaiAnnotationReader();
         
-        Method method = TigerTestMai1.class.getMethod("sendMail",null);
+        Method method = TigerTestMai1.class.getMethod("sendMail",(Class[])null);
 		
 		assertEquals("class", TigerAnnotationReader.class, annotationReader.getClass());
         assertEquals("to 1 address", "to1@address", ((List<MailAddress>)annotationReader.getTo(method)).get(0).getAddress());
@@ -70,7 +70,7 @@ public class TigerAnnotationReaderTest extends S2TestCase {
         assertEquals("returnPath 1 address", "returnPath1@address", (String)annotationReader.getReturnPath(method));
         
         
-        method = TigerTestMai1.class.getMethod("sendMail2",null);
+        method = TigerTestMai1.class.getMethod("sendMail2",(Class[])null);
         assertEquals("to 3 address", "to3@address", ((List<MailAddress>)annotationReader.getTo(method)).get(0).getAddress());
         assertEquals("to 3 name", "TO3送信先", ((List<MailAddress>)annotationReader.getTo(method)).get(0).getPersonal());
         assertEquals("from 2 address", "from2@address", ((MailAddress)annotationReader.getFrom(method)).getAddress());
@@ -95,7 +95,7 @@ public class TigerAnnotationReaderTest extends S2TestCase {
 	public void testGetValueWithoutTiger() throws SecurityException, NoSuchMethodException{
 		AnnotationReader annotationReader = factory.createMaiAnnotationReader();
         
-        Method method = TigerTestMai2.class.getMethod("sendMail",null);
+        Method method = TigerTestMai2.class.getMethod("sendMail",(Class[])null);
         assertEquals("subject", "件名", (String)annotationReader.getSubject(method));
         assertEquals("from", "from@address", ((MailAddress)annotationReader.getFrom(method)).getAddress());
 		assertEquals("to", "to@address", (String)annotationReader.getTo(method));
