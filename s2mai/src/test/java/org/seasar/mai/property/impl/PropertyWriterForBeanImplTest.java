@@ -30,11 +30,11 @@ import com.ozacc.mail.Mail;
 /**
  * @author rokugen
  */
-public class PorpertyWriterForBeanImplTest extends S2TestCase { // TODO クラス名修正
+public class PropertyWriterForBeanImplTest extends S2TestCase {
     private PropertyWriterForBeanImpl propertyWriterImpl;
 
     public static void main(String[] args) {
-        junit.textui.TestRunner.run(PorpertyWriterForBeanImplTest.class);
+        junit.textui.TestRunner.run(PropertyWriterForBeanImplTest.class);
     }
 
     protected void setUp() throws Exception {
