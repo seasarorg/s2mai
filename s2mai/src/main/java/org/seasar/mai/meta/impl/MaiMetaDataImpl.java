@@ -23,7 +23,7 @@ import org.seasar.framework.container.S2Container;
 import org.seasar.framework.container.factory.S2ContainerFactory;
 import org.seasar.framework.util.Disposable;
 import org.seasar.framework.util.DisposableUtil;
-import org.seasar.framework.util.ResourceNotFoundRuntimeException;
+import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.property.PropertyWriterForAnnotation;

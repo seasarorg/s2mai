@@ -59,7 +59,7 @@ public class S2MaiInterceptorTest extends S2TestCase {
         data.setFrom("kei");
         data.setTo(new InternetAddress("rokugen","六"));
         data.setCc(new MailAddress("rokugen","六のCC"));
-        data.setSubject("件名です");
+        data.setSubject("件名です");        
         
         String path = this.getClass().getResource("attachedFileTest.txt").getPath();
         File file = new File(path);
