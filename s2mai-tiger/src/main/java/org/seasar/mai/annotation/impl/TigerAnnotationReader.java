@@ -21,8 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.seasar.mai.annotation.AnnotationReader;
+import org.seasar.mai.annotation.Bcc;
+import org.seasar.mai.annotation.Cc;
 import org.seasar.mai.annotation.From;
 import org.seasar.mai.annotation.MailAddr;
+import org.seasar.mai.annotation.ReplyTo;
+import org.seasar.mai.annotation.ReturnPath;
+import org.seasar.mai.annotation.Subject;
 import org.seasar.mai.annotation.To;
 import org.seasar.mai.mail.MailAddress;
 
@@ -48,27 +53,57 @@ public class TigerAnnotationReader implements AnnotationReader {
 	}
 
 	public Object getCc(Method method) {
-		// TODO Auto-generated method stub
+		final Cc cc = getAnnotation(method, Cc.class);
+		if (cc != null) {			
+            return convertMailAddress(cc.value());
+        }
+        if (next != null) {
+            return next.getCc(method);
+        }		
 		return null;
 	}
 
 	public Object getBcc(Method method) {
-		// TODO Auto-generated method stub
+		final Bcc bcc = getAnnotation(method, Bcc.class);
+		if (bcc != null) {
+            return bcc.value();
+        }
+        if (next != null) {
+            return next.getBcc(method);
+        }
 		return null;
 	}
 
 	public Object getSubject(Method method) {
-		// TODO Auto-generated method stub
+		final Subject subject = getAnnotation(method, Subject.class);
+		if (subject != null) {			
+            return subject.value();
+        }
+        if (next != null) {
+            return next.getSubject(method);
+        }
 		return null;
 	}
 
 	public Object getReplyTo(Method method) {
-		// TODO Auto-generated method stub
+		final ReplyTo replyTo = getAnnotation(method, ReplyTo.class);
+        if (replyTo != null) {           
+            return convertMailAddress(replyTo.value());
+        }
+        if (next != null) {
+            return next.getReplyTo(method);
+        }
 		return null;
 	}
 
 	public Object getReturnPath(Method method) {
-		// TODO Auto-generated method stub
+		final ReturnPath returnPath = getAnnotation(method, ReturnPath.class);
+		if (returnPath != null) {			
+            return returnPath.value();
+        }
+        if (next != null) {
+            return next.getReturnPath(method);
+        }
 		return null;
 	}
 
@@ -78,7 +113,7 @@ public class TigerAnnotationReader implements AnnotationReader {
             return convertMailAddress(from.value());
         }
         if (next != null) {
-            return next.getTo(method);
+            return next.getFrom(method);
         }
         return null;
 	}
