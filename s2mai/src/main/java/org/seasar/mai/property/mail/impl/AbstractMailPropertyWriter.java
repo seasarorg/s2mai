@@ -26,6 +26,7 @@ import javax.mail.internet.MimeUtility;
 
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.exception.IORuntimeException;
+import org.seasar.framework.util.StringUtil;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.mail.MailAddress;
 import org.seasar.mai.property.mail.MailPropertyWriter;
@@ -63,7 +64,7 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter {
 
     private void setMailAddress(Mail mail, Object value) {
         MailAddress maValue = (MailAddress) value;
-        if (maValue.getPersonal() == null) {
+        if (StringUtil.isEmpty(maValue.getPersonal())) {
             this.setPropertyToMail(mail, maValue.getAddress());
         } else {
             this.setPropertyToMail(mail, maValue);
