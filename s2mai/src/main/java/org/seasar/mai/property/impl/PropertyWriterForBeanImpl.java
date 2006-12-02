@@ -47,45 +47,46 @@ public class PropertyWriterForBeanImpl implements PropertyWriterForBean, S2MaiCo
         }
 
         BeanDesc desc = BeanDescFactory.getBeanDesc(bean.getClass());
-        for (int i = 0; i < MAIL_PROPERTIES.length; i++) {
-            setMailProperty(mail, bean, desc, i);
-        }
         
         for(int i=0; i < desc.getPropertyDescSize(); i ++){
-            PropertyDesc pd = desc.getPropertyDesc(i);            
-            Class clazz = pd.getPropertyType();
-            
-            if(clazz == List.class){
-                Method method = pd.getReadMethod();
-                clazz = MethodUtil.getElementTypeOfListFromReturnType(method);                
-            }            
-            
-            if(clazz == AttachedFile.class || clazz == AttachedFile[].class || ATTACHED_FILE.equals(pd.getPropertyName()) ){
-                Object value = pd.getValue(bean);
-                if (value != null) {
-                    MailPropertyWriter propWriter = mailPropertyWriterFactory.getMailPropertyWriter(ATTACHED_FILE);
-                    if(!mail.isFileAttached()){
-                        propWriter.init(mail);
-                    }
-                    propWriter.setProperty(mail, value);
-                }                
+            PropertyDesc pd = desc.getPropertyDesc(i);
+            Object value = pd.getValue(bean);
+            if (value == null) {
+                continue;
             }
-            
+            setMailProperty(mail, pd, value);
         }
         
     }
-
-    private void setMailProperty(Mail mail, Object bean, BeanDesc desc, int index) {
-        String propertyName = MAIL_PROPERTIES[index];
-        if (desc.hasPropertyDesc(propertyName)) {
-            PropertyDesc pd = desc.getPropertyDesc(propertyName);
-            Object value = pd.getValue(bean);
-            if (value != null) {
-                MailPropertyWriter propWriter = mailPropertyWriterFactory.getMailPropertyWriter(propertyName);
-                propWriter.init(mail);
-                propWriter.setProperty(mail, value);
-            }
+    
+    private void setMailProperty(Mail mail,PropertyDesc pd, Object value) {
+        
+        boolean isAttachedFile = isAttachedFileProperty(pd);
+        String propertyName = isAttachedFile ? ATTACHED_FILE : pd.getPropertyName();
+        MailPropertyWriter propWriter = mailPropertyWriterFactory.getMailPropertyWriter(propertyName);
+        
+        if(propWriter == null){
+            return;
         }
+        
+        if(!isAttachedFile){
+            propWriter.init(mail);
+        }
+        propWriter.setProperty(mail, value);
+    }
+    
+    private boolean isAttachedFileProperty(PropertyDesc propertyDesc){
+        Class clazz = propertyDesc.getPropertyType();
+        
+        if(clazz == List.class){
+            Method method = propertyDesc.getReadMethod();
+            Class elementType = MethodUtil.getElementTypeOfListFromReturnType(method);
+            if(elementType != null){
+                clazz = elementType;
+            }
+        }            
+        
+        return (clazz == AttachedFile.class || clazz == AttachedFile[].class || ATTACHED_FILE.equals(propertyDesc.getPropertyName()) );        
     }
 
     public void setServerProperty(SendMail sendMail, Object bean) {

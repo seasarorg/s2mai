@@ -15,6 +15,7 @@
  */
 package org.seasar.mai.property.mail.impl;
 
+import org.seasar.framework.container.ComponentNotFoundRuntimeException;
 import org.seasar.framework.container.S2Container;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.property.mail.MailPropertyWriter;
@@ -28,7 +29,11 @@ public class MailPropertyWriterFactoryImpl implements MailPropertyWriterFactory 
     
 
     public MailPropertyWriter getMailPropertyWriter(String propName) {
-        return (MailPropertyWriter)container.getComponent(propName + "Writer");
+        try{
+            return(MailPropertyWriter)container.getComponent(propName + "Writer");            
+        }catch (ComponentNotFoundRuntimeException ignore) {
+        }
+        return null;        
     }
 
     /**
