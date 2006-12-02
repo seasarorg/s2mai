@@ -53,7 +53,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
             S2Container container = S2ContainerFactory.create(path);
             classMail = (Mail) container.getComponent(Mail.class);
         } catch (ResourceNotFoundRuntimeException e) {
-            classMail = null;
+            classMail = new Mail();
         }
         Method[] methods = maiClass.getMethods();
         for (int i = 0; i < methods.length; i++) {
