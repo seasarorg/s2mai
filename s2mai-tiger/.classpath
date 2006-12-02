@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/seasar2"/>
 	<classpathentry kind="lib" path="lib/ozacc-mail-1.1.7.jar"/>
 	<classpathentry kind="lib" path="lib/s2-tiger-2.4.5.jar"/>
+	<classpathentry kind="lib" path="lib/geronimo-ejb_2.1_spec-1.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
