@@ -91,6 +91,12 @@
       <version>2.4.5</version>
       <type>jar</type>
     </dependency>
+		<dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-ejb_2.1_spec</artifactId>
+      <version>1.0</version>
+      <type>jar</type>
+    </dependency>    
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-j2ee_1.4_spec</artifactId>
