@@ -15,13 +15,17 @@
  */
 package org.seasar.mai.property.impl;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
+import org.seasar.mai.mail.AttachedFile;
 import org.seasar.mai.mail.MailAddress;
 import org.seasar.mai.mail.impl.SendMailImpl;
 
@@ -57,8 +61,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("password", testDto.getPassword(), sendMail.getPassword());
     }
     
-    public void testSetMailProperty() throws UnsupportedEncodingException{
-        Mail mail = new Mail();
+    public void testSetMailProperty() throws UnsupportedEncodingException, MalformedURLException{
+        Mail mail = new Mail();        
         TestDto testDto = new TestDto();
         testDto.setFrom("from@address");
         testDto.setSubject("件名です");
@@ -69,7 +73,7 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         toAddr.setAddress("to2@localhost.localdomain");
         toAddr.setPersonal("テスト送信先");
         toList.add(toAddr);        
-        testDto.setTo(toList);
+        testDto.setTo(toList);        
         
         List ccList = new ArrayList();
         ccList.add("cc@address");        
@@ -85,6 +89,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         
         testDto.setReplyTo("replyTo@address");
         testDto.setReturnPath("returnPath@address");
+        testDto.setAttachedFile(new AttachedFile(new URL("http://example.com"),"添付ファイル"));
+        testDto.setDummy("dummy");
         
         propertyWriterImpl.setMailProperty(mail,testDto);
         assertEquals("from address only", testDto.getFrom(),mail.getFrom().getAddress());
@@ -103,6 +109,7 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("bcc name 2", ((InternetAddress)bccList.get(1)).getPersonal(), actualBccAddrs[1].getPersonal());
         assertEquals("replyTo address ", testDto.getReplyTo(), mail.getReplyTo().getAddress());
         assertEquals("return path address", testDto.getReturnPath(), mail.getReturnPath().getAddress());
+        assertEquals("attached file", testDto.getAttachedFile().getFileName(), mail.getAttachmentFiles()[0].getName());
         
         
         
@@ -115,6 +122,11 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         testDto2.setTo("to@address");
         MailAddress ccAddress = new MailAddress("cc@adderss","CC送信先");
         testDto2.setCc(ccAddress);
+        testDto2.setFiles(new AttachedFile[]{
+                new AttachedFile(new URL("http://example.com"),"添付ファイル1"),
+                new AttachedFile(new URL("http://example.com"),"添付ファイル2")
+                });
+        testDto2.setTempuFile(new AttachedFile(new URL("http://example.com"),"添付ファイル3"));
         
         propertyWriterImpl.setMailProperty(mail,testDto2);
         assertEquals("from address", testDto2.getFrom().getAddress(),mail.getFrom().getAddress());
@@ -123,7 +135,9 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("to address", testDto2.getTo(), mail.getTo()[0].getAddress());
         assertEquals("cc address", testDto2.getCc().getAddress(), mail.getCc()[0].getAddress());
         assertEquals("cc name", testDto2.getCc().getPersonal(), mail.getCc()[0].getPersonal());
-        
+        assertEquals("attached file 1", testDto2.getFiles()[0].getFileName(), mail.getAttachmentFiles()[0].getName());
+        assertEquals("attached file 2", testDto2.getFiles()[1].getFileName(), mail.getAttachmentFiles()[1].getName());
+        assertEquals("attached file 3", testDto2.getTempuFile().getFileName(), mail.getAttachmentFiles()[2].getName());        
         //配列の場合とか
         mail = new Mail();
         TestDto3 testDto3 = new TestDto3();
@@ -139,6 +153,10 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
             new InternetAddress("bcc2@address", "BCC送信先2")
         };
         testDto3.setBcc(bccs);
+        List fileList = new ArrayList();
+        fileList.add(new AttachedFile(new URL("http://example.com"),"添付ファイル1"));
+        fileList.add(new AttachedFile(new URL("http://example.com"),"添付ファイル2"));
+        testDto3.setAttachedFile(fileList);        
         
         propertyWriterImpl.setMailProperty(mail,testDto3);
         assertEquals("to address 1", (String)tos[0], mail.getTo()[0].getAddress());
@@ -150,6 +168,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("bcc name 1",bccs[0].getPersonal(), mail.getBcc()[0].getPersonal());
         assertEquals("bcc address 2", bccs[1].getAddress(), mail.getBcc()[1].getAddress());
         assertEquals("bcc name 2",bccs[1].getPersonal(), mail.getBcc()[1].getPersonal());
+        assertEquals("attached file 1",((AttachedFile)fileList.get(0)).getFileName(), mail.getAttachmentFiles()[0].getName());
+        assertEquals("attached file 2",((AttachedFile)fileList.get(1)).getFileName(), mail.getAttachmentFiles()[1].getName());
         
     }
     
@@ -165,6 +185,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         private List bcc;
         private String replyTo;
         private String returnPath;
+        private AttachedFile attachedFile;
+        private String dummy;
         public String getHost() {return host;}
         public void setHost(String host) {this.host = host;}
         public String getPassword() {return password;}
@@ -187,6 +209,10 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         public final void setSubject(String subject) {this.subject = subject;}
         public final String getReturnPath() {return returnPath;}
         public final void setReturnPath(String returnPath) {this.returnPath = returnPath;}
+        public final String getDummy() {return dummy;}
+        public final void setDummy(String dummy) {this.dummy = dummy;}
+        public final AttachedFile getAttachedFile() {return attachedFile;}
+        public final void setAttachedFile(AttachedFile attachedFile) {this.attachedFile = attachedFile;}
         
     }
     
@@ -194,6 +220,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         private InternetAddress from;
         private String to;
         private MailAddress cc;
+        private AttachedFile[] files;
+        private AttachedFile tempuFile;
         
         public InternetAddress getFrom() {return from;}
         public void setFrom(InternetAddress from) {this.from = from;}
@@ -201,18 +229,25 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         public void setTo(String to) {this.to = to;}
         public final MailAddress getCc() {return cc;}
         public final void setCc(MailAddress cc) {this.cc = cc;}
+        public final AttachedFile[] getFiles() {return files;}
+        public final void setFiles(AttachedFile[] files) {this.files = files;}
+        public final AttachedFile getTempuFile() {return tempuFile;}
+        public final void setTempuFile(AttachedFile tempuFile) {this.tempuFile = tempuFile;}
     }
     
     public class TestDto3{
         private Object[] to;
         private String[] cc;
         private InternetAddress[] bcc;
+        private List attachedFile;
         public Object[] getTo() {return to;}
         public void setTo(Object[] to) {this.to = to;}
         public final InternetAddress[] getBcc() {return bcc;}
         public final void setBcc(InternetAddress[] bcc) {this.bcc = bcc;}
         public final String[] getCc() {return cc;}
         public final void setCc(String[] cc) {this.cc = cc;}
+        public final List getAttachedFile() {return attachedFile;}
+        public final void setAttachedFile(List attachedFile) {this.attachedFile = attachedFile;}
     }
 
     /**
@@ -223,3 +258,4 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
     }
 
 }
+

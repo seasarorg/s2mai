@@ -15,10 +15,15 @@
  */
 package org.seasar.mai.property.impl;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
 import org.seasar.framework.beans.BeanDesc;
 import org.seasar.framework.beans.PropertyDesc;
 import org.seasar.framework.beans.factory.BeanDescFactory;
+import org.seasar.framework.util.MethodUtil;
 import org.seasar.mai.S2MaiConstants;
+import org.seasar.mai.mail.AttachedFile;
 import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.property.PropertyWriterForBean;
 import org.seasar.mai.property.mail.MailPropertyWriter;
@@ -45,6 +50,29 @@ public class PropertyWriterForBeanImpl implements PropertyWriterForBean, S2MaiCo
         for (int i = 0; i < MAIL_PROPERTIES.length; i++) {
             setMailProperty(mail, bean, desc, i);
         }
+        
+        for(int i=0; i < desc.getPropertyDescSize(); i ++){
+            PropertyDesc pd = desc.getPropertyDesc(i);            
+            Class clazz = pd.getPropertyType();
+            
+            if(clazz == List.class){
+                Method method = pd.getReadMethod();
+                clazz = MethodUtil.getElementTypeOfListFromReturnType(method);                
+            }            
+            
+            if(clazz == AttachedFile.class || clazz == AttachedFile[].class || ATTACHED_FILE.equals(pd.getPropertyName()) ){
+                Object value = pd.getValue(bean);
+                if (value != null) {
+                    MailPropertyWriter propWriter = mailPropertyWriterFactory.getMailPropertyWriter(ATTACHED_FILE);
+                    if(!mail.isFileAttached()){
+                        propWriter.init(mail);
+                    }
+                    propWriter.setProperty(mail, value);
+                }                
+            }
+            
+        }
+        
     }
 
     private void setMailProperty(Mail mail, Object bean, BeanDesc desc, int index) {

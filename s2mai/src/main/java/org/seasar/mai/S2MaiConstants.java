@@ -41,7 +41,7 @@ public interface S2MaiConstants {
     
     String ATTACHED_FILE = "attachedFile";
     
-    String[] MAIL_PROPERTIES = new String[]{FROM, TO, CC, BCC, REPLY_TO, SUBJECT, RETURN_PATH, ATTACHED_FILE};
+    String[] MAIL_PROPERTIES = new String[]{FROM, TO, CC, BCC, REPLY_TO, SUBJECT, RETURN_PATH};
     
     String HOST = "host";
     
