@@ -16,12 +16,9 @@
 package org.seasar.mai.interceptors;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.seasar.framework.aop.interceptors.AbstractInterceptor;
-import org.seasar.framework.container.S2Container;
 import org.seasar.framework.log.Logger;
 import org.seasar.framework.util.MethodUtil;
 import org.seasar.mai.S2MaiConstants;
@@ -31,7 +28,8 @@ import org.seasar.mai.mail.impl.MailExceptionHandlerImpl;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.meta.MaiMetaDataFactory;
 import org.seasar.mai.property.PropertyWriterForBean;
-import org.seasar.mai.util.FreeMarkerUtil;
+import org.seasar.mai.template.ContextHelper;
+import org.seasar.mai.template.TemplateProcessor;
 
 import com.ozacc.mail.Mail;
 import com.ozacc.mail.MailException;
@@ -46,13 +44,15 @@ public class S2MaiInterceptor extends AbstractInterceptor {
 
     private MaiMetaDataFactory maiMetaDataFactory;
 
-    private S2Container container;
-
     private SendMail sendMail;
 
     private MailExceptionHandler mailExceptionHandler = new MailExceptionHandlerImpl();
-    
+
     private PropertyWriterForBean propertyWriter;
+
+    private ContextHelper contextHelper;
+
+    private TemplateProcessor templateProcessor;
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
@@ -65,8 +65,8 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         init();
         MaiMetaData metaData = maiMetaDataFactory.getMaiMetaData(getTargetClass(invocation));
         Object bean = getBean(invocation);
-        Object data = getData(bean);
-        Mail mail = createMail(method, data, metaData);
+        Object context = contextHelper.createContext(bean);
+        Mail mail = createMail(method, context, metaData);
         propertyWriter.setMailProperty(mail, bean);        
         SendMail sendMail = (SendMail) this.sendMail.clone();
         propertyWriter.setServerProperty(sendMail, bean);
@@ -90,19 +90,6 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         return arguments[0];
     }
 
-    private Object getData(Object arg) {
-        if(arg == null){
-            return null;
-        }
-        
-        if (arg instanceof Map) {
-            return arg;
-        }
-        Map map = new HashMap();
-        map.put(S2MaiConstants.DATA_NAME, arg);
-        return map;
-    }
-
     private void send(Mail mail, SendMail sendMail) {
         logger.debug("send mail...");
         logger.debug(mail);
@@ -114,10 +101,10 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         logger.debug("success send mail.");
     }
 
-    private Mail createMail(Method method, Object data, MaiMetaData metaData) {
+    private Mail createMail(Method method, Object context, MaiMetaData metaData) {
         Mail mail = metaData.getMail(method);
         String path = metaData.getTemplatePath(method);
-        String text = FreeMarkerUtil.processResource(path, data);
+        String text = templateProcessor.processResource(path, context);
         String subject = getSubject(text);
         text = getText(text);
         if(subject != null){
@@ -128,8 +115,7 @@ public class S2MaiInterceptor extends AbstractInterceptor {
     }
 
     private void init() {
-        String enc = (String) container.getComponent(S2MaiConstants.TEMPLATE_ENCODING);
-        FreeMarkerUtil.setDefaultEncoding(enc);
+        templateProcessor.init();
     }
 
     private String getText(String text) {
@@ -154,10 +140,6 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         this.sendMail = sendMail;
     }
 
-    public void setContainer(S2Container container) {
-        this.container = container;
-    }
-
     public void setMailExceptionHandler(MailExceptionHandler mailExceptionHandler) {
         this.mailExceptionHandler = mailExceptionHandler;
     }
@@ -167,6 +149,14 @@ public class S2MaiInterceptor extends AbstractInterceptor {
      */
     public void setPropertyWriter(PropertyWriterForBean propertyWriter) {
         this.propertyWriter = propertyWriter;
+    }
+
+    public void setContextHelper(ContextHelper contextHelper) {
+        this.contextHelper = contextHelper;
+    }
+
+    public void setTemplateProcessor(TemplateProcessor templateProcessor) {
+        this.templateProcessor = templateProcessor;
     }
 
 }

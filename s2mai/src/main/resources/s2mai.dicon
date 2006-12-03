@@ -37,4 +37,7 @@
 		<property name="readTimeout">readTimeout</property>
 		<property name="charset">mailCharset</property>
 	</component>
+	
+	<component class="org.seasar.mai.template.impl.FreeMarkerProcessor"/>
+	<component class="org.seasar.mai.template.impl.FreeMarkerContextHelperImpl"/>
 </components>

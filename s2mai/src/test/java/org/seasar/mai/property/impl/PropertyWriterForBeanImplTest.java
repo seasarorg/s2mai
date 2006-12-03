@@ -15,7 +15,6 @@
  */
 package org.seasar.mai.property.impl;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
