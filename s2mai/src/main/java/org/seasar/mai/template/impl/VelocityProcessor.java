@@ -20,6 +20,7 @@ import org.seasar.mai.template.TemplateProcessor;
 /**
  */
 public class VelocityProcessor implements TemplateProcessor {
+ 
     public void init() {
         // TODO
     }
