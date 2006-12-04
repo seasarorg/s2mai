@@ -23,6 +23,7 @@ import javax.mail.internet.InternetAddress;
 import org.seasar.extension.unit.S2TestCase;
 import org.seasar.mai.mail.AttachedFile;
 import org.seasar.mai.mail.MailAddress;
+import org.seasar.mai.unit.SendMailTestUtil;
 
 /**
  * @author Satsohi Kimura
@@ -32,6 +33,7 @@ public class S2MaiInterceptorTest extends S2TestCase {
 
     protected void setUp() throws Exception {
         include("test.dicon");
+        SendMailTestUtil.init();
     }
 
     /*
@@ -46,6 +48,8 @@ public class S2MaiInterceptorTest extends S2TestCase {
         data.setNo(12345);
         testMai.sendMail(data);
         
+        // TODO assert
+        // assertEquals(expected.toString(), SendMailTestUtil.getMail(0).toString());
     }
     
     public void testInvokeWithDynamicProperty() throws UnsupportedEncodingException{
@@ -67,6 +71,8 @@ public class S2MaiInterceptorTest extends S2TestCase {
         data.setAttachedFile(af);
         testMai.sendMail(data);
         
+        // TODO assert
+        // assertEquals(expected.toString(), SendMailTestUtil.getMail(0).toString());
     }
 
 }

@@ -15,6 +15,7 @@
  */
 package org.seasar.mai.mail.impl;
 
+import org.seasar.framework.container.S2Container;
 import org.seasar.mai.mail.SendMail;
 
 /**
@@ -30,6 +31,8 @@ public class SendMailImpl extends com.ozacc.mail.impl.SendMailImpl implements Se
     private String messageId;
 
     private int readTimeout = DEFAULT_READ_TIMEOUT;
+    
+    private S2Container container;
 
     public SendMailImpl() {
         super();
@@ -40,20 +43,26 @@ public class SendMailImpl extends com.ozacc.mail.impl.SendMailImpl implements Se
     }
 
     public SendMailImpl(SendMailImpl sendMail) {
-        setHost(sendMail.getHost());
-        setPort(sendMail.getPort());
-        setProtocol(sendMail.getProtocol());
-        setUsername(sendMail.getUsername());
-        setPassword(sendMail.getPassword());
-        setReturnPath(sendMail.getReturnPath());
-        setCharset(sendMail.getCharset());
-        setConnectionTimeout(sendMail.getConnectionTimeout());
-        setMessageId(sendMail.getMessageId());
-        setReadTimeout(sendMail.getReadTimeout());
+        copyProperties(this, sendMail);
+    }
+
+    private void copyProperties(SendMailImpl src, SendMail dest) {
+        dest.setHost(src.getHost());
+        dest.setPort(src.getPort());
+        dest.setProtocol(src.getProtocol());
+        dest.setUsername(src.getUsername());
+        dest.setPassword(src.getPassword());
+        dest.setReturnPath(src.getReturnPath());
+        dest.setCharset(src.getCharset());
+        dest.setConnectionTimeout(src.getConnectionTimeout());
+        dest.setMessageId(src.getMessageId());
+        dest.setReadTimeout(src.getReadTimeout());
     }
 
     public Object clone() {
-        return new SendMailImpl(this);
+        SendMail sendMail = (SendMail) container.getComponent(SendMail.class);
+        copyProperties(this, sendMail);
+        return sendMail;
     }
 
     public int getConnectionTimeout() {
@@ -81,6 +90,10 @@ public class SendMailImpl extends com.ozacc.mail.impl.SendMailImpl implements Se
     public void setReadTimeout(int readTimeout) {
         super.setReadTimeout(readTimeout);
         this.readTimeout = readTimeout;
+    }
+
+    public void setContainer(S2Container container) {
+        this.container = container;
     }
 
 }
