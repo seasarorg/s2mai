@@ -27,7 +27,7 @@ import org.seasar.mai.template.ContextHelper;
 /**
  * @author Satsohi Kimura
  */
-public class VelocityContexttHelperImpl implements ContextHelper {
+public class VelocityContextHelperImpl implements ContextHelper {
 
     public Object createContext(Object data) {
         if (data == null) {

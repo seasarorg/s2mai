@@ -15,23 +15,52 @@
  */
 package org.seasar.mai.template.impl;
 
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Properties;
+
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.context.Context;
+import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.template.TemplateProcessor;
 
 /**
  */
 public class VelocityProcessor implements TemplateProcessor {
- 
+
+    private VelocityEngine engine;
+
     public void init() {
-        // TODO
+        System.out.println("init");
+        this.engine = new VelocityEngine();
+        Properties properties = new Properties();
+        properties.setProperty("resource.loader", "class");
+        properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        properties.setProperty("input.encoding", "UTF8");
+        try {
+            this.engine.init(properties);
+        } catch(Exception e) {
+            System.out.println(e);            
+        }
     }
 
     public String process(String templateText, Object context) {
-        // TODO
+        System.out.println("process");
         return null;
     }
 
     public String processResource(String path, Object context) {
-        // TODO
-        return null;
+        String pathWithExt = path + "." + S2MaiConstants.VELOCITY_EXT;
+        Writer writer = new StringWriter();
+ 
+        try {
+            System.out.println(this.engine.mergeTemplate(pathWithExt, (Context)context, writer));
+        } catch(Exception e) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return writer.toString();
+
     }
+
 }

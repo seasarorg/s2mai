@@ -92,7 +92,9 @@ public class MaiMetaDataImpl implements MaiMetaData {
             return path;
         }
         Class maiClass = method.getDeclaringClass();
-        path = maiClass.getName().replaceAll("\\.", "/") + "_" + method.getName() + "." + S2MaiConstants.FREEMARKER_EXT; // TODO TemplateProcessorから拡張子を取得する
+
+        //拡張子はTemplateProcessorで付与する
+        path = maiClass.getName().replaceAll("\\.", "/") + "_" + method.getName();
 
         templatePaths.put(method, path);
 
