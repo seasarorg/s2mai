@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
+import org.seasar.framework.log.Logger;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.template.TemplateProcessor;
 
@@ -28,39 +29,54 @@ import org.seasar.mai.template.TemplateProcessor;
  */
 public class VelocityProcessor implements TemplateProcessor {
 
+    private static Logger logger = Logger.getLogger(VelocityProcessor.class);
     private VelocityEngine engine;
 
     public void init() {
-        System.out.println("init");
+        logger.log("DMAI0001", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
+
+        // VelocityEngineの設定
         this.engine = new VelocityEngine();
         Properties properties = new Properties();
         properties.setProperty("resource.loader", "class");
         properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         properties.setProperty("input.encoding", "UTF8");
+
+        // VelocityEngineの初期化
         try {
             this.engine.init(properties);
         } catch(Exception e) {
-            System.out.println(e);            
+            logger.log("EMAI0001", new Object[] { this.engine.getClass().getName()});                          
+            e.printStackTrace();
         }
+
+        logger.log("DMAI0002", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
     }
 
     public String process(String templateText, Object context) {
-        System.out.println("process");
+        logger.log("DMAI0001", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
+
+        //TODO どうやるんだろう？
+
+        logger.log("DMAI0002", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
         return null;
     }
 
     public String processResource(String path, Object context) {
+        logger.log("DMAI0001", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
+
         String pathWithExt = path + "." + S2MaiConstants.VELOCITY_EXT;
         Writer writer = new StringWriter();
  
         try {
-            System.out.println(this.engine.mergeTemplate(pathWithExt, (Context)context, writer));
+            this.engine.mergeTemplate(pathWithExt, (Context)context, writer);
         } catch(Exception e) {
-            System.out.println(e);
+            logger.log("EMAI0002", new Object[] {pathWithExt});                          
             e.printStackTrace();
         }
-        return writer.toString();
 
+        logger.log("DMAI0002", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
+        return writer.toString();
     }
 
 }
