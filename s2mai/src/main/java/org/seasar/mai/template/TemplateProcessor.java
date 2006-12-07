@@ -24,4 +24,6 @@ public interface TemplateProcessor {
     String processResource(String path, Object context);
 
     String process(String templateText, Object context);
+    
+    String getExt();
 }

@@ -23,6 +23,7 @@ import org.seasar.framework.util.DisposableUtil;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.meta.MaiMetaDataFactory;
 import org.seasar.mai.property.PropertyWriterForAnnotation;
+import org.seasar.mai.template.TemplateProcessor;
 
 /**
  * @author Satoshi Kimura
@@ -30,6 +31,7 @@ import org.seasar.mai.property.PropertyWriterForAnnotation;
  */
 public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
     private PropertyWriterForAnnotation propertyWriterForAnnotation;    
+    private TemplateProcessor templateProcessor;
 
     private Map maiMetaDataCache = new HashMap();
 
@@ -46,7 +48,7 @@ public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
             return (MaiMetaData) maiMetaDataCache.get(maiClass);
         }
         
-        MaiMetaData metaData = new MaiMetaDataImpl(maiClass, propertyWriterForAnnotation);
+        MaiMetaData metaData = new MaiMetaDataImpl(maiClass, propertyWriterForAnnotation, templateProcessor.getExt());
         maiMetaDataCache.put(maiClass, metaData);
         return metaData;
     }
@@ -63,4 +65,8 @@ public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
         maiMetaDataCache.clear();
     }
 
+
+    public void setTemplateProcessor(TemplateProcessor templateProcessor) {
+        this.templateProcessor = templateProcessor;
+    }
 }

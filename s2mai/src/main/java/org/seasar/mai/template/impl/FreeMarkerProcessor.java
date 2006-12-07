@@ -36,12 +36,15 @@ public class FreeMarkerProcessor implements TemplateProcessor {
     }
 
     public String processResource(String path, Object context) {
-        String pathWithExt = path + "." + S2MaiConstants.FREEMARKER_EXT;
-        return FreeMarkerUtil.processResource(pathWithExt, context);
+        return FreeMarkerUtil.processResource(path, context);
     }
 
     public void setContainer(S2Container container) {
         this.container = container;
+    }
+
+    public String getExt() {
+        return S2MaiConstants.FREEMARKER_EXT;
     }
 
 }

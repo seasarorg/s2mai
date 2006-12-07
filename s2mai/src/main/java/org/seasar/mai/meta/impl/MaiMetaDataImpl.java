@@ -21,10 +21,9 @@ import java.util.Map;
 
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.container.factory.S2ContainerFactory;
+import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.framework.util.Disposable;
 import org.seasar.framework.util.DisposableUtil;
-import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
-import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.property.PropertyWriterForAnnotation;
 
@@ -38,6 +37,8 @@ public class MaiMetaDataImpl implements MaiMetaData {
 
     private Map templatePaths = new HashMap();
 
+    private String ext;
+    
     {
         DisposableUtil.add(new Disposable() {
             public void dispose() {
@@ -46,7 +47,8 @@ public class MaiMetaDataImpl implements MaiMetaData {
         });
     }
 
-    public MaiMetaDataImpl(Class maiClass, PropertyWriterForAnnotation propertyWriterForAnnotation) {
+    public MaiMetaDataImpl(Class maiClass, PropertyWriterForAnnotation propertyWriterForAnnotation, String ext) {
+        this.ext = ext;
         Mail classMail = null;
         try {
             String path = maiClass.getName().replaceAll("\\.", "/") + ".dicon";
@@ -93,8 +95,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
         }
         Class maiClass = method.getDeclaringClass();
 
-        //拡張子はTemplateProcessorで付与する
-        path = maiClass.getName().replaceAll("\\.", "/") + "_" + method.getName();
+        path = maiClass.getName().replaceAll("\\.", "/") + "_" + method.getName() + "." + ext;
 
         templatePaths.put(method, path);
 
