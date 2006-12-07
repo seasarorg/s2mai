@@ -21,6 +21,11 @@ import java.util.Properties;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.seasar.framework.exception.ParseRuntimeException;
+import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.framework.log.Logger;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.template.TemplateProcessor;
@@ -41,13 +46,12 @@ public class VelocityProcessor implements TemplateProcessor {
         properties.setProperty("resource.loader", "class");
         properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         properties.setProperty("input.encoding", "UTF8");
-
+        
         // VelocityEngineの初期化
         try {
             this.engine.init(properties);
         } catch(Exception e) {
-            logger.log("EMAI0001", new Object[] { this.engine.getClass().getName()});                          
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         logger.log("DMAI0002", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
@@ -68,11 +72,17 @@ public class VelocityProcessor implements TemplateProcessor {
         String pathWithExt = path + "." + S2MaiConstants.VELOCITY_EXT;
         Writer writer = new StringWriter();
  
+        // テンプレートとコンテキストのマージ
         try {
             this.engine.mergeTemplate(pathWithExt, (Context)context, writer);
-        } catch(Exception e) {
-            logger.log("EMAI0002", new Object[] {pathWithExt});                          
-            e.printStackTrace();
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundRuntimeException(pathWithExt);
+        } catch (ParseErrorException e) {
+            throw new RuntimeException(e);
+        } catch (MethodInvocationException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         logger.log("DMAI0002", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
