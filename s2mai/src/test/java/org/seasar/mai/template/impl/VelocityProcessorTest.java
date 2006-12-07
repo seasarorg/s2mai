@@ -36,8 +36,8 @@ public class VelocityProcessorTest extends TestCase {
     public void testProcess() {
         Map context = new HashMap();
         context.put("name", "foo");
-        String reslut = processor.process("$name", helper.createContext(context));
-        assertEquals("foo", reslut);
+        String result = processor.process("$name", helper.createContext(context));
+        assertEquals("foo", result);
     }
 
     public void testProcessResource() {
