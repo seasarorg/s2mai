@@ -15,6 +15,7 @@
  */
 package org.seasar.mai.template.impl;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Properties;
@@ -24,7 +25,7 @@ import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.seasar.framework.exception.ParseRuntimeException;
+import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.framework.log.Logger;
 import org.seasar.mai.S2MaiConstants;
@@ -35,21 +36,23 @@ import org.seasar.mai.template.TemplateProcessor;
 public class VelocityProcessor implements TemplateProcessor {
 
     private static Logger logger = Logger.getLogger(VelocityProcessor.class);
+
+    private String configFile;
+
     private VelocityEngine engine;
 
     public void init() {
         logger.log("DMAI0001", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
 
-        // VelocityEngineの設定
         this.engine = new VelocityEngine();
         Properties properties = new Properties();
-        properties.setProperty("resource.loader", "class");
-        properties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        properties.setProperty("input.encoding", "UTF8");
-        
+
         // VelocityEngineの初期化
         try {
+            properties.load(this.getClass().getClassLoader().getResourceAsStream(this.configFile));
             this.engine.init(properties);
+        } catch(IOException e) {
+            throw new IORuntimeException(e);
         } catch(Exception e) {
             throw new RuntimeException(e);
         }
@@ -87,6 +90,10 @@ public class VelocityProcessor implements TemplateProcessor {
 
         logger.log("DMAI0002", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
         return writer.toString();
+    }
+
+    public void setConfigFile(String configFile) {
+        this.configFile = configFile;
     }
 
 }

@@ -40,12 +40,16 @@
 		<property name="charset">mailCharset</property>
 	</component>
 	
+	<!--
 	<component class="org.seasar.mai.template.impl.FreeMarkerProcessor"/>
 	<component class="org.seasar.mai.template.impl.FreeMarkerContextHelperImpl"/>
-	
-	<!--
-	<component class="org.seasar.mai.template.impl.VelocityProcessor"/>
-	<component class="org.seasar.mai.template.impl.VelocityContextHelperImpl"/>
 	-->
+
+	
+	<component class="org.seasar.mai.template.impl.VelocityProcessor">
+		<property name="configFile">"velocity.properties"</property>
+	</component>
+
+	<component class="org.seasar.mai.template.impl.VelocityContextHelperImpl"/>
 	
 </components>
