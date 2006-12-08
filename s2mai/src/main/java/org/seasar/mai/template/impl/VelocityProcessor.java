@@ -49,22 +49,28 @@ public class VelocityProcessor implements TemplateProcessor {
     public void init() {
         logger.log("DMAI0001", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
 
+        RuntimeServices runtimeServices = RuntimeSingleton.getRuntimeServices();
         this.engine = new VelocityEngine();
-        Properties properties = new Properties();
 
         // VelocityEngineの初期化
         try {
-            properties.load(this.getClass().getClassLoader().getResourceAsStream(this.configFile));
-            this.engine.init(properties);
-            RuntimeServices runtimeServices = RuntimeSingleton.getRuntimeServices();
-            runtimeServices.init();
-        } catch(IOException e) {
-            throw new IORuntimeException(e);
-        } catch(Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
 
+            if(this.configFile != null) {
+                Properties properties = new Properties();
+                properties.load(this.getClass().getClassLoader().getResourceAsStream(this.configFile));
+                this.engine.init(properties);
+                runtimeServices.init(properties);
+            } else {
+                this.engine.init();
+                runtimeServices.init();                
+            }
+
+        } catch(IOException e) {
+             throw new IORuntimeException(e);
+         } catch(Exception e) {
+             throw new RuntimeException(e);
+         }
+        
         logger.log("DMAI0002", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
     }
 
@@ -85,16 +91,12 @@ public class VelocityProcessor implements TemplateProcessor {
                     + new Throwable().getStackTrace()[0].getMethodName() });
             return writer.toString();
         } catch (ResourceNotFoundException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException(e);
         } catch (ParseErrorException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException(e);
         } catch (MethodInvocationException e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException(e);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             throw new RuntimeException(e);
         }
     }
