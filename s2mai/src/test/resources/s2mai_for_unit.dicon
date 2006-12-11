@@ -3,6 +3,8 @@
 	"http://www.seasar.org/dtd/components23.dtd">
 <components namespace="s2mai" >
 	<include path="mailProperties.dicon"/>
+	<include path="mailTemplate.dicon"/>
+	
 	<component name="s2MaiInterceptor" class="org.seasar.mai.interceptors.S2MaiInterceptor"/>
 	<component name="mailInterceptor" class="org.seasar.mai.unit.SendMailInterceptor"/>
 	<component class="org.seasar.mai.meta.impl.MaiMetaDataFactoryImpl"/>
@@ -39,18 +41,6 @@
 		<property name="connectionTimeout">connectionTimeout</property>
 		<property name="readTimeout">readTimeout</property>
 		<property name="charset">mailCharset</property>
-	</component>
-	
-	<!--
-	<component class="org.seasar.mai.template.impl.FreeMarkerProcessor"/>
-	<component class="org.seasar.mai.template.impl.FreeMarkerContextHelperImpl"/>
-	-->
-
-	
-	<component class="org.seasar.mai.template.impl.VelocityProcessor">
-		<property name="configFile">"velocity.properties"</property>
-	</component>
-
-	<component class="org.seasar.mai.template.impl.VelocityContextHelperImpl"/>
+	</component>	
 	
 </components>

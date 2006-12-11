@@ -3,6 +3,8 @@
 	"http://www.seasar.org/dtd/components23.dtd">
 <components namespace="s2mai" >
 	<include path="mailProperties.dicon"/>
+	<include path="mailTemplate.dicon"/>
+	
 	<component name="s2MaiInterceptor" class="org.seasar.mai.interceptors.S2MaiInterceptor"/>
 	<component class="org.seasar.mai.meta.impl.MaiMetaDataFactoryImpl"/>
 	<component class="org.seasar.mai.annotation.impl.AnnotationReaderFactoryImpl"/>
@@ -39,6 +41,4 @@
 		<property name="charset">mailCharset</property>
 	</component>
 	
-	<component class="org.seasar.mai.template.impl.FreeMarkerProcessor"/>
-	<component class="org.seasar.mai.template.impl.FreeMarkerContextHelperImpl"/>
 </components>
