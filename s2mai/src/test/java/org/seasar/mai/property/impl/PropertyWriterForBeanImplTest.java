@@ -51,6 +51,7 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         testDto.setPort("1234");
         testDto.setUsername("tesetuser");
         testDto.setPassword("testpw");
+        testDto.setMessageId("messageIdTest@example.com");
         
         propertyWriterImpl.setServerProperty(sendMail,testDto);
         
@@ -58,6 +59,7 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("port", Integer.parseInt(testDto.getPort()),sendMail.getPort());
         assertEquals("username", testDto.getUsername(), sendMail.getUsername());
         assertEquals("password", testDto.getPassword(), sendMail.getPassword());
+        assertEquals("messageId", testDto.getMessageId(), sendMail.getMessageId());
     }
     
     public void testSetMailProperty() throws UnsupportedEncodingException, MalformedURLException{
@@ -177,6 +179,7 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         private String port;
         private String username;
         private String password;
+        private String messageId;
         private String subject;
         private String from;
         private List to;
@@ -212,6 +215,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         public final void setDummy(String dummy) {this.dummy = dummy;}
         public final AttachedFile getAttachedFile() {return attachedFile;}
         public final void setAttachedFile(AttachedFile attachedFile) {this.attachedFile = attachedFile;}
+        public final String getMessageId() {return messageId;}
+        public final void setMessageId(String messageId) {this.messageId = messageId;}
         
     }
     

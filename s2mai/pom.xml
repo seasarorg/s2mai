@@ -116,6 +116,12 @@
       <version>1.4</version>
       <type>jar</type>
     </dependency>    
+    <dependency>
+      <groupId>velocity</groupId>
+      <artifactId>velocity</artifactId>
+      <version>1.4</version>
+      <type>jar</type>
+    </dependency>        
   </dependencies>
   <distributionManagement>
     <repository>
