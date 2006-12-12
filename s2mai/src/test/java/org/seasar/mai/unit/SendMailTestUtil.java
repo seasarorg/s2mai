@@ -15,8 +15,14 @@
  */
 package org.seasar.mai.unit;
 
+import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.seasar.framework.util.InputStreamReaderUtil;
+import org.seasar.framework.util.ReaderUtil;
+import org.seasar.framework.util.ResourceUtil;
 
 import com.ozacc.mail.Mail;
 
@@ -40,5 +46,12 @@ public class SendMailTestUtil {
 
     public static final void clear() {
         mailList.clear();
+    }
+    
+    public static final String getTextFromFile(Class testClass, String fileName, String encoding){
+        InputStream is = ResourceUtil.getResourceAsStream(
+                testClass.getPackage().getName().replaceAll("\\.", "/") +"/" + fileName);
+        Reader reader = InputStreamReaderUtil.create(is,encoding);//TODO encodingをdiconから取得したい
+        return ReaderUtil.readText(reader);
     }
 }

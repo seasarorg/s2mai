@@ -54,20 +54,10 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
         expected.addTo("rokugen");
         expected.addCc("kimura");
         expected.setSubject("件名置き換えテスト");
-        StringBuffer text = new StringBuffer();
-        text.append("                  ==================================== ").append("\r\n");
-        text.append("                       Tech Info Library - Japan ").append("\r\n");
-        text.append("                         2,006年11月22日 No.12,345 ").append("\r\n");
-        text.append("                  ==================================== ").append("\r\n");
-        text.append("").append("\r\n");
-        text.append("【本日の内容】").append("\r\n");
-        text.append("  1.本日のトピック").append("\r\n");
-        text.append("  2.お知らせ").append("\r\n");
-        text.append("    - サポートページの更新情報").append("\r\n");
-        text.append("  3.今週のサポート情報一覧").append("\r\n");
-        text.append("  4.Advanced Search（サポート情報検索）サイトについて").append("\r\n");
-        text.append("  5.ソフトウェアアップデート情報").append("\r\n");
-        expected.setText(text.toString());
+        
+        String text = SendMailTestUtil.getTextFromFile(this.getClass(), "AnnotationTestMai_expectedText.txt","UTF-8");
+        
+        expected.setText(text);
         assertEquals(expected.toString(), SendMailTestUtil.getMail(0).toString());
         
         expected.setReturnPath(new InternetAddress("kimura"));
@@ -80,8 +70,21 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
         expected.addBcc("rokugen");
         expected.setSubject("アノテーションテスト-diconなしアノテーションあり - No.12,345");
         assertEquals(expected.toString(), SendMailTestUtil.getMail(1).toString());
-        // TODO assert
-        // assertEquals(expected.toString(), SendMailTestUtil.getMail(2).toString());
+        
+        expected.setReturnPath(new InternetAddress());
+        expected.setFrom("takeuchi");
+        expected.clearTo();
+        expected.addTo("kei");
+        expected.addTo("rokugen");
+        expected.clearCc();
+        expected.addCc("takeuchi");
+        expected.clearBcc();
+        expected.addBcc("kei");
+        expected.addBcc("rokugen");
+        expected.setReplyTo("rokugen");
+        expected.setSubject("アノテーションテスト-methoddicon - No.12,345");
+        
+        assertEquals(expected.toString(), SendMailTestUtil.getMail(2).toString());
     }
     
 
