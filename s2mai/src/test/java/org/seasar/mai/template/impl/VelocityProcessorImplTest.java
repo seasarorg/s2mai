@@ -23,8 +23,8 @@ import junit.framework.TestCase;
 /**
  * @author Satsohi Kimura
  */
-public class VelocityProcessorTest extends TestCase {
-    private VelocityProcessor processor = new VelocityProcessor();
+public class VelocityProcessorImplTest extends TestCase {
+    private VelocityProcessorImpl processor = new VelocityProcessorImpl();
 
     private VelocityContextHelperImpl helper = new VelocityContextHelperImpl();
 

@@ -38,9 +38,9 @@ import org.seasar.mai.template.TemplateProcessor;
 
 /**
  */
-public class VelocityProcessor implements TemplateProcessor {
+public class VelocityProcessorImpl implements TemplateProcessor {
 
-    private static Logger logger = Logger.getLogger(VelocityProcessor.class);
+    private static Logger logger = Logger.getLogger(VelocityProcessorImpl.class);
 
     private String configFile;
 
