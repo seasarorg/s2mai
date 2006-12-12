@@ -63,7 +63,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
             Mail mail = getMail(maiClass, classMail, method);
 
             mails.put(method, mail);
-
+            this.setPropertiesFromMailPropertiesDicon(mail);
             propertyWriterForAnnotation.setMailProperty(mail, method);
 
         }
@@ -82,6 +82,19 @@ public class MaiMetaDataImpl implements MaiMetaData {
             mail = new Mail();
         }
         return mail;
+    }
+    
+    private void setPropertiesFromMailPropertiesDicon(Mail mail){
+        S2Container container = S2ContainerFactory.create("mailProperties.dicon");
+        String from = (String)container.getComponent("from");
+        if(from != null && mail.getFrom() == null){
+            mail.setFrom(from);
+        }
+        String replyTo = (String)container.getComponent("replyTo");
+        if(replyTo != null && mail.getReplyTo() == null){
+            mail.setReplyTo(replyTo);
+        }
+        
     }
 
     public Mail getMail(Method method) {
