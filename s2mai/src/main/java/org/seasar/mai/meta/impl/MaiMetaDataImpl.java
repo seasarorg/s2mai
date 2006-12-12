@@ -24,6 +24,7 @@ import org.seasar.framework.container.factory.S2ContainerFactory;
 import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.framework.util.Disposable;
 import org.seasar.framework.util.DisposableUtil;
+import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.property.PropertyWriterForAnnotation;
 
@@ -85,7 +86,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
     }
     
     private void setPropertiesFromMailPropertiesDicon(Mail mail){
-        S2Container container = S2ContainerFactory.create("mailProperties.dicon");
+        S2Container container = S2ContainerFactory.create(S2MaiConstants.MAIL_PROPERTIES_DICON);
         String from = (String)container.getComponent("from");
         if(from != null && mail.getFrom() == null){
             mail.setFrom(from);

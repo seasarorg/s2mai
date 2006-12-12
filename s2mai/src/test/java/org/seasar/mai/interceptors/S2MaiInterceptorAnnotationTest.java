@@ -55,7 +55,7 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
         expected.addCc("kimura");
         expected.setSubject("件名置き換えテスト");
         
-        String text = SendMailTestUtil.getTextFromFile(this.getClass(), "AnnotationTestMai_expectedText.txt","UTF-8");
+        String text = SendMailTestUtil.getTextFromFile(this.getClass(), "AnnotationTestMai_expectedText.txt");
         
         expected.setText(text);
         assertEquals(expected.toString(), SendMailTestUtil.getMail(0).toString());

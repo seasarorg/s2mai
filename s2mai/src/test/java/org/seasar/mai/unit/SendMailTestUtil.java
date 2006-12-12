@@ -20,9 +20,12 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.seasar.framework.container.S2Container;
+import org.seasar.framework.container.factory.S2ContainerFactory;
 import org.seasar.framework.util.InputStreamReaderUtil;
 import org.seasar.framework.util.ReaderUtil;
 import org.seasar.framework.util.ResourceUtil;
+import org.seasar.mai.S2MaiConstants;
 
 import com.ozacc.mail.Mail;
 
@@ -48,10 +51,12 @@ public class SendMailTestUtil {
         mailList.clear();
     }
     
-    public static final String getTextFromFile(Class testClass, String fileName, String encoding){
+    public static final String getTextFromFile(Class testClass, String fileName){
+        S2Container container = S2ContainerFactory.create(S2MaiConstants.MAIL_PROPERTIES_DICON);
+        String encoding = (String)container.getComponent(S2MaiConstants.TEMPLATE_ENCODING);
         InputStream is = ResourceUtil.getResourceAsStream(
                 testClass.getPackage().getName().replaceAll("\\.", "/") +"/" + fileName);
-        Reader reader = InputStreamReaderUtil.create(is,encoding);//TODO encodingをdiconから取得したい
+        Reader reader = InputStreamReaderUtil.create(is,encoding);
         return ReaderUtil.readText(reader);
     }
 }

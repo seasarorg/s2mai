@@ -21,6 +21,8 @@ package org.seasar.mai;
 public interface S2MaiConstants {
     String FREEMARKER_EXT = "ftl";
     String VELOCITY_EXT = "vm";
+    
+    String MAIL_PROPERTIES_DICON = "mailProperties.dicon";
 
     String DATA_NAME = "data";
 
