@@ -15,10 +15,16 @@
  */
 package org.seasar.mai.interceptors;
 
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.lang.reflect.Method;
+import java.util.StringTokenizer;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.seasar.framework.aop.interceptors.AbstractInterceptor;
+import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.framework.util.MethodUtil;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.mail.SendMail;
@@ -117,14 +123,23 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         if (text.startsWith(S2MaiConstants.TEMPLATE_SUBJECT) == false) {
             return text;
         }
-        return text.substring(text.indexOf("\n") + "\r\n".length() + 1, text.length());
+
+        return text.replaceFirst(".*((\r\n\r\n)|(\n\n)|(\r\r))", "");
     }
 
     private String getSubject(String text) {
         if (text.startsWith(S2MaiConstants.TEMPLATE_SUBJECT) == false) {
             return null;
         }
-        return text.substring(S2MaiConstants.TEMPLATE_SUBJECT.length(), text.indexOf("\r"));
+        LineNumberReader reader = new LineNumberReader(new StringReader(text));
+        reader.setLineNumber(0);
+        String subjectLine = null;
+        try {
+            subjectLine = reader.readLine();
+        } catch (IOException e) {
+            throw new IORuntimeException(e);
+        }
+        return subjectLine.substring(S2MaiConstants.TEMPLATE_SUBJECT.length(), subjectLine.length());
     }
 
     public void setMaiMetaDataFactory(MaiMetaDataFactory maiMetaDataFactory) {
