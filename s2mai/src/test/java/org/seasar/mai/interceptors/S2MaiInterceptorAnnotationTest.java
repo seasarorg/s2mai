@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
      * Test method for 'org.seasar.mai.interceptors.S2MaiIntereceptor.invoke(MethodInvocation)'
      */
     public void testInvoke() throws Exception {
-        
+
         TestData data = new TestData();
         data.setDay(22);
         data.setMonth(11);
@@ -47,19 +47,19 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
         annotationTestMai.sendMail2(data);
         // methodのdiconあり
         annotationTestMai.sendMail3(data);
-        
+
         Mail expected = new Mail();
         expected.setFrom(new InternetAddress("takeuchi"));
         expected.addTo("kei");
         expected.addTo("rokugen");
         expected.addCc("kimura");
         expected.setSubject("件名置き換えテスト");
-        
+
         String text = SendMailTestUtil.getTextFromFile(this.getClass(), "AnnotationTestMai_expectedText.txt");
-        
+
         expected.setText(text);
         assertEquals(expected.toString(), SendMailTestUtil.getMail(0).toString());
-        
+
         expected.setReturnPath(new InternetAddress("kimura"));
         expected.setFrom("takeuchi");
         expected.clearTo();
@@ -70,7 +70,7 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
         expected.addBcc("rokugen");
         expected.setSubject("アノテーションテスト-diconなしアノテーションあり - No.12,345");
         assertEquals(expected.toString(), SendMailTestUtil.getMail(1).toString());
-        
+
         expected.setReturnPath(new InternetAddress());
         expected.setFrom("takeuchi");
         expected.clearTo();
@@ -83,13 +83,13 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
         expected.addBcc("rokugen");
         expected.setReplyTo("rokugen");
         expected.setSubject("アノテーションテスト-methoddicon - No.12,345");
-        
+
         assertEquals(expected.toString(), SendMailTestUtil.getMail(2).toString());
     }
-    
 
     /**
-     * @param annotationTestMai The annotationTestMai to set.
+     * @param annotationTestMai
+     *            The annotationTestMai to set.
      */
     public final void setAnnotationTestMai(AnnotationTestMai annotationTestMai) {
         this.annotationTestMai = annotationTestMai;

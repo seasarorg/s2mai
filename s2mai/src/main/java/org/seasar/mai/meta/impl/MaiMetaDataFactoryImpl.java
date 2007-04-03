@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,8 @@ import org.seasar.mai.template.TemplateProcessor;
  * 
  */
 public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
-    private PropertyWriterForAnnotation propertyWriterForAnnotation;    
+    private PropertyWriterForAnnotation propertyWriterForAnnotation;
+
     private TemplateProcessor templateProcessor;
 
     private Map maiMetaDataCache = new HashMap();
@@ -47,15 +48,15 @@ public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
         if (maiMetaDataCache.containsKey(maiClass)) {
             return (MaiMetaData) maiMetaDataCache.get(maiClass);
         }
-        
+
         MaiMetaData metaData = new MaiMetaDataImpl(maiClass, propertyWriterForAnnotation, templateProcessor.getExt());
         maiMetaDataCache.put(maiClass, metaData);
         return metaData;
     }
 
-
     /**
-     * @param propertyWriterForAnnotation The propertyWriterForAnnotation to set.
+     * @param propertyWriterForAnnotation
+     *            The propertyWriterForAnnotation to set.
      */
     public final void setPropertyWriterForAnnotation(PropertyWriterForAnnotation propertyWriterForAnnotation) {
         this.propertyWriterForAnnotation = propertyWriterForAnnotation;
@@ -64,7 +65,6 @@ public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
     public void clear() {
         maiMetaDataCache.clear();
     }
-
 
     public void setTemplateProcessor(TemplateProcessor templateProcessor) {
         this.templateProcessor = templateProcessor;

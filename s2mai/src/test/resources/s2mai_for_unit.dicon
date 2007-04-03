@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.3//EN"
 	"http://www.seasar.org/dtd/components23.dtd">
-<components namespace="s2mai" >
+<components namespace="s2mai">
+	<include path="jta.dicon"/>
 	<include path="mailProperties.dicon"/>
 	<include path="mailTemplate.dicon"/>
 	
 	<component name="s2MaiInterceptor" class="org.seasar.mai.interceptors.S2MaiInterceptor"/>
+	<component name="XAResourceSortInterceptor" class="org.seasar.mai.interceptors.XAResourceSortInterceptor"/>
 	<component name="mailInterceptor" class="org.seasar.mai.unit.SendMailInterceptor"/>
 	<component class="org.seasar.mai.meta.impl.MaiMetaDataFactoryImpl"/>
 	<component class="org.seasar.mai.annotation.impl.AnnotationReaderFactoryImpl"/>
@@ -43,4 +45,5 @@
 		<property name="charset">mailCharset</property>
 	</component>	
 	
+	<component class="org.seasar.mai.mail.impl.TransportImpl"/>
 </components>

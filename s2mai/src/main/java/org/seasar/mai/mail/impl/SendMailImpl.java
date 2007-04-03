@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ public class SendMailImpl extends com.ozacc.mail.impl.SendMailImpl implements Se
     private String messageId;
 
     private int readTimeout = DEFAULT_READ_TIMEOUT;
-    
+
     private S2Container container;
 
     public SendMailImpl() {

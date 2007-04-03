@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,10 @@ import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.seasar.framework.aop.interceptors.AbstractInterceptor;
-import org.seasar.framework.log.Logger;
 import org.seasar.framework.util.MethodUtil;
 import org.seasar.mai.S2MaiConstants;
-import org.seasar.mai.mail.MailExceptionHandler;
 import org.seasar.mai.mail.SendMail;
-import org.seasar.mai.mail.impl.MailExceptionHandlerImpl;
+import org.seasar.mai.mail.Transport;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.meta.MaiMetaDataFactory;
 import org.seasar.mai.property.PropertyWriterForBean;
@@ -32,7 +30,6 @@ import org.seasar.mai.template.ContextHelper;
 import org.seasar.mai.template.TemplateProcessor;
 
 import com.ozacc.mail.Mail;
-import com.ozacc.mail.MailException;
 
 /**
  * @author Satoshi Kimura
@@ -40,19 +37,19 @@ import com.ozacc.mail.MailException;
 public class S2MaiInterceptor extends AbstractInterceptor {
     private static final long serialVersionUID = -3003054499497347849L;
 
-    private Logger logger = Logger.getLogger(S2MaiInterceptor.class);
+    // private Logger logger = Logger.getLogger(S2MaiInterceptor.class);
 
     private MaiMetaDataFactory maiMetaDataFactory;
 
     private SendMail sendMail;
-
-    private MailExceptionHandler mailExceptionHandler = new MailExceptionHandlerImpl();
 
     private PropertyWriterForBean propertyWriter;
 
     private ContextHelper contextHelper;
 
     private TemplateProcessor templateProcessor;
+
+    private Transport transport;
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
@@ -62,16 +59,21 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         if (!MethodUtil.isAbstract(method)) {
             return invocation.proceed();
         }
+        sendMail(invocation);
+        return null;
+    }
+
+    private void sendMail(MethodInvocation invocation) {
+        Method method = invocation.getMethod();
         init();
         MaiMetaData metaData = maiMetaDataFactory.getMaiMetaData(getTargetClass(invocation));
         Object bean = getBean(invocation);
         Object context = contextHelper.createContext(bean);
         Mail mail = createMail(method, context, metaData);
-        propertyWriter.setMailProperty(mail, bean);        
-        SendMail sendMail = (SendMail) this.sendMail.clone();
-        propertyWriter.setServerProperty(sendMail, bean);
-        send(mail, sendMail);
-        return null;
+        propertyWriter.setMailProperty(mail, bean);
+        SendMail mailSender = (SendMail) sendMail.clone();
+        propertyWriter.setServerProperty(mailSender, bean);
+        send(mail, mailSender);
     }
 
     private boolean isGetSendMail(Method method) {
@@ -81,8 +83,8 @@ public class S2MaiInterceptor extends AbstractInterceptor {
             return false;
         }
     }
-    
-    private Object getBean(MethodInvocation invocation){
+
+    private Object getBean(MethodInvocation invocation) {
         Object[] arguments = invocation.getArguments();
         if (arguments == null || arguments.length == 0) {
             return null;
@@ -91,14 +93,7 @@ public class S2MaiInterceptor extends AbstractInterceptor {
     }
 
     private void send(Mail mail, SendMail sendMail) {
-        logger.debug("send mail...");
-        logger.debug(mail);
-        try {
-            sendMail.send(mail);
-        } catch (MailException e) {
-            mailExceptionHandler.handle(e);
-        }
-        logger.debug("success send mail.");
+        transport.send(mail, sendMail);
     }
 
     private Mail createMail(Method method, Object context, MaiMetaData metaData) {
@@ -107,7 +102,7 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         String text = templateProcessor.processResource(path, context);
         String subject = getSubject(text);
         text = getText(text);
-        if(subject != null){
+        if (subject != null) {
             mail.setSubject(subject);
         }
         mail.setText(text);
@@ -140,12 +135,9 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         this.sendMail = sendMail;
     }
 
-    public void setMailExceptionHandler(MailExceptionHandler mailExceptionHandler) {
-        this.mailExceptionHandler = mailExceptionHandler;
-    }
-
     /**
-     * @param propertyWriter The propertyWriter to set.
+     * @param propertyWriter
+     *            The propertyWriter to set.
      */
     public void setPropertyWriter(PropertyWriterForBean propertyWriter) {
         this.propertyWriter = propertyWriter;
@@ -157,6 +149,10 @@ public class S2MaiInterceptor extends AbstractInterceptor {
 
     public void setTemplateProcessor(TemplateProcessor templateProcessor) {
         this.templateProcessor = templateProcessor;
+    }
+
+    public void setTransport(Transport transport) {
+        this.transport = transport;
     }
 
 }

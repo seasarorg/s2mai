@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.velocity.VelocityContext;
-import org.seasar.framework.log.Logger;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.template.ContextHelper;
 
@@ -30,14 +29,14 @@ import org.seasar.mai.template.ContextHelper;
  */
 public class VelocityContextHelperImpl implements ContextHelper {
 
-    private static Logger logger = Logger.getLogger(VelocityContextHelperImplTest.class);
+    // private static Logger logger = Logger.getLogger(VelocityContextHelperImplTest.class);
 
     private VelocityContext context = new VelocityContext();
-    
+
     public void addTool(String name, Object obj) {
         this.context.put(name, obj);
     }
-    
+
     public Object createContext(Object data) {
         if (data == null) {
             return null;
@@ -52,7 +51,7 @@ public class VelocityContextHelperImpl implements ContextHelper {
 
     private Map toMap(Object data) {
         if (data instanceof Map) {
-            return (Map)data;
+            return (Map) data;
         }
         Map map = new HashMap();
         map.put(S2MaiConstants.DATA_NAME, data);
@@ -60,7 +59,7 @@ public class VelocityContextHelperImpl implements ContextHelper {
     }
 
     private VelocityContext toVelocityContext(Map map) {
-        VelocityContext context = (VelocityContext)this.context.clone();
+        VelocityContext context = (VelocityContext) this.context.clone();
         Set set = map.keySet();
         for (Iterator iter = set.iterator(); iter.hasNext();) {
             Object key = iter.next();

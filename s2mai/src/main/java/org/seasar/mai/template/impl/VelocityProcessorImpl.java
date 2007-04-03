@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,31 +47,32 @@ public class VelocityProcessorImpl implements TemplateProcessor {
     private VelocityEngine engine;
 
     public void init() {
-        logger.log("DMAI0001", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
+        logger.log("DMAI0001", new Object[] { new Throwable().getStackTrace()[0].getClassName() + "@"
+                + new Throwable().getStackTrace()[0].getMethodName() });
 
         RuntimeServices runtimeServices = RuntimeSingleton.getRuntimeServices();
         this.engine = new VelocityEngine();
 
-        // VelocityEngineの初期化
         try {
 
-            if(this.configFile != null) {
+            if (this.configFile != null) {
                 Properties properties = new Properties();
                 properties.load(this.getClass().getClassLoader().getResourceAsStream(this.configFile));
                 this.engine.init(properties);
                 runtimeServices.init(properties);
             } else {
                 this.engine.init();
-                runtimeServices.init();                
+                runtimeServices.init();
             }
 
-        } catch(IOException e) {
-             throw new IORuntimeException(e);
-         } catch(Exception e) {
-             throw new RuntimeException(e);
-         }
-        
-        logger.log("DMAI0002", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
+        } catch (IOException e) {
+            throw new IORuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        logger.log("DMAI0002", new Object[] { new Throwable().getStackTrace()[0].getClassName() + "@"
+                + new Throwable().getStackTrace()[0].getMethodName() });
     }
 
     public String process(String templateText, Object context) {
@@ -102,13 +103,13 @@ public class VelocityProcessorImpl implements TemplateProcessor {
     }
 
     public String processResource(String path, Object context) {
-        logger.log("DMAI0001", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
+        logger.log("DMAI0001", new Object[] { new Throwable().getStackTrace()[0].getClassName() + "@"
+                + new Throwable().getStackTrace()[0].getMethodName() });
 
         Writer writer = new StringWriter();
- 
-        // テンプレートとコンテキストのマージ
+
         try {
-            this.engine.mergeTemplate(path, (Context)context, writer);
+            this.engine.mergeTemplate(path, (Context) context, writer);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundRuntimeException(path);
         } catch (ParseErrorException e) {
@@ -119,7 +120,8 @@ public class VelocityProcessorImpl implements TemplateProcessor {
             throw new RuntimeException(e);
         }
 
-        logger.log("DMAI0002", new Object[] {new Throwable().getStackTrace()[0].getClassName() + "@" + new Throwable().getStackTrace()[0].getMethodName()});                          
+        logger.log("DMAI0002", new Object[] { new Throwable().getStackTrace()[0].getClassName() + "@"
+                + new Throwable().getStackTrace()[0].getMethodName() });
         return writer.toString();
     }
 

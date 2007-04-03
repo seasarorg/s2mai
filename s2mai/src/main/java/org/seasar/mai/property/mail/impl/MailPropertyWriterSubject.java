@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +24,10 @@ import com.ozacc.mail.Mail;
 /**
  * @author rokugen
  */
-public class MailPropertyWriterSubject extends AbstractMailPropertyWriter{
+public class MailPropertyWriterSubject extends AbstractMailPropertyWriter {
 
     public void init(Mail mail) {
-                
+
     }
 
     protected void setPropertyToMail(Mail mail, String value) {
@@ -35,12 +35,11 @@ public class MailPropertyWriterSubject extends AbstractMailPropertyWriter{
     }
 
     protected void setPropertyToMail(Mail mail, InternetAddress value) {
-        
+
     }
 
     protected void setPropertyToMail(Mail mail, MailAddress mailAddress) {
-        
-        
+
     }
 
 }

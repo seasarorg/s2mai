@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
     private Map templatePaths = new HashMap();
 
     private String ext;
-    
+
     {
         DisposableUtil.add(new Disposable() {
             public void dispose() {
@@ -84,18 +84,18 @@ public class MaiMetaDataImpl implements MaiMetaData {
         }
         return mail;
     }
-    
-    private void setPropertiesFromMailPropertiesDicon(Mail mail){
+
+    private void setPropertiesFromMailPropertiesDicon(Mail mail) {
         S2Container container = S2ContainerFactory.create(S2MaiConstants.MAIL_PROPERTIES_DICON);
-        String from = (String)container.getComponent("from");
-        if(from != null && mail.getFrom() == null){
+        String from = (String) container.getComponent("from");
+        if (from != null && mail.getFrom() == null) {
             mail.setFrom(from);
         }
-        String replyTo = (String)container.getComponent("replyTo");
-        if(replyTo != null && mail.getReplyTo() == null){
+        String replyTo = (String) container.getComponent("replyTo");
+        if (replyTo != null && mail.getReplyTo() == null) {
             mail.setReplyTo(replyTo);
         }
-        
+
     }
 
     public Mail getMail(Method method) {

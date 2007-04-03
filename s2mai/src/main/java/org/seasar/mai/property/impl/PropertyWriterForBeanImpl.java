@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,8 +47,8 @@ public class PropertyWriterForBeanImpl implements PropertyWriterForBean, S2MaiCo
         }
 
         BeanDesc desc = BeanDescFactory.getBeanDesc(bean.getClass());
-        
-        for(int i=0; i < desc.getPropertyDescSize(); i ++){
+
+        for (int i = 0; i < desc.getPropertyDescSize(); i++) {
             PropertyDesc pd = desc.getPropertyDesc(i);
             Object value = pd.getValue(bean);
             if (value == null) {
@@ -56,37 +56,38 @@ public class PropertyWriterForBeanImpl implements PropertyWriterForBean, S2MaiCo
             }
             setMailProperty(mail, pd, value);
         }
-        
+
     }
-    
-    private void setMailProperty(Mail mail,PropertyDesc pd, Object value) {
-        
+
+    private void setMailProperty(Mail mail, PropertyDesc pd, Object value) {
+
         boolean isAttachedFile = isAttachedFileProperty(pd);
         String propertyName = isAttachedFile ? ATTACHED_FILE : pd.getPropertyName();
         MailPropertyWriter propWriter = mailPropertyWriterFactory.getMailPropertyWriter(propertyName);
-        
-        if(propWriter == null){
+
+        if (propWriter == null) {
             return;
         }
-        
-        if(!isAttachedFile){
+
+        if (!isAttachedFile) {
             propWriter.init(mail);
         }
         propWriter.setProperty(mail, value);
     }
-    
-    private boolean isAttachedFileProperty(PropertyDesc propertyDesc){
+
+    private boolean isAttachedFileProperty(PropertyDesc propertyDesc) {
         Class clazz = propertyDesc.getPropertyType();
-        
-        if(clazz == List.class){
+
+        if (clazz == List.class) {
             Method method = propertyDesc.getReadMethod();
             Class elementType = MethodUtil.getElementTypeOfListFromReturnType(method);
-            if(elementType != null){
+            if (elementType != null) {
                 clazz = elementType;
             }
-        }            
-        
-        return (clazz == AttachedFile.class || clazz == AttachedFile[].class || ATTACHED_FILE.equals(propertyDesc.getPropertyName()) );        
+        }
+
+        return (clazz == AttachedFile.class || clazz == AttachedFile[].class || ATTACHED_FILE.equals(propertyDesc
+                .getPropertyName()));
     }
 
     public void setServerProperty(SendMail sendMail, Object bean) {

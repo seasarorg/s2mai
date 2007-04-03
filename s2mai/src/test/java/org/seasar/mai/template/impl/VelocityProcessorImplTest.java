@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,11 @@ public class VelocityProcessorImplTest extends TestCase {
     }
 
     public void testProcessResource() {
-        fail("Not yet implemented");
+        Map context = new HashMap();
+        context.put("name", "foo");
+        String path = "org/seasar/mai/template/impl/test.vm";
+        String result = processor.processResource(path, helper.createContext(context));
+        assertEquals("foo", result);
     }
 
 }

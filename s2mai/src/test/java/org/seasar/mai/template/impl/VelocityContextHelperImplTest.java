@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import org.apache.velocity.tools.generic.NumberTool;
 import org.apache.velocity.tools.generic.RenderTool;
 import org.apache.velocity.tools.generic.SortTool;
 import org.seasar.extension.unit.S2TestCase;
-import org.seasar.framework.log.Logger;
 
 /**
  * @author suzuki
@@ -34,43 +33,44 @@ import org.seasar.framework.log.Logger;
 public class VelocityContextHelperImplTest extends S2TestCase {
 
     private static final String PATH = "VelocityContextHelperImplTest.dicon";
-    private static Logger logger = Logger.getLogger(VelocityContextHelperImplTest.class);
+
+    // private static Logger logger = Logger.getLogger(VelocityContextHelperImplTest.class);
 
     private VelocityContextHelperImpl helper;
-    
+
     public VelocityContextHelperImplTest(String name) {
         super(name);
     }
-    
+
     public void testCreateContext() {
 
-        VelocityContext context = (VelocityContext)this.helper.createContext("test");
- 
-        AlternatorTool alternatorTool = (AlternatorTool)context.get("alternator");
+        VelocityContext context = (VelocityContext) this.helper.createContext("test");
+
+        AlternatorTool alternatorTool = (AlternatorTool) context.get("alternator");
         assertNotNull(alternatorTool);
-        DateTool dateTool = (DateTool)context.get("date");
+        DateTool dateTool = (DateTool) context.get("date");
         assertNotNull(dateTool);
-        EscapeTool escapeTool = (EscapeTool)context.get("escape");
+        EscapeTool escapeTool = (EscapeTool) context.get("escape");
         assertNotNull(escapeTool);
-        IteratorTool iteratorTool = (IteratorTool)context.get("iterator");
+        IteratorTool iteratorTool = (IteratorTool) context.get("iterator");
         assertNotNull(iteratorTool);
-        ListTool listTool = (ListTool)context.get("list");
+        ListTool listTool = (ListTool) context.get("list");
         assertNotNull(listTool);
-        MathTool mathTool = (MathTool)context.get("math");
+        MathTool mathTool = (MathTool) context.get("math");
         assertNotNull(mathTool);
-        NumberTool numberTool = (NumberTool)context.get("number");
+        NumberTool numberTool = (NumberTool) context.get("number");
         assertNotNull(numberTool);
-        RenderTool renderTool = (RenderTool)context.get("render");
+        RenderTool renderTool = (RenderTool) context.get("render");
         assertNotNull(renderTool);
-        SortTool sortTool = (SortTool)context.get("sort");
+        SortTool sortTool = (SortTool) context.get("sort");
         assertNotNull(sortTool);
 
         // TODO 入力データがMapのときとそれ以外のときのテスト
 
     }
-    
+
     protected void setUp() throws Exception {
-        this.include(PATH);        
+        this.include(PATH);
     }
- 
+
 }

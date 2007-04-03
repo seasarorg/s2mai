@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,37 +40,37 @@ public class S2MaiInterceptorTest extends S2TestCase {
      * Test method for 'org.seasar.mai.interceptors.S2MaiIntereceptor.invoke(MethodInvocation)'
      */
     public void testInvoke() {
-        
+
         TestData data = new TestData();
         data.setDay(22);
         data.setMonth(11);
         data.setYear(2006);
         data.setNo(12345);
         testMai.sendMail(data);
-        
+
         // TODO assert
         // assertEquals(expected.toString(), SendMailTestUtil.getMail(0).toString());
     }
-    
-    public void testInvokeWithDynamicProperty() throws UnsupportedEncodingException{
+
+    public void testInvokeWithDynamicProperty() throws UnsupportedEncodingException {
         TestData data = new TestData();
         data.setDay(22);
         data.setMonth(11);
         data.setYear(2006);
         data.setNo(12345);
-        
-        //プロパティ動的にセット
+
+        // プロパティ動的にセット
         data.setFrom("kei");
-        data.setTo(new InternetAddress("rokugen","六"));
-        data.setCc(new MailAddress("rokugen","六のCC"));
-        data.setSubject("件名です");        
-        
+        data.setTo(new InternetAddress("rokugen", "六"));
+        data.setCc(new MailAddress("rokugen", "六のCC"));
+        data.setSubject("件名です");
+
         String path = this.getClass().getResource("attachedFileTest.txt").getPath();
         File file = new File(path);
-        AttachedFile af = new AttachedFile(file,"添付ファイル.txt");
+        AttachedFile af = new AttachedFile(file, "添付ファイル.txt");
         data.setAttachedFile(af);
         testMai.sendMail(data);
-        
+
         // TODO assert
         // assertEquals(expected.toString(), SendMailTestUtil.getMail(0).toString());
     }

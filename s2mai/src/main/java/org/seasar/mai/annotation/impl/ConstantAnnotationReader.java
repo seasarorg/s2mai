@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,34 +22,40 @@ import org.seasar.framework.beans.factory.BeanDescFactory;
 import org.seasar.mai.annotation.AnnotationReader;
 
 public class ConstantAnnotationReader implements AnnotationReader {
-    private static final String TO = "TO";    
+    private static final String TO = "TO";
+
     private static final String CC = "CC";
+
     private static final String BCC = "BCC";
+
     private static final String SUBJECT = "SUBJECT";
+
     private static final String REPLY_TO = "REPLY_TO";
+
     private static final String RETURN_PATH = "RETURN_PATH";
+
     private static final String FROM = "FROM";
-    
-    private Object getAnnotationValue(String annotation, Method method){
+
+    private Object getAnnotationValue(String annotation, Method method) {
         Class mai = method.getDeclaringClass();
         BeanDesc maiBeanDesc = BeanDescFactory.getBeanDesc(mai);
-        
+
         StringBuffer sb = new StringBuffer();
         sb.append(method.getName());
         sb.append("_");
         sb.append(annotation);
         String fieldName = sb.toString();
-        
+
         Object value = null;
-        if(maiBeanDesc.hasField(fieldName)){
-            value = maiBeanDesc.getFieldValue(sb.toString(),null);            
-        }else{
-            if(maiBeanDesc.hasField(annotation)){
+        if (maiBeanDesc.hasField(fieldName)) {
+            value = maiBeanDesc.getFieldValue(sb.toString(), null);
+        } else {
+            if (maiBeanDesc.hasField(annotation)) {
                 value = maiBeanDesc.getFieldValue(annotation, null);
-            }            
+            }
         }
-        
-        return value;        
+
+        return value;
     }
 
     public Object getTo(Method method) {

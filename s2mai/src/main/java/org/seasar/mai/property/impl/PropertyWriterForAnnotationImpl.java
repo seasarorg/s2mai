@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,19 +29,19 @@ import com.ozacc.mail.Mail;
 /**
  * @author rokugen
  */
-public class PropertyWriterForAnnotationImpl implements PropertyWriterForAnnotation {    
+public class PropertyWriterForAnnotationImpl implements PropertyWriterForAnnotation {
     private MailPropertyWriterFactory mailPropertyWriterFactory;
-    private AnnotationReaderFactory annotationReaderFactory;
-    
 
-    public void setMailProperty(Mail mail, Method method){
+    private AnnotationReaderFactory annotationReaderFactory;
+
+    public void setMailProperty(Mail mail, Method method) {
         AnnotationReader annotationReader = annotationReaderFactory.createMaiAnnotationReader();
-        Object value = annotationReader.getTo(method);        
+        Object value = annotationReader.getTo(method);
         setValueToMail(S2MaiConstants.TO, value, mail);
-        value = annotationReader.getCc(method);        
+        value = annotationReader.getCc(method);
         setValueToMail(S2MaiConstants.CC, value, mail);
-        value = annotationReader.getBcc(method);        
-        setValueToMail(S2MaiConstants.BCC, value, mail);        
+        value = annotationReader.getBcc(method);
+        setValueToMail(S2MaiConstants.BCC, value, mail);
         value = annotationReader.getSubject(method);
         setValueToMail(S2MaiConstants.SUBJECT, value, mail);
         value = annotationReader.getFrom(method);
@@ -54,24 +54,25 @@ public class PropertyWriterForAnnotationImpl implements PropertyWriterForAnnotat
 
     private void setValueToMail(String propertyName, Object value, Mail mail) {
         MailPropertyWriter writer = mailPropertyWriterFactory.getMailPropertyWriter(propertyName);
-        
+
         if (value == null) {
             return;
         }
-        writer.init(mail);        
-        writer.setProperty(mail,value);
+        writer.init(mail);
+        writer.setProperty(mail, value);
     }
 
-
     /**
-     * @param mailPropertyWriterFactory The mailPropertyWriterFactory to set.
+     * @param mailPropertyWriterFactory
+     *            The mailPropertyWriterFactory to set.
      */
     public final void setMailPropertyWriterFactory(MailPropertyWriterFactory mailPropertyWriterFactory) {
         this.mailPropertyWriterFactory = mailPropertyWriterFactory;
     }
 
     /**
-     * @param annotationReaderFactory The annotationReaderFactory to set.
+     * @param annotationReaderFactory
+     *            The annotationReaderFactory to set.
      */
     public final void setAnnotationReaderFactory(AnnotationReaderFactory annotationReaderFactory) {
         this.annotationReaderFactory = annotationReaderFactory;

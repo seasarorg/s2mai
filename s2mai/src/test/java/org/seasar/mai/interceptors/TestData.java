@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,15 @@ import org.seasar.mai.mail.MailAddress;
  */
 public class TestData {
     private String from;
+
     private InternetAddress to;
+
     private MailAddress cc;
+
     private String subject;
+
     private AttachedFile attachedFile;
-    
+
     private int no;
 
     private int year;
@@ -78,7 +82,8 @@ public class TestData {
     }
 
     /**
-     * @param from The from to set.
+     * @param from
+     *            The from to set.
      */
     public void setFrom(String from) {
         this.from = from;
@@ -92,7 +97,8 @@ public class TestData {
     }
 
     /**
-     * @param to The to to set.
+     * @param to
+     *            The to to set.
      */
     public void setTo(InternetAddress to) {
         this.to = to;
@@ -106,7 +112,8 @@ public class TestData {
     }
 
     /**
-     * @param subject The subject to set.
+     * @param subject
+     *            The subject to set.
      */
     public final void setSubject(String subject) {
         this.subject = subject;
@@ -120,7 +127,8 @@ public class TestData {
     }
 
     /**
-     * @param cc The cc to set.
+     * @param cc
+     *            The cc to set.
      */
     public final void setCc(MailAddress cc) {
         this.cc = cc;
@@ -134,7 +142,8 @@ public class TestData {
     }
 
     /**
-     * @param attachedFile The attachedFile to set.
+     * @param attachedFile
+     *            The attachedFile to set.
      */
     public final void setAttachedFile(AttachedFile attachedFile) {
         this.attachedFile = attachedFile;

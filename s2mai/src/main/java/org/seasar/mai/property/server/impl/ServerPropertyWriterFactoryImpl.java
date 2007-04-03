@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,12 @@ public class ServerPropertyWriterFactoryImpl implements ServerPropertyWriterFact
     private S2Container container;
 
     public ServerPropertyWriter getServerPropertyWriter(String propertyName) {
-        return (ServerPropertyWriter)container.getComponent(propertyName + "Writer");
+        return (ServerPropertyWriter) container.getComponent(propertyName + "Writer");
     }
 
     /**
-     * @param container The container to set.
+     * @param container
+     *            The container to set.
      */
     public final void setContainer(S2Container container) {
         this.container = container;

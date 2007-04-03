@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +74,6 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter {
     private void setInternetAddress(Mail mail, Object value) {
         InternetAddress iaValue = (InternetAddress) value;
         try {
-            // TODO もうっちょっとマシなやり方できないかなあと
             iaValue.setPersonal(this.toSafetyText(iaValue.getPersonal()));
         } catch (IOException e) {
             throw new IORuntimeException(e);
@@ -86,6 +85,7 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter {
         this.setPropertyToMail(mail, (String) value);
     }
 
+    // TODO もうっちょっとマシなやり方できないかなあと
     private String toSafetyText(String text) {
         if (text == null) {
             text = "";

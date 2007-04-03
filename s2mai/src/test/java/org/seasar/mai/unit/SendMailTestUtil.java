@@ -1,5 +1,5 @@
 /*
- * Copyright 2004-2006 the Seasar Foundation and the Others.
+ * Copyright 2004-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public class SendMailTestUtil {
     }
 
     public static final Mail getMail(int index) {
-        return (Mail)mailList.get(index);
+        return (Mail) mailList.get(index);
     }
 
     public static final void init() {
@@ -50,13 +50,13 @@ public class SendMailTestUtil {
     public static final void clear() {
         mailList.clear();
     }
-    
-    public static final String getTextFromFile(Class testClass, String fileName){
+
+    public static final String getTextFromFile(Class testClass, String fileName) {
         S2Container container = S2ContainerFactory.create(S2MaiConstants.MAIL_PROPERTIES_DICON);
-        String encoding = (String)container.getComponent(S2MaiConstants.TEMPLATE_ENCODING);
-        InputStream is = ResourceUtil.getResourceAsStream(
-                testClass.getPackage().getName().replaceAll("\\.", "/") +"/" + fileName);
-        Reader reader = InputStreamReaderUtil.create(is,encoding);
+        String encoding = (String) container.getComponent(S2MaiConstants.TEMPLATE_ENCODING);
+        InputStream is = ResourceUtil.getResourceAsStream(testClass.getPackage().getName().replaceAll("\\.", "/") + "/"
+                + fileName);
+        Reader reader = InputStreamReaderUtil.create(is, encoding);
         return ReaderUtil.readText(reader);
     }
 }
