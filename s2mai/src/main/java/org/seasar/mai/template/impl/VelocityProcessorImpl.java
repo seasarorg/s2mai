@@ -15,7 +15,6 @@
  */
 package org.seasar.mai.template.impl;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -30,9 +29,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
-import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.framework.log.Logger;
+import org.seasar.framework.util.PropertiesUtil;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.template.TemplateProcessor;
 
@@ -54,19 +53,15 @@ public class VelocityProcessorImpl implements TemplateProcessor {
         this.engine = new VelocityEngine();
 
         try {
-
             if (this.configFile != null) {
                 Properties properties = new Properties();
-                properties.load(this.getClass().getClassLoader().getResourceAsStream(this.configFile));
+                PropertiesUtil.load(properties, this.getClass().getClassLoader().getResourceAsStream(this.configFile));
                 this.engine.init(properties);
                 runtimeServices.init(properties);
             } else {
                 this.engine.init();
                 runtimeServices.init();
             }
-
-        } catch (IOException e) {
-            throw new IORuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -84,6 +79,7 @@ public class VelocityProcessorImpl implements TemplateProcessor {
             StringReader reader = new StringReader(templateText);
             SimpleNode node = runtimeServices.parse(reader, reader.toString());
             Template template = new Template();
+            template.setRuntimeServices(runtimeServices);
             template.setData(node);
             template.initDocument();
             Writer writer = new StringWriter();
@@ -97,6 +93,8 @@ public class VelocityProcessorImpl implements TemplateProcessor {
             throw new RuntimeException(e);
         } catch (MethodInvocationException e) {
             throw new RuntimeException(e);
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

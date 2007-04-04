@@ -12,7 +12,6 @@
 	<classpathentry path="lib/mail.jar" kind="lib"/>
 	<classpathentry path="lib/ognl-2.6.7.jar" kind="lib"/>
 	<classpathentry path="lib/ozacc-mail-1.1.7.jar" kind="lib"/>
-	<classpathentry path="lib/velocity-1.4.jar" kind="lib"/>
 	<classpathentry path="lib/commons-collections-3.2.jar" kind="lib"/>
 	<classpathentry path="lib/velocity-tools-generic-1.2.jar" kind="lib"/>
 	<classpathentry path="lib/geronimo-j2ee_1.4_spec-1.0.jar" kind="lib"/>
@@ -23,5 +22,7 @@
 	<classpathentry path="lib/s2-extension-2.4.11.jar" kind="lib"/>
 	<classpathentry path="lib/s2-framework-2.4.11.jar" kind="lib"/>
 	<classpathentry path="lib/freemarker-2.3.9.jar" kind="lib"/>
+	<classpathentry path="lib/velocity-1.5.jar" kind="lib"/>
+	<classpathentry path="lib/commons-lang-2.2.jar" kind="lib"/>
 	<classpathentry path="build/classes" kind="output"/>
 </classpath>

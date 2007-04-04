@@ -30,6 +30,7 @@ import org.seasar.framework.util.StringUtil;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.mail.MailAddress;
 import org.seasar.mai.property.mail.MailPropertyWriter;
+import org.seasar.mai.util.InternetAddressUtil;
 
 import com.ozacc.mail.Mail;
 
@@ -72,13 +73,9 @@ public abstract class AbstractMailPropertyWriter implements MailPropertyWriter {
     }
 
     private void setInternetAddress(Mail mail, Object value) {
-        InternetAddress iaValue = (InternetAddress) value;
-        try {
-            iaValue.setPersonal(this.toSafetyText(iaValue.getPersonal()));
-        } catch (IOException e) {
-            throw new IORuntimeException(e);
-        }
-        this.setPropertyToMail(mail, iaValue);
+        InternetAddress address = (InternetAddress) value;
+        InternetAddressUtil.setPersonal(address, this.toSafetyText(address.getPersonal()));
+        this.setPropertyToMail(mail, address);
     }
 
     private void setString(Mail mail, Object value) {

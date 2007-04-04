@@ -21,9 +21,13 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
+import org.seasar.framework.util.TextUtil;
 import org.seasar.mai.mail.AttachedFile;
 import org.seasar.mai.mail.MailAddress;
 import org.seasar.mai.unit.SendMailTestUtil;
+
+import com.ozacc.mail.Mail;
+import com.ozacc.mail.Mail.AttachmentFile;
 
 /**
  * @author Satsohi Kimura
@@ -48,8 +52,8 @@ public class S2MaiInterceptorTest extends S2TestCase {
         data.setNo(12345);
         testMai.sendMail(data);
 
-        // TODO assert
-        // assertEquals(expected.toString(), SendMailTestUtil.getMail(0).toString());
+        String expected = TextUtil.readUTF8(super.convertPath("S2MaiInterceptorTest_testInvoke.txt"));
+        assertEquals(expected, SendMailTestUtil.getMail(0).getText());
     }
 
     public void testInvokeWithDynamicProperty() throws UnsupportedEncodingException {
@@ -71,8 +75,17 @@ public class S2MaiInterceptorTest extends S2TestCase {
         data.setAttachedFile(af);
         testMai.sendMail(data);
 
-        // TODO assert
-        // assertEquals(expected.toString(), SendMailTestUtil.getMail(0).toString());
+        Mail mail = SendMailTestUtil.getMail(0);
+        assertEquals("kei", mail.getFrom().getAddress());
+        assertEquals("rokugen", mail.getTo()[0].getAddress());
+        assertEquals("六", mail.getTo()[0].getPersonal());
+        assertEquals("rokugen", mail.getCc()[0].getAddress());
+        assertEquals("六のCC", mail.getCc()[0].getPersonal());
+        assertEquals("件名です", mail.getSubject());
+        AttachmentFile[] attachmentFiles = mail.getAttachmentFiles();
+        assertEquals(1, attachmentFiles.length);
+        assertEquals("添付ファイル.txt", attachmentFiles[0].getName());
+
     }
 
 }

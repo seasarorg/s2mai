@@ -17,10 +17,8 @@ package org.seasar.mai.interceptors;
 
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.io.Reader;
 import java.io.StringReader;
 import java.lang.reflect.Method;
-import java.util.StringTokenizer;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.seasar.framework.aop.interceptors.AbstractInterceptor;
@@ -59,11 +57,11 @@ public class S2MaiInterceptor extends AbstractInterceptor {
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
-        if (isGetSendMail(method)) {
-            return sendMail.clone();
-        }
         if (!MethodUtil.isAbstract(method)) {
             return invocation.proceed();
+        }
+        if (isGetSendMail(method)) {
+            return sendMail.clone();
         }
         sendMail(invocation);
         return null;
