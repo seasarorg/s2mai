@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head>
+<title>Seasar - DI Container with AOP - </title>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link href="http://www.seasar.org/seasar_b.css" type="text/css" rel="stylesheet" media="screen">
+<link href="http://www.seasar.org/seasar_p.css" type="text/css" rel="stylesheet" media="print">
+</head><body><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="http://www.seasar.org/images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="http://www.seasar.org/images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="http://www.seasar.org/images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="http://www.seasar.org/images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/index.html"><img src="http://www.seasar.org/images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01"></a></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="101" border="0" alt="" id="menu02"></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="110" border="0" alt="" id="menu03"></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="113" border="0" alt="" id="menu04"></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="109" border="0" alt="" id="menu05"></td>
+<td><img height="30" width="34" src="http://www.seasar.org/images/menu06.gif" alt=""></td></tr><tr>
+<td colspan="6"><img height="19" width="545" src="http://www.seasar.org/images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td><td width="740" class="main">
+<!-- don't edit end -->
+<!-- document start -->
+<ul>
+	<li><a href="#setup">セットアップ</a></li>
+	<ul>
+		<li><a href="#s2mai">S2Mai本体</a></li>
+		<li><a href="#s2mai-tiger">S2Mai-Tiger</a></li>
+		<li><a href="#eclipse">Eclipseへのインポート</a></li>
+	</ul>		
+	<li><a href="#startup">まずは使ってみる</a></li>
+	<ul>
+		<li><a href="#config">全体の設定</a></li>
+		<li><a href="#basic">基本的な使い方</a></li>
+		<li><a href="#annotation">アノテーションを使った設定</a></li>
+		<li><a href="#bean">メール内容クラスのプロパティでの設定</a></li>
+		<li><a href="#attached">添付ファイルについて</a></li>
+	</ul>
+</ul>
+<h2><a name="setup">セットアップ</a></h2>
+<p>Seasar2と同様にJDK1.4以上が必要です。</p>
+<h3><a name="s2mai">S2Mai本体</a></h3>
+<p>ダウンロードしたs2mai-Vx.x.x.zipを解凍すると、s2maiディレクトリが出来ます。そのなかのlibディレクトリに、「s2mai-0.9.1.jar」をクラスパスに含めて下さい。</p>
+<p>他、必要となるjarファイルもlibディレクトリ内にありますが、その内、S2Mai本体が必要とするものは以下になります。</p>
+<ul>
+	<li>mail.jar</li>
+	<li>ozacc-mail-x.x.x.jar</li>
+	<li>s2-framework-2.4.x.jar</li>
+	<li>s2-exteinsion-2.4.x.jar</li>
+</ul>
+<p>また、標準でトランザクションとの連携を行っていますので、通常は下記のjarもクラスパスに含めて下さい。</p>
+<ul>
+	<li>geronimo-jta_1.1_spec-1.0.jar</li>
+</ul>
+<p>テンプレートエンジンとして、FreeMarkerとVelocityに対応しています。ご利用になるテンプレートエンジンによって以下のいずれかをクラスパスに含めて下さい。</p>
+<dl>
+	<dt>FreeMarkerの場合</dt>
+	<dd>
+		<ul>
+			<li>freemarker-x.x.x.jar</li>
+		</ul>
+	</dd>
+	<dt>Velocityの場合</dt>
+	<dd>
+		<ul>
+			<li>velocity-x.x.jar</li>
+			<li>velocity-tools-generic-x.x.jar</li>
+			<li>commons-collections-x.x.jar</li>
+			<li>commons-lang-x.x.jar</li>			
+		</ul>
+	</dd>	
+</dl>
+<p>後述しますが、添付ファイルをListで持つ場合にジェネリクスを使いたい場合は、下記のjarが必要となります。こちらは配布ファイルには含まれていませんので別途入手して下さい。</p>
+<ul>
+	<li>s2-tiger-2.4.x.jar</li>
+	<li>geronimo-ejb_2.1_spec-1.0.jar</li>
+</ul>
+geronimo-ejb_2.1_spec-1.0.jarは、動作環境がJavaEEにフルに対応している場合は不要となります。詳しくは<a href="http://s2container.seasar.org/ja/setup.html" target="_blank">こちら</a>をご参照下さい。
+<h3><a name="s2mai-tiger">S2Mai-Tiger</a></h3>
+S2Maiでは定数アノテーションを用いて各種プロパティを設定する事が出来ます。これを定数ではなく、Javaのアノテーションを使って設定する事が出来ます。その際には、s2mai-tiger-Vx.x.x.zipをダウンロードした後、解凍し、それに含まれる「s2mai-tiger-x.x.x.jar」をクラスパスに含めて下さい。
+<h3><a name="eclipse">Eclipseへのインポート</a></h3>
+<p>配布ファイルは、Eclipseのプロジェクト形式となっています。Eclipseへインポートすることで参照する事も出来ます。</p>
+<p>s2mai-Vx.x.x.zipを解凍し、できたs2maiディレクトリをEclipseで「ファイル→インポート→既存のプロジェクトをワークスペースへ」してインポートしてください。</p>
+
+<h2><a name="startup">まずは使ってみる</a></h2>
+
+<h3><a name="config">全体の設定</a></h3>
+<p>SMTPサーバの設定やエンコーディングなど、全体の設定は「mailProperties.dicon」というファイルに記述します。このファイルはjarに含まれているので、下記のデフォルト値で問題がなければ作成する必要はありません。設定の変更をしたい場合にはファイルを作成し、設定を記述してルートパッケージに置きます。</p>
+<p>デフォルトの内容は以下になります。</p>
+<h5>mailProperties.dicon</h5>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.3//EN"
+    "http://www.seasar.org/dtd/components23.dtd"&gt;
+&lt;components namespace="mailProperties"&gt;
+    &lt;component name="host"&gt;
+        "localhost"
+    &lt;/component&gt;
+    &lt;component name="port"&gt;
+        25
+    &lt;/component&gt;
+    &lt;component name="username"&gt;
+        null
+    &lt;/component&gt;
+    &lt;component name="password"&gt;
+        null
+    &lt;/component&gt;
+    &lt;component name="from"&gt;
+        null
+    &lt;/component&gt;
+    &lt;component name="replyTo"&gt;
+        null
+    &lt;/component&gt;
+    &lt;component name="returnPath"&gt;
+        null
+    &lt;/component&gt;
+    &lt;component name="messageId"&gt;
+        null
+    &lt;/component&gt;
+    &lt;component name="templateEncoding"&gt;
+        "UTF-8"
+    &lt;/component&gt;
+    &lt;component name="connectionTimeout"&gt;
+        10000
+    &lt;/component&gt;
+    &lt;component name="readTimeout"&gt;
+        10000
+    &lt;/component&gt;
+    &lt;component name="mailCharset"&gt;
+        "ISO-2022-JP"
+    &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+各設定項目の内容は以下です。
+<dl>
+	<dt>host</dt>
+	<dd>SMTPサーバ名もしくはIP</dd>
+	<dt>port</dt>
+	<dd>SMTPのポート番号 </dd>
+	<dt>username</dt>
+	<dd>SMTPにログインする必要がある場合、そのユーザー名</dd>
+	<dt>password</dt>
+	<dd>同じく、そのパスワード</dd>
+	<dt>templateEncoding</dt>
+	<dd>テンプレートのエンコーディング</dd>
+	<dt>connectionTimeout</dt>
+	<dd>SMTPサーバとの接続タイムアウト</dd>
+	<dt>readTimeout</dt>
+	<dd>SMTPサーバへの送受信時のタイムアウト</dd>
+	<dt>mailCharset</dt>
+	<dd>メールのエンコードに使用する文字コード</dd>
+</dl>
+他の項目は現在未対応です。
+
+<h3><a name="basic">基本的な使い方</a></h3>
+<p>まず、メールの内容を保持するクラスを作ります。ここでは、nameというプロパティを持った「TestData」というクラスを「s2mai.test.dto」というパッケージに作る事にします。</p>
+<h5>s2mai.test.dto.TestData</h5>
+<pre>
+package s2mai.test.dto;
+
+public class TestData{
+    private String name;
+    
+    public void setName(String name_){
+      this.name = name_;
+    }
+    
+    public String getName(){
+      return name;
+    }
+}
+</pre>
+<p>次に、メール送信をするMaiインタフェースを作ります。ここでは「TestMai」というインタフェースを「s2mai.test.mai」というパッケージに作る事にします。「TestMai」は、「TestData」を引数にとってその内容を反映したメールを送信する「sendMail」というメソッドを持つ事にします。</p>
+<h5>s2mai.test.mai.TestMai</h5>
+<pre>
+package s2mai.test.mai;
+
+public interface TestMai {
+    void sendMail(TestData data);
+}
+</pre>
+<p>このインタフェースの名前はなんでも構いませんが、後々のメンテナンスやSMART deployを用いた開発に対応するために、「～Mai」という命名規則に則る事を推奨します。また、メール送信用メソッドの名前には特に制約はありません。用途別に複数のメソッドを一つのMaiインタフェースに定義する事も出来ます。</p>
+<p>次に、任意のdiconファイルにMaiをコンポーネントとして登録します。ここでは、「maitest.dicon」というファイルをルートパッケージに作り、そこで定義する事にします。</p>
+<h5>maitest.dicon</h5>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.3//EN"
+    "http://www.seasar.org/dtd/components23.dtd"&gt;
+    
+    &lt;include path="s2mai.dicon"/&gt;
+    
+    &lt;component class="s2mai.test.mai.TestMai"&gt;
+        &lt;aspect&gt;s2MaiInterceptor&lt;/aspect&gt;
+    &lt;/component&gt;
+    
+&lt;/components&gt;
+</pre>
+<p>s2mai.diconをincludeし、&lt;aspect&gt;タグで、s2MaiInterceptorを適用します。s2mai.diconはjarの中にありますのでカスタマイズしない限りは何もしなくて構いません。</p>
+<p>次に、fromやtoといったメールの設定を保持するdiconファイルを、Maiインタフェースと同じパッケージに作ります。ここでは「s2mai.test.mai」に作る事になります。diconファイルのファイル名は下記の二通りが使用できます。</p>
+<ul>
+	<li>Maiインタフェース名.dicon</li>
+	<li>Maiインタフェース名_メソッド名.dicon</li>
+</ul>
+<p>Maiインタフェース名のみのファイル名の場合、Maiインタフェースに複数のメソッドがある場合、それら全てに適用されます。あるメソッドだけに適用したい場合は、Maiインタフェース名_メソッド名の形式にします。</p>
+<p>ここでは、メソッドを指定する形にしてみます。</p>
+<h5>TestMai_sendMail.dicon</h5>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.3//EN"
+    "http://www.seasar.org/dtd/components23.dtd"&gt;
+
+    &lt;component class="com.ozacc.mail.Mail"&gt;
+        &lt;initMethod name="addTo"&gt;&lt;arg&gt;"rokugen@example.com"&lt;/arg&gt;&lt;/initMethod&gt;
+    &lt;/component&gt;
+
+&lt;/components&gt;
+
+</pre>
+<p>上記は、Toに「rokugen@example.com」を追加しています。ozaccさんの作られたozacc-mail-libraryのMailクラスに直接設定してますので、他のプロパティなど詳しい情報は<a href="http://spring-ext.sourceforge.jp/oml/apidocs/com/ozacc/mail/Mail.html" target="_blank">http://spring-ext.sourceforge.jp/oml/apidocs/com/ozacc/mail/Mail.html</a>を参照して下さい。</p>
+<p>次に、送信メールの内容のテンプレートを作ります。デフォルトではテンプレートエンジンとして<a href="http://freemarker.sourceforge.net/" target="_blank">FreeMarker</a>が使われます。ファイル名は、「Maiインタフェース名_メソッド名.ftl」として下さい。ftlはFreeMarkerのテンプレートの拡張子となります。これを、Maiインタフェースと同じパッケージに置きます。</p>
+<h5>TestMai_sendMail.ftl</h5>
+<pre>
+Subject: テストメールです。
+${data.name}さんこんにちは。
+</pre>
+<p>テンプレートの一番上の行に、「Subject: (最後に半角スペース一個)」と書くと、それ以降を件名としてセットします。</p>
+<p>mailProperties.diconのtemplateEncodingでUTF-8を指定してますので、UTF-8で保存します。メールの内容を保持するクラス（ここではTestDataクラス）のプロパティを埋め込む場合には、「${data.property名}」と書きます。</p>
+<p>では、実行してみましょう。</p>
+<pre>
+S2Container container = S2ContainerFactory.create("maitest.dicon");
+TestMai mai = (TestMai) container.getComponent(TestMai.class);
+TestData dto = new TestData();
+dto.setName("六");
+mai.sendMail(dto);
+</pre>
+すると、下記の内容でメールが送信されます。
+<pre>
+From:null
+To:rokugen@example.com
+(他省略)
+Subject:テストメールです。
+
+六さんこんにちは。
+</pre>
+<p>これが基本的なS2Maiの使い方です。</p>
+
+<h3><a name="annotation">アノテーションを使った設定</a></h3>
+<p>基本的な使い方ですと、送信先などメールの設定をdiconファイルに書く際に、ozacc-mail-libraryのAPIを踏まえていないといけません。S2Maiは、Maiインタフェースに対してアノテーションを追加する事により、FromやToなどを設定する事が出来ますので、アノテーション機能を用いる事により、diconでの設定を回避する事が出来ます。</p>
+<p>ここでは、先のサンプルで用いた「TestMai」にアノテーションを追加してみます。アノテーションにはJavaのアノテーションと定数アノテーションの二通りが指定出来ますが、まずは定数アノテーションを使ってみましょう。</p>
+<h5>s2mai.test.mai.TestMai</h5>
+<pre>
+public interface TestMai {
+    static final String FROM = "hoge@foo.com";
+    static final String TO = "rokugen@example.com";
+    
+    void sendMail(TestData data);
+}
+</pre>
+<p>これで、先ほど作った「TestMai_sendMail.dicon」は不要となります。また、先程のサンプルではnullとなっていたFromを「hoge@foo.com」として追加してみました。</p>
+<p>このアノテーションの指定方法の場合、一つのMaiに複数のメソッドがある場合でも各メソッドに共通に適用されます。メソッド単位で指定する場合は、「メソッド名_設定項目名」という定数名にします。</p>
+<h5>s2mai.test.mai.TestMai</h5>
+<pre>
+public interface TestMai {
+    static final String FROM = "hoge@foo.com";
+    static final String TO = "rokugen@example.com";
+    static final String sendMail2_TO = "kei@example.com";
+    
+    void sendMail(TestData data);
+    void sendMail2(TestData2 data);
+    void sendMail3(TestData3 data);
+}
+</pre>
+<p>この場合、sendMailとsendMail3の実行時にToには「rokugen@example.com」が設定されて、sendMail2の実行時には「kei@example.com」が反映されます。ToやCcやBccなど、複数指定するものには、配列での指定も出来ます。</p>
+<p>また、メールアドレスには、「六&lt;rokugen@example.com&gt;」といったように、アドレス本体と合わせて名称を設定したい事があります。S2Maiでは、メールアドレスと名称を保持する、「org.seasar.mai.mail.MailAddress」というクラスを提供しています。</p>
+<p>配列での複数指定とMailAddressクラスの使用例を合わせて見てみましょう。</p>
+<pre>
+static final MailAddress FROM = new MailAddress("hoge@foo.com","送信元名");
+static final MailAddress[] TO = 
+    new MailAddress[]{new MailAddress("rokugen@example.com","六"), new MailAddress("mai@example.com","まい")};
+</pre>
+<p>MailAddressのコンストラクタの引数は、第一がメールアドレス、第二が名前になります。第二は省略可能です。MailAddress自体では、メールアドレスのフォーマットなど、規定に外れていても特にエラーは起きませんが、最終的にJavaMailのInternetAddressへとセットされるので、そこで例外が発生しますのでご注意下さい</p>
+<p>定数アノテーションには以下が指定出来ます。</p>
+<table border="1">
+	<tr>
+		<th>アノテーション</th>
+		<th>複数指定の可否</th>
+	</tr>
+	<tr>
+		<td>SUBJECT</td>
+		<td>×</td>
+	</tr>
+	<tr>
+		<td>FROM</td>
+		<td>×</td>
+	</tr>
+	<tr>
+		<td>TO</td>
+		<td>○</td>
+	</tr>
+	<tr>
+		<td>CC</td>
+		<td>○</td>
+	</tr>
+	<tr>
+		<td>BCC</td>
+		<td>○</td>
+	</tr>
+	<tr>
+		<td>REPLY_TO</td>
+		<td>×</td>
+	</tr>
+	<tr>
+		<td>RETURN_PATH</td>
+		<td>×</td>
+	</tr>
+</table>
+<p>ここで設定された値は、Maiインタフェース名_メソッド名.diconで設定されたものより優先されます。</p>
+<p>ただし、Subjectはテンプレートの1行目に書いたものが最優先となります。アノテーションで設定したい場合は、テンプレートの1行目の「Subject: ～」を行ごと削除して下さい。1行目からメール本文が始まっても問題はありません。</p>
+<h3><a name="bean">メール内容クラスのプロパティでの設定</a></h3>
+<p>ここまでの方法ですと、FromやToなどのメール設定はビルド時に決まってしまい、アプリケーションで動的に設定する事が出来ません。S2Maiは、メールの内容を保持するクラスのプロパティを命名規則に準じた名前にする事で、そのプロパティの値を使ってメール設定を行います。アプリケーション側で、このプロパティに値をセットしてやる事で、動的に設定する事が可能となります。</p>
+<p>ここでは、先程サンプルで使った「TestData」にメール設定用プロパティを追加してみます。</p>
+<h5>s2mai.test.dto.TestData</h5>
+<pre>
+public class TestData{
+    private String name;
+    
+    private InternetAddress from;
+    private List to;
+    private MailAddress[] cc;
+    private String[] bcc
+    private String subject;
+    
+    (setter、getter省略)
+}
+</pre>
+<p>そうすると、このプロパティに設定された値が、「Maiインタフェース名.dicon」または「Maiインタフェース名_メソッド名.dicon」の記述内容、Maiインタフェースに書いたアノテーションのどれよりも優先されて反映されます。</p>
+<p>ただし、Subjectはテンプレートの1行目が「Subject: ～」だった場合は、テンプレートが最優先です。</p>
+<p>ここではさまざまな型でプロパティとして宣言されています。S2Maiで対応しているプロパティ名、変数型は下記になります。</p>
+<table border="1">
+	<tr>
+		<th>プロパティ名</th>
+		<th>メール設定</th>
+		<th>指定可能な型</th>
+	</tr>
+	<tr>
+		<td>subject</td>
+		<td>件名</td>
+		<td>String</td>
+	</tr>
+	<tr>
+		<td>from</td>
+		<td>From</td>
+		<td>String<br>javax.mail.internet.InternetAddress<br>org.seasar.mai.mail.MailAddress</td>
+	</tr>
+	<tr>
+		<td>to</td>
+		<td>To</td>
+		<td>String<br>javax.mail.internet.InternetAddress<br>org.seasar.mai.mail.MailAddress<br>およびそれぞれの配列もしくはList</td>
+	</tr>
+	<tr>
+		<td>cc</td>
+		<td>Cc</td>
+		<td>String<br>javax.mail.internet.InternetAddress<br>org.seasar.mai.mail.MailAddress<br>およびそれぞれの配列もしくはList</td>
+	</tr>
+	<tr>
+		<td>bcc</td>
+		<td>Bcc</td>
+		<td>String<br>javax.mail.internet.InternetAddress<br>org.seasar.mai.mail.MailAddress<br>およびそれぞれの配列もしくはList</td>
+	</tr>
+	<tr>
+		<td>replyTo</td>
+		<td>Reply-To</td>
+		<td>String<br>javax.mail.internet.InternetAddress<br>org.seasar.mai.mail.MailAddress</td>
+	</tr>
+	<tr>
+		<td>returnPath</td>
+		<td>Return-Path</td>
+		<td>String<br>javax.mail.internet.InternetAddress<br>org.seasar.mai.mail.MailAddress</td>
+	</tr>
+</table>
+<p>指定可能な型以外の場合はエラーにはなりませんが、nullが設定されます。また、fromなどを配列もしくはListにした場合は、最後の要素が反映されます（が、動作を保証するものではありません）。</p>
+<p>Listの場合、要素の型がString、InternetAddress、MailAddress混在でも動作します。他に添付ファイル用のプロパティもありますが、それは後述します。</p>
+<p>また、サーバの設定をmailProperties.diconで設定しましたが、メールの内容を保持するクラスからの設定も可能です。特定のメールのみSMTPホストを切り替えたい、などの要件がある場合にはこちらで設定します。</p>
+<table border="1">
+	<tr>
+		<th>プロパティ名</th>
+		<th>サーバ設定</th>
+		<th>指定可能な型</th>
+	</tr>
+	<tr>
+		<td>host</td>
+		<td>SMTPサーバ</td>
+		<td>String</td>
+	</tr>
+	<tr>
+		<td>port</td>
+		<td>SMTPポート</td>
+		<td>String<br>Integer<br>int</td>
+	</tr>
+	<tr>
+		<td>username</td>
+		<td>SMTPユーザー名</td>
+		<td>String</td>
+	</tr>
+	<tr>
+		<td>password</td>
+		<td>SMTPパスワード</td>
+		<td>String</td>
+	</tr>
+</table>
+
+<h3><a name="attached">添付ファイルについて</a></h3>
+<p>添付ファイルを扱う場合は、S2Maiで提供している「org.seasar.mai.mail.AttachedFile」を使います。</p>
+<p>コンストラクタとして、下記が用意されています。</p>
+<ol>
+	<li>AttachedFile(File file)</li>
+	<li>AttachedFile(File file, String fileName)</li>
+	<li>AttachedFile(InputStream inputStream, String fileName)</li>
+	<li>AttachedFile(URL url, String fileName)</li>
+</ol>
+<p>それぞれ第二引数でファイル名を設定しますが、適切な拡張子が必要となります。Fileのみを指定した場合は、そのファイル名がセットされます。</p>
+<p>動作を保証するために、それぞれの設定値のsetterは用意していません。getterはあります。</p>
+<p>「TestData」に添付ファイルプロパティを追加しましょう。</p>
+<h5>s2mai.test.dto.TestData</h5>
+<pre>
+public class TestData{
+    private String name;
+    
+    private AttachedFile file;
+    
+    (setter、getter省略)
+}
+</pre>
+<p>プロパティ名は何でも構いません。型がAttachedFileであれば添付ファイルと見なします。また、複数指定の場合は配列もサポートしています。さらに、プロパティを複数構えても大丈夫です。</p>
+<pre>
+public class TestData{
+    private String name;
+    
+    private AttachedFile file;
+    private AttachedFile[] files;
+    
+    (setter、getter省略)
+}
+</pre>
+<p>fileとfilesのそれぞれにセットされたファイルが添付されます。</p>
+<p>また、型をListにした場合は、このままのプロパティ名ですと要素の型が不確定のため無視されますが、プロパティ名を「attachedFile」という名前にすれば、添付ファイルとして扱います。</p>
+<pre>
+public class TestData{
+    private String name;
+    
+    private List attachedFile;
+    
+    (setter、getter省略)
+}
+</pre>
+<p>勿論、この「attachedFile」というプロパティ名は、Listに制限されるものではなく、単体のAttachedFileの場合でもその配列の場合でも付けて構いません。</p>
+<p>ただし、ジェネリクスを用いた場合はこの規約を守らなくてもOKです。要素の型が保証されますので、プロパティ名は自由に付けられます。</p>
+<pre>
+public class TestData{
+    private String name;
+    
+    private List&lt;AttachedFile&gt; fileList;
+    
+    (setter、getter省略)
+}
+</pre>
+<p>このジェネリクスのサポートを使いたい場合は、s2-tigerが必要です。詳細は<a href="#s2mai">こちら</a>を参照して下さい。</p>
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="30" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+<td width="766"><img height="30" width="592" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+<td width="766" class="copyright">Copyright&copy; 2004-2006, The Seasar Foundation and the others. All rights reserved.</td>
+</tr></table>
+<td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
+<td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
+</tr></table></body>
+<!-- don't edit end -->
+</html>
