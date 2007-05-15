@@ -15,6 +15,7 @@
  */
 package org.seasar.mai.template.impl;
 
+import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -31,6 +32,7 @@ import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.framework.log.Logger;
+import org.seasar.framework.util.InputStreamUtil;
 import org.seasar.framework.util.PropertiesUtil;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.template.TemplateProcessor;
@@ -52,10 +54,12 @@ public class VelocityProcessorImpl implements TemplateProcessor {
         RuntimeServices runtimeServices = RuntimeSingleton.getRuntimeServices();
         this.engine = new VelocityEngine();
 
+        InputStream is = null;
         try {
             if (this.configFile != null) {
                 Properties properties = new Properties();
-                PropertiesUtil.load(properties, this.getClass().getClassLoader().getResourceAsStream(this.configFile));
+                is = this.getClass().getClassLoader().getResourceAsStream(this.configFile);
+                PropertiesUtil.load(properties, is);
                 this.engine.init(properties);
                 runtimeServices.init(properties);
             } else {
@@ -64,6 +68,8 @@ public class VelocityProcessorImpl implements TemplateProcessor {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            InputStreamUtil.close(is);
         }
 
         logger.log("DMAI0002", new Object[] { new Throwable().getStackTrace()[0].getClassName() + "@"

@@ -23,6 +23,7 @@ import java.io.StringWriter;
 
 import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.framework.util.InputStreamReaderUtil;
+import org.seasar.framework.util.InputStreamUtil;
 import org.seasar.framework.util.ReaderUtil;
 import org.seasar.framework.util.ResourceUtil;
 
@@ -47,10 +48,15 @@ public class FreeMarkerUtil {
     }
 
     public static String processResource(String path, Object data) {
-        InputStream is = ResourceUtil.getResourceAsStream(path);
-        Reader reader = InputStreamReaderUtil.create(is, getDefaultEncoding());
-        String text = ReaderUtil.readText(reader);
-        return process(text, data);
+        InputStream is = null;
+        try {
+            is = ResourceUtil.getResourceAsStream(path);
+            Reader reader = InputStreamReaderUtil.create(is, getDefaultEncoding());
+            String text = ReaderUtil.readText(reader);
+            return process(text, data);
+        } finally {
+            InputStreamUtil.close(is);
+        }
     }
 
     public static String process(String templateText, Object data) {
