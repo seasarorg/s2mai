@@ -225,9 +225,11 @@ public interface TestMai {
 <h5>TestMai_sendMail.ftl</h5>
 <pre>
 Subject: テストメールです。
+
 ${data.name}さんこんにちは。
 </pre>
-<p>テンプレートの一番上の行に、「Subject: (最後に半角スペース一個)」と書くと、それ以降を件名としてセットします。</p>
+<p>テンプレートの一番上の行に、「Subject: (最後に半角スペース一個)」と書くと、それ以降を件名としてセットします。例えば件名に「第X回」や「vol.1」など動的な項目があってデータを埋め込みたい時などに便利です。</p>
+<p>「Subject:～」を書いた場合、<b>本文との間に空行を1行入れて下さい。</b>「Subject:～」を書かない場合は1行目から本文とみなしますので空行は要りません。</p>
 <p>mailProperties.diconのtemplateEncodingでUTF-8を指定してますので、UTF-8で保存します。メールの内容を保持するクラス（ここではTestDataクラス）のプロパティを埋め込む場合には、「${data.property名}」と書きます。</p>
 <p>では、実行してみましょう。</p>
 <pre>
