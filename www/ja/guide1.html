@@ -48,11 +48,12 @@
 <p>他、必要となるjarファイルもlibディレクトリ内にありますが、その内、S2Mai本体が必要とするものは以下になります。</p>
 <ul>
 	<li>mail.jar</li>
+	<li>activation-x.x.x.jar</li>
 	<li>ozacc-mail-x.x.x.jar</li>
 	<li>s2-framework-2.4.x.jar</li>
 	<li>s2-exteinsion-2.4.x.jar</li>
 </ul>
-<p>また、標準でトランザクションとの連携を行っていますので、通常は下記のjarもクラスパスに含めて下さい。</p>
+<p>また、トランザクションとの連携を行っていますので、下記のjarもクラスパスに含めて下さい（クラスパス内に他のJTA実装がある場合は不要だと思いますが、確認はしていません）。</p>
 <ul>
 	<li>geronimo-jta_1.1_spec-1.0.jar</li>
 </ul>
@@ -79,7 +80,8 @@
 	<li>s2-tiger-2.4.x.jar</li>
 	<li>geronimo-ejb_2.1_spec-1.0.jar</li>
 </ul>
-geronimo-ejb_2.1_spec-1.0.jarは、動作環境がJavaEEにフルに対応している場合は不要となります。詳しくは<a href="http://s2container.seasar.org/ja/setup.html" target="_blank">こちら</a>をご参照下さい。
+<p>geronimo-ejb_2.1_spec-1.0.jarは、動作環境がJavaEEにフルに対応している場合は不要となります。詳しくは<a href="http://s2container.seasar.org/ja/setup.html" target="_blank">こちら</a>をご参照下さい。</p>
+<p>geronimo-j2ee_1.4_spec-1.0.jar がクラスパスにある場合、こちらにもJavaMailが部分的に実装されており、参照順序によってこちらが優先されると不具合が発生する事が確認されています。出来る限りSUNのJavaMail実装（ここではmail.jar）を使うようにして下さい。</p>
 <h3><a name="s2mai-tiger">S2Mai-Tiger</a></h3>
 S2Maiでは定数アノテーションを用いて各種プロパティを設定する事が出来ます。これを定数ではなく、Javaのアノテーションを使って設定する事が出来ます。その際には、s2mai-tiger-Vx.x.x.zipをダウンロードした後、解凍し、それに含まれる「s2mai-tiger-x.x.x.jar」をクラスパスに含めて下さい。
 <h3><a name="eclipse">Eclipseへのインポート</a></h3>
