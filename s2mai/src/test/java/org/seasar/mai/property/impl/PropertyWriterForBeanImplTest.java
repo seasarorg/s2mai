@@ -167,6 +167,35 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
                 .getName());
 
     }
+    
+    public void testSetMailAndServerProperties(){
+        // 07.07.02 メール設定とサーバ設定の両方セットしたらコケてたのでテスト追加。by rokugen
+        SendMailImpl sendMail = new SendMailImpl();
+        Mail mail = new Mail();        
+        TestDto testDto = new TestDto();
+        
+        testDto.setHost("test@hoge.jp");
+        testDto.setPort("1234");
+        testDto.setUsername("tesetuser");
+        testDto.setPassword("testpw");
+        testDto.setMessageId("messageIdTest@example.com");
+
+        testDto.setFrom("from@address");
+        testDto.setSubject("件名です");
+
+        propertyWriterImpl.setMailProperty(mail, testDto);
+        propertyWriterImpl.setServerProperty(sendMail, testDto);
+
+        assertEquals("host", testDto.getHost(), sendMail.getHost());
+        assertEquals("port", Integer.parseInt(testDto.getPort()), sendMail.getPort());
+        assertEquals("username", testDto.getUsername(), sendMail.getUsername());
+        assertEquals("password", testDto.getPassword(), sendMail.getPassword());
+        assertEquals("messageId", testDto.getMessageId(), sendMail.getMessageId());
+
+        assertEquals("from address only", testDto.getFrom(), mail.getFrom().getAddress());
+        assertEquals("subject", testDto.getSubject(), mail.getSubject());
+
+    }
 
     public class TestDto {
         private String host;
