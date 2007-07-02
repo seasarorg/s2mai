@@ -15,12 +15,14 @@
  */
 package org.seasar.mai.annotation;
 
+import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
  * @author rokugen
  */
+@Inherited
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MailAddr {
 	String address();
