@@ -28,6 +28,8 @@ public class MaiCreator extends ComponentCreatorImpl {
     public MaiCreator(NamingConvention namingConvention) {
         super(namingConvention);
         setNameSuffix("Mai");
+        setEnableInterface(true);
+        setEnableAbstract(true);
         setInstanceDef(InstanceDefFactory.SINGLETON);
     }
 
