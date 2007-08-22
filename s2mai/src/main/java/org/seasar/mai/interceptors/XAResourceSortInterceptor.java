@@ -27,6 +27,7 @@ import javax.transaction.xa.XAResource;
 import org.aopalliance.intercept.MethodInvocation;
 import org.seasar.extension.jta.TransactionImpl;
 import org.seasar.framework.aop.interceptors.AbstractInterceptor;
+import org.seasar.framework.exception.NoSuchFieldRuntimeException;
 import org.seasar.framework.util.ClassUtil;
 import org.seasar.framework.util.FieldUtil;
 import org.seasar.framework.util.MethodUtil;
@@ -66,11 +67,20 @@ public class XAResourceSortInterceptor extends AbstractInterceptor {
     }
 
     private List getXAResourceWrappers(Transaction transaction) {
-        TransactionImpl transactionImpl = (TransactionImpl) transaction;
-        Field field = ClassUtil.getDeclaredField(TransactionImpl.class, "xaResourceWrappers_");
+        TransactionImpl transactionImpl = (TransactionImpl) transaction;        
+        Field field = getXaResourceWrappersField();
         field.setAccessible(true);
         List xaResourceWrappers = (List) FieldUtil.get(field, transactionImpl);
         return xaResourceWrappers;
+    }
+    
+    private Field getXaResourceWrappersField(){
+        //S2-2.4.18からフィールド名からアンダースコアが取れるので対応。
+        try{
+            return ClassUtil.getDeclaredField(TransactionImpl.class, "xaResourceWrappers");
+        }catch(NoSuchFieldRuntimeException e){
+            return ClassUtil.getDeclaredField(TransactionImpl.class, "xaResourceWrappers_");
+        }
     }
 
     private void sortXAResource(List xaResourceWrappers) {
