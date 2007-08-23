@@ -29,28 +29,28 @@ import org.seasar.mai.template.TemplateProcessor;
  * @author Satoshi Kimura
  * 
  */
-public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
+public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory,Disposable {
     private PropertyWriterForAnnotation propertyWriterForAnnotation;
 
     private TemplateProcessor templateProcessor;
 
     private Map maiMetaDataCache = new HashMap();
+    
+    private boolean initialized;
 
-    {
-        DisposableUtil.add(new Disposable() {
-            public void dispose() {
-                clear();
-            }
-        });
-    }
 
     public MaiMetaData getMaiMetaData(Class maiClass) {
-        if (maiMetaDataCache.containsKey(maiClass)) {
-            return (MaiMetaData) maiMetaDataCache.get(maiClass);
+        if (!initialized) {
+            DisposableUtil.add(this);
+            initialized = true;
+        }
+        String key = maiClass.getName();
+        if (maiMetaDataCache.containsKey(key)) {
+            return (MaiMetaData) maiMetaDataCache.get(key);
         }
 
         MaiMetaData metaData = new MaiMetaDataImpl(maiClass, propertyWriterForAnnotation, templateProcessor.getExt());
-        maiMetaDataCache.put(maiClass, metaData);
+        maiMetaDataCache.put(key, metaData);
         return metaData;
     }
 
@@ -62,11 +62,14 @@ public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory {
         this.propertyWriterForAnnotation = propertyWriterForAnnotation;
     }
 
-    public void clear() {
-        maiMetaDataCache.clear();
-    }
 
     public void setTemplateProcessor(TemplateProcessor templateProcessor) {
         this.templateProcessor = templateProcessor;
+    }
+
+    public void dispose() {
+        maiMetaDataCache.clear();
+        initialized = false;
+        
     }
 }

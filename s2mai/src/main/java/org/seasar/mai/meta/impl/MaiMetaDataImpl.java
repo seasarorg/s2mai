@@ -40,13 +40,6 @@ public class MaiMetaDataImpl implements MaiMetaData {
 
     private String ext;
 
-    {
-        DisposableUtil.add(new Disposable() {
-            public void dispose() {
-                clear();
-            }
-        });
-    }
 
     public MaiMetaDataImpl(Class maiClass, PropertyWriterForAnnotation propertyWriterForAnnotation, String ext) {
         this.ext = ext;
@@ -63,7 +56,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
             Method method = methods[i];
             Mail mail = getMail(maiClass, classMail, method);
 
-            mails.put(method, mail);
+            mails.put(method.getName(), mail);
             this.setPropertiesFromMailPropertiesDicon(mail);
             propertyWriterForAnnotation.setMailProperty(mail, method);
 
@@ -99,11 +92,11 @@ public class MaiMetaDataImpl implements MaiMetaData {
     }
 
     public Mail getMail(Method method) {
-        return (Mail) mails.get(method);
+        return (Mail) mails.get(method.getName());
     }
 
     public String getTemplatePath(Method method) {
-        String path = (String) templatePaths.get(method);
+        String path = (String) templatePaths.get(method.getName());
         if (path != null) {
             return path;
         }
@@ -111,13 +104,9 @@ public class MaiMetaDataImpl implements MaiMetaData {
 
         path = maiClass.getName().replaceAll("\\.", "/") + "_" + method.getName() + "." + ext;
 
-        templatePaths.put(method, path);
+        templatePaths.put(method.getName(), path);
 
         return path;
     }
 
-    public void clear() {
-        mails.clear();
-        templatePaths.clear();
-    }
 }
