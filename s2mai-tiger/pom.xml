@@ -82,6 +82,7 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <configuration>
             <updateReleaseInfo>true</updateReleaseInfo>
+            
           </configuration>
         </plugin>	              
       </plugins>
@@ -124,6 +125,18 @@
         </executions>
       </plugin>
 -->     
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<finalName>
+						s2mai-tiger
+					</finalName>
+					<outputDirectory>${project.build.directory}/assembly</outputDirectory>					
+					<descriptors>
+						<descriptor>src/main/assembly/bin.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>          		
     </plugins>        
   </build>
   <repositories>
