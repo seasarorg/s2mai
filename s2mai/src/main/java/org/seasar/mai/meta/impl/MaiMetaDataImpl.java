@@ -22,8 +22,6 @@ import java.util.Map;
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.container.factory.S2ContainerFactory;
 import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
-import org.seasar.framework.util.Disposable;
-import org.seasar.framework.util.DisposableUtil;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.property.PropertyWriterForAnnotation;
@@ -95,7 +93,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
         return (Mail) mails.get(method.getName());
     }
 
-    public String getTemplatePath(Method method) {
+    public synchronized String getTemplatePath(Method method) {
         String path = (String) templatePaths.get(method.getName());
         if (path != null) {
             return path;

@@ -39,7 +39,7 @@ public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory,Disposable {
     private boolean initialized;
 
 
-    public MaiMetaData getMaiMetaData(Class maiClass) {
+    public synchronized MaiMetaData getMaiMetaData(Class maiClass) {
         if (!initialized) {
             DisposableUtil.add(this);
             initialized = true;
@@ -67,7 +67,7 @@ public class MaiMetaDataFactoryImpl implements MaiMetaDataFactory,Disposable {
         this.templateProcessor = templateProcessor;
     }
 
-    public void dispose() {
+    public synchronized void dispose() {
         maiMetaDataCache.clear();
         initialized = false;
         
