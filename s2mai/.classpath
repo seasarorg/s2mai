@@ -1,28 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry path="src/main/java" output="build/classes" kind="src"/>
-	<classpathentry path="src/main/resources" output="build/classes" kind="src"/>
-	<classpathentry path="src/test/java" output="build/test" kind="src"/>
-	<classpathentry path="src/test/resources" output="build/test" kind="src"/>
-	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
-	<classpathentry path="lib/activation-1.1.jar" kind="lib"/>
-	<classpathentry path="lib/aopalliance-1.0.jar" kind="lib"/>
-	<classpathentry path="lib/commons-logging-1.1.jar" kind="lib"/>
-	<classpathentry path="lib/junit-3.8.2.jar" kind="lib"/>
-	<classpathentry path="lib/mail.jar" kind="lib"/>
-	<classpathentry path="lib/ognl-2.6.7.jar" kind="lib"/>
-	<classpathentry path="lib/ozacc-mail-1.1.7.jar" kind="lib"/>
-	<classpathentry path="lib/commons-collections-3.2.jar" kind="lib"/>
-	<classpathentry path="lib/velocity-tools-generic-1.2.jar" kind="lib"/>
-	<classpathentry path="lib/geronimo-j2ee_1.4_spec-1.0.jar" kind="lib"/>
-	<classpathentry path="lib/geronimo-jta_1.1_spec-1.0.jar" kind="lib"/>
-	<classpathentry path="lib/hsqldb-1.8.0.1.jar" kind="lib"/>
-	<classpathentry path="lib/javassist-3.4.ga.jar" kind="lib"/>
-	<classpathentry path="lib/log4j-1.2.13.jar" kind="lib"/>
-	<classpathentry path="lib/s2-extension-2.4.11.jar" kind="lib"/>
-	<classpathentry path="lib/s2-framework-2.4.11.jar" kind="lib"/>
-	<classpathentry path="lib/freemarker-2.3.9.jar" kind="lib"/>
-	<classpathentry path="lib/velocity-1.5.jar" kind="lib"/>
-	<classpathentry path="lib/commons-lang-2.2.jar" kind="lib"/>
-	<classpathentry path="build/classes" kind="output"/>
+	<classpathentry kind="src" output="build/classes" path="src/main/java"/>
+	<classpathentry kind="src" output="build/classes" path="src/main/resources"/>
+	<classpathentry kind="src" output="build/test" path="src/test/java"/>
+	<classpathentry kind="src" output="build/test" path="src/test/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="build/classes"/>
 </classpath>
