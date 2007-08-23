@@ -96,18 +96,11 @@
 					<finalName>
 						s2mai
 					</finalName>
+					<outputDirectory>${project.build.directory}/assembly</outputDirectory>
 					<descriptors>
 						<descriptor>src/main/assembly/bin.xml</descriptor>
 					</descriptors>
 				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>attached</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>          		
 <!-- 
       <plugin>
