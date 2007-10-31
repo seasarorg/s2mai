@@ -159,12 +159,12 @@ S2Mai‚Å‚Í’è”ƒAƒmƒe[ƒVƒ‡ƒ“‚ğ—p‚¢‚ÄŠeíƒvƒƒpƒeƒB‚ğİ’è‚·‚é–‚ªo—ˆ‚Ü‚·B‚±‚ê‚ğ’
 ‘¼‚Ì€–Ú‚ÍŒ»İ–¢‘Î‰‚Å‚·B
 
 <h3><a name="basic">Šî–{“I‚Èg‚¢•û</a></h3>
-<p>‚Ü‚¸Aƒ[ƒ‹‚Ì“à—e‚ğ•Û‚·‚éƒNƒ‰ƒX‚ğì‚è‚Ü‚·B‚±‚±‚Å‚ÍAname‚Æ‚¢‚¤ƒvƒƒpƒeƒB‚ğ‚Á‚½uTestDatav‚Æ‚¢‚¤ƒNƒ‰ƒX‚ğus2mai.test.dtov‚Æ‚¢‚¤ƒpƒbƒP[ƒW‚Éì‚é–‚É‚µ‚Ü‚·B</p>
-<h5>s2mai.test.dto.TestData</h5>
+<p>‚Ü‚¸Aƒ[ƒ‹‚Ì“à—e‚ğ•Û‚·‚éƒNƒ‰ƒX‚ğì‚è‚Ü‚·B‚±‚±‚Å‚ÍAname‚Æ‚¢‚¤ƒvƒƒpƒeƒB‚ğ‚Á‚½uTestDtov‚Æ‚¢‚¤ƒNƒ‰ƒX‚ğus2mai.test.dtov‚Æ‚¢‚¤ƒpƒbƒP[ƒW‚Éì‚é–‚É‚µ‚Ü‚·B</p>
+<h5>s2mai.test.dto.TestDto</h5>
 <pre>
 package s2mai.test.dto;
 
-public class TestData{
+public class TestDto{
     private String name;
     
     public void setName(String name_){
@@ -176,13 +176,13 @@ public class TestData{
     }
 }
 </pre>
-<p>Ÿ‚ÉAƒ[ƒ‹‘—M‚ğ‚·‚éMaiƒCƒ“ƒ^ƒtƒF[ƒX‚ğì‚è‚Ü‚·B‚±‚±‚Å‚ÍuTestMaiv‚Æ‚¢‚¤ƒCƒ“ƒ^ƒtƒF[ƒX‚ğus2mai.test.maiv‚Æ‚¢‚¤ƒpƒbƒP[ƒW‚Éì‚é–‚É‚µ‚Ü‚·BuTestMaiv‚ÍAuTestDatav‚ğˆø”‚É‚Æ‚Á‚Ä‚»‚Ì“à—e‚ğ”½‰f‚µ‚½ƒ[ƒ‹‚ğ‘—M‚·‚éusendMailv‚Æ‚¢‚¤ƒƒ\ƒbƒh‚ğ‚Â–‚É‚µ‚Ü‚·B</p>
+<p>Ÿ‚ÉAƒ[ƒ‹‘—M‚ğ‚·‚éMaiƒCƒ“ƒ^ƒtƒF[ƒX‚ğì‚è‚Ü‚·B‚±‚±‚Å‚ÍuTestMaiv‚Æ‚¢‚¤ƒCƒ“ƒ^ƒtƒF[ƒX‚ğus2mai.test.maiv‚Æ‚¢‚¤ƒpƒbƒP[ƒW‚Éì‚é–‚É‚µ‚Ü‚·BuTestMaiv‚ÍAuTestDtov‚ğˆø”‚É‚Æ‚Á‚Ä‚»‚Ì“à—e‚ğ”½‰f‚µ‚½ƒ[ƒ‹‚ğ‘—M‚·‚éusendMailv‚Æ‚¢‚¤ƒƒ\ƒbƒh‚ğ‚Â–‚É‚µ‚Ü‚·B</p>
 <h5>s2mai.test.mai.TestMai</h5>
 <pre>
 package s2mai.test.mai;
 
 public interface TestMai {
-    void sendMail(TestData data);
+    void sendMail(TestDto dto);
 }
 </pre>
 <p>‚±‚ÌƒCƒ“ƒ^ƒtƒF[ƒX‚Ì–¼‘O‚Í‚È‚ñ‚Å‚à\‚¢‚Ü‚¹‚ñ‚ªAŒãX‚Ìƒƒ“ƒeƒiƒ“ƒX‚âSMART deploy‚ğ—p‚¢‚½ŠJ”­‚É‘Î‰‚·‚é‚½‚ß‚ÉAu`Maiv‚Æ‚¢‚¤–½–¼‹K‘¥‚É‘¥‚é–‚ğ„§‚µ‚Ü‚·B‚Ü‚½Aƒ[ƒ‹‘—M—pƒƒ\ƒbƒh‚Ì–¼‘O‚É‚Í“Á‚É§–ñ‚Í‚ ‚è‚Ü‚¹‚ñB—p“r•Ê‚É•¡”‚Ìƒƒ\ƒbƒh‚ğˆê‚Â‚ÌMaiƒCƒ“ƒ^ƒtƒF[ƒX‚É’è‹`‚·‚é–‚ào—ˆ‚Ü‚·B</p>
@@ -234,12 +234,12 @@ ${data.name}‚³‚ñ‚±‚ñ‚É‚¿‚ÍB
 </pre>
 <p>ƒeƒ“ƒvƒŒ[ƒg‚Ìˆê”Ôã‚Ìs‚ÉAuSubject: (ÅŒã‚É”¼ŠpƒXƒy[ƒXˆêŒÂ)v‚Æ‘‚­‚ÆA‚»‚êˆÈ~‚ğŒ–¼‚Æ‚µ‚ÄƒZƒbƒg‚µ‚Ü‚·B—á‚¦‚ÎŒ–¼‚Éu‘æX‰ñv‚âuvol.1v‚È‚Ç“®“I‚È€–Ú‚ª‚ ‚Á‚Äƒf[ƒ^‚ğ–„‚ß‚İ‚½‚¢‚È‚Ç‚É•Ö—˜‚Å‚·B</p>
 <p>uSubject:`v‚ğ‘‚¢‚½ê‡A<b>–{•¶‚Æ‚ÌŠÔ‚É‹ós‚ğ1s“ü‚ê‚Ä‰º‚³‚¢B</b>uSubject:`v‚ğ‘‚©‚È‚¢ê‡‚Í1s–Ú‚©‚ç–{•¶‚Æ‚İ‚È‚µ‚Ü‚·‚Ì‚Å‹ós‚Í—v‚è‚Ü‚¹‚ñB</p>
-<p>mailProperties.dicon‚ÌtemplateEncoding‚ÅUTF-8‚ğw’è‚µ‚Ä‚Ü‚·‚Ì‚ÅAUTF-8‚Å•Û‘¶‚µ‚Ü‚·Bƒ[ƒ‹‚Ì“à—e‚ğ•Û‚·‚éƒNƒ‰ƒXi‚±‚±‚Å‚ÍTestDataƒNƒ‰ƒXj‚ÌƒvƒƒpƒeƒB‚ğ–„‚ß‚Şê‡‚É‚ÍAu${data.property–¼}v‚Æ‘‚«‚Ü‚·B</p>
+<p>mailProperties.dicon‚ÌtemplateEncoding‚ÅUTF-8‚ğw’è‚µ‚Ä‚Ü‚·‚Ì‚ÅAUTF-8‚Å•Û‘¶‚µ‚Ü‚·Bƒ[ƒ‹‚Ì“à—e‚ğ•Û‚·‚éƒNƒ‰ƒXi‚±‚±‚Å‚ÍTestDtoƒNƒ‰ƒXj‚ÌƒvƒƒpƒeƒB‚ğ–„‚ß‚Şê‡‚É‚ÍAu${data.property–¼}v‚Æ‘‚«‚Ü‚·B<b>ƒeƒ“ƒvƒŒ[ƒg“à‚ÅTestDto‚ğ•\‚·—v‘f–¼‚ÍudatavŒÅ’è‚Å‚·B</b></p>
 <p>‚Å‚ÍAÀs‚µ‚Ä‚İ‚Ü‚µ‚å‚¤B</p>
 <pre>
 S2Container container = S2ContainerFactory.create("maitest.dicon");
 TestMai mai = (TestMai) container.getComponent(TestMai.class);
-TestData dto = new TestData();
+TestDto dto = new TestDto();
 dto.setName("˜Z");
 mai.sendMail(dto);
 </pre>
@@ -263,7 +263,7 @@ public interface TestMai {
     static final String FROM = "hoge@foo.com";
     static final String TO = "rokugen@example.com";
     
-    void sendMail(TestData data);
+    void sendMail(TestDto data);
 }
 </pre>
 <p>‚±‚ê‚ÅAæ‚Ù‚Çì‚Á‚½uTestMai_sendMail.diconv‚Í•s—v‚Æ‚È‚è‚Ü‚·B‚Ü‚½Aæ’ö‚ÌƒTƒ“ƒvƒ‹‚Å‚Ínull‚Æ‚È‚Á‚Ä‚¢‚½From‚ğuhoge@foo.comv‚Æ‚µ‚Ä’Ç‰Á‚µ‚Ä‚İ‚Ü‚µ‚½B</p>
@@ -275,9 +275,9 @@ public interface TestMai {
     static final String TO = "rokugen@example.com";
     static final String sendMail2_TO = "kei@example.com";
     
-    void sendMail(TestData data);
-    void sendMail2(TestData2 data);
-    void sendMail3(TestData3 data);
+    void sendMail(TestDto data);
+    void sendMail2(TestDto2 data);
+    void sendMail3(TestDto3 data);
 }
 </pre>
 <p>‚±‚Ìê‡AsendMail‚ÆsendMail3‚ÌÀs‚ÉTo‚É‚Íurokugen@example.comv‚ªİ’è‚³‚ê‚ÄAsendMail2‚ÌÀs‚É‚Íukei@example.comv‚ª”½‰f‚³‚ê‚Ü‚·BTo‚âCc‚âBcc‚È‚ÇA•¡”w’è‚·‚é‚à‚Ì‚É‚ÍA”z—ñ‚Å‚Ìw’è‚ào—ˆ‚Ü‚·B</p>
@@ -328,10 +328,10 @@ static final MailAddress[] TO =
 <p>‚½‚¾‚µASubject‚Íƒeƒ“ƒvƒŒ[ƒg‚Ì1s–Ú‚É‘‚¢‚½‚à‚Ì‚ªÅ—Dæ‚Æ‚È‚è‚Ü‚·BƒAƒmƒe[ƒVƒ‡ƒ“‚Åİ’è‚µ‚½‚¢ê‡‚ÍAƒeƒ“ƒvƒŒ[ƒg‚Ì1s–Ú‚ÌuSubject: `v‚ğs‚²‚Æíœ‚µ‚Ä‰º‚³‚¢B1s–Ú‚©‚çƒ[ƒ‹–{•¶‚ªn‚Ü‚Á‚Ä‚à–â‘è‚Í‚ ‚è‚Ü‚¹‚ñB</p>
 <h3><a name="bean">ƒ[ƒ‹“à—eƒNƒ‰ƒX‚ÌƒvƒƒpƒeƒB‚Å‚Ìİ’è</a></h3>
 <p>‚±‚±‚Ü‚Å‚Ì•û–@‚Å‚·‚ÆAFrom‚âTo‚È‚Ç‚Ìƒ[ƒ‹İ’è‚Íƒrƒ‹ƒh‚ÉŒˆ‚Ü‚Á‚Ä‚µ‚Ü‚¢AƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å“®“I‚Éİ’è‚·‚é–‚ªo—ˆ‚Ü‚¹‚ñBS2Mai‚ÍAƒ[ƒ‹‚Ì“à—e‚ğ•Û‚·‚éƒNƒ‰ƒX‚ÌƒvƒƒpƒeƒB‚ğ–½–¼‹K‘¥‚É€‚¶‚½–¼‘O‚É‚·‚é–‚ÅA‚»‚ÌƒvƒƒpƒeƒB‚Ì’l‚ğg‚Á‚Äƒ[ƒ‹İ’è‚ğs‚¢‚Ü‚·BƒAƒvƒŠƒP[ƒVƒ‡ƒ“‘¤‚ÅA‚±‚ÌƒvƒƒpƒeƒB‚É’l‚ğƒZƒbƒg‚µ‚Ä‚â‚é–‚ÅA“®“I‚Éİ’è‚·‚é–‚ª‰Â”\‚Æ‚È‚è‚Ü‚·B</p>
-<p>‚±‚±‚Å‚ÍAæ’öƒTƒ“ƒvƒ‹‚Åg‚Á‚½uTestDatav‚Éƒ[ƒ‹İ’è—pƒvƒƒpƒeƒB‚ğ’Ç‰Á‚µ‚Ä‚İ‚Ü‚·B</p>
-<h5>s2mai.test.dto.TestData</h5>
+<p>‚±‚±‚Å‚ÍAæ’öƒTƒ“ƒvƒ‹‚Åg‚Á‚½uTestDtov‚Éƒ[ƒ‹İ’è—pƒvƒƒpƒeƒB‚ğ’Ç‰Á‚µ‚Ä‚İ‚Ü‚·B</p>
+<h5>s2mai.test.dto.TestDto</h5>
 <pre>
-public class TestData{
+public class TestDto{
     private String name;
     
     private InternetAddress from;
@@ -430,10 +430,10 @@ public class TestData{
 </ol>
 <p>‚»‚ê‚¼‚ê‘æ“ñˆø”‚Åƒtƒ@ƒCƒ‹–¼‚ğİ’è‚µ‚Ü‚·‚ªA“KØ‚ÈŠg’£q‚ª•K—v‚Æ‚È‚è‚Ü‚·BFile‚Ì‚İ‚ğw’è‚µ‚½ê‡‚ÍA‚»‚Ìƒtƒ@ƒCƒ‹–¼‚ªƒZƒbƒg‚³‚ê‚Ü‚·B</p>
 <p>“®ì‚ğ•ÛØ‚·‚é‚½‚ß‚ÉA‚»‚ê‚¼‚ê‚Ìİ’è’l‚Ìsetter‚Í—pˆÓ‚µ‚Ä‚¢‚Ü‚¹‚ñBgetter‚Í‚ ‚è‚Ü‚·B</p>
-<p>uTestDatav‚É“Y•tƒtƒ@ƒCƒ‹ƒvƒƒpƒeƒB‚ğ’Ç‰Á‚µ‚Ü‚µ‚å‚¤B</p>
-<h5>s2mai.test.dto.TestData</h5>
+<p>uTestDtov‚É“Y•tƒtƒ@ƒCƒ‹ƒvƒƒpƒeƒB‚ğ’Ç‰Á‚µ‚Ü‚µ‚å‚¤B</p>
+<h5>s2mai.test.dto.TestDto</h5>
 <pre>
-public class TestData{
+public class TestDto{
     private String name;
     
     private AttachedFile file;
@@ -443,7 +443,7 @@ public class TestData{
 </pre>
 <p>ƒvƒƒpƒeƒB–¼‚Í‰½‚Å‚à\‚¢‚Ü‚¹‚ñBŒ^‚ªAttachedFile‚Å‚ ‚ê‚Î“Y•tƒtƒ@ƒCƒ‹‚ÆŒ©‚È‚µ‚Ü‚·B‚Ü‚½A•¡”w’è‚Ìê‡‚Í”z—ñ‚àƒTƒ|[ƒg‚µ‚Ä‚¢‚Ü‚·B‚³‚ç‚ÉAƒvƒƒpƒeƒB‚ğ•¡”\‚¦‚Ä‚à‘åä•v‚Å‚·B</p>
 <pre>
-public class TestData{
+public class TestDto{
     private String name;
     
     private AttachedFile file;
@@ -455,7 +455,7 @@ public class TestData{
 <p>file‚Æfiles‚Ì‚»‚ê‚¼‚ê‚ÉƒZƒbƒg‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ª“Y•t‚³‚ê‚Ü‚·B</p>
 <p>‚Ü‚½AŒ^‚ğList‚É‚µ‚½ê‡‚ÍA‚±‚Ì‚Ü‚Ü‚ÌƒvƒƒpƒeƒB–¼‚Å‚·‚Æ—v‘f‚ÌŒ^‚ª•sŠm’è‚Ì‚½‚ß–³‹‚³‚ê‚Ü‚·‚ªAƒvƒƒpƒeƒB–¼‚ğuattachedFilev‚Æ‚¢‚¤–¼‘O‚É‚·‚ê‚ÎA“Y•tƒtƒ@ƒCƒ‹‚Æ‚µ‚Äˆµ‚¢‚Ü‚·B</p>
 <pre>
-public class TestData{
+public class TestDto{
     private String name;
     
     private List attachedFile;
@@ -466,7 +466,7 @@ public class TestData{
 <p>–Ü˜_A‚±‚ÌuattachedFilev‚Æ‚¢‚¤ƒvƒƒpƒeƒB–¼‚ÍAList‚É§ŒÀ‚³‚ê‚é‚à‚Ì‚Å‚Í‚È‚­A’P‘Ì‚ÌAttachedFile‚Ìê‡‚Å‚à‚»‚Ì”z—ñ‚Ìê‡‚Å‚à•t‚¯‚Ä\‚¢‚Ü‚¹‚ñB</p>
 <p>‚½‚¾‚µAƒWƒFƒlƒŠƒNƒX‚ğ—p‚¢‚½ê‡‚Í‚±‚Ì‹K–ñ‚ğç‚ç‚È‚­‚Ä‚àOK‚Å‚·B—v‘f‚ÌŒ^‚ª•ÛØ‚³‚ê‚Ü‚·‚Ì‚ÅAƒvƒƒpƒeƒB–¼‚Í©—R‚É•t‚¯‚ç‚ê‚Ü‚·B</p>
 <pre>
-public class TestData{
+public class TestDto{
     private String name;
     
     private List&lt;AttachedFile&gt; fileList;
@@ -475,7 +475,10 @@ public class TestData{
 }
 </pre>
 <p>‚±‚ÌƒWƒFƒlƒŠƒNƒX‚ÌƒTƒ|[ƒg‚ğg‚¢‚½‚¢ê‡‚ÍAs2-tiger‚ª•K—v‚Å‚·BÚ×‚Í<a href="#s2mai">‚±‚¿‚ç</a>‚ğQÆ‚µ‚Ä‰º‚³‚¢B</p>
-
+<ul>
+	<li><a href="./index.html">S2Maiƒgƒbƒv</a></li>
+	<li><a href="./guide2.html">TigerƒAƒmƒe[ƒVƒ‡ƒ“ESMART deploy</a></li>
+</ul>
 <!-- document end -->
 <!-- don't edit start -->
 </td>

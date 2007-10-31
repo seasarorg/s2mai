@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head>
+<title>Seasar - DI Container with AOP - </title>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link href="http://www.seasar.org/seasar_b.css" type="text/css" rel="stylesheet" media="screen">
+<link href="http://www.seasar.org/seasar_p.css" type="text/css" rel="stylesheet" media="print">
+</head><body><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="http://www.seasar.org/images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="http://www.seasar.org/images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="http://www.seasar.org/images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="http://www.seasar.org/images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/index.html"><img src="http://www.seasar.org/images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01"></a></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="101" border="0" alt="" id="menu02"></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="110" border="0" alt="" id="menu03"></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="113" border="0" alt="" id="menu04"></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="109" border="0" alt="" id="menu05"></td>
+<td><img height="30" width="34" src="http://www.seasar.org/images/menu06.gif" alt=""></td></tr><tr>
+<td colspan="6"><img height="19" width="545" src="http://www.seasar.org/images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td><td width="740" class="main">
+<!-- don't edit end -->
+<!-- document start -->
+<ul>
+	<li><a href="#tiger">Tigerアノテーション</a></li>
+	<ul>
+		<li><a href="#tiger_example">使用例</a></li>
+		<li><a href="#tiger_desc">解説</a></li>
+	</ul>	
+	<li><a href="#smart">SMART deployのための設定</a></li>
+</ul>
+<h2><a name="tiger">Tigerアノテーション</a></h2>
+<p>S2Maiは、定数アノテーションと同等の機能を持ったTigerアノテーションも提供しています。</p>
+<p>Tigerアノテーションを使う場合は、s2mai-tiger-xxx.jarをクラスパスに含めて下さい。s2mai-tigerの配布zipには他のjarもありますが、開発・テスト時に必要となるものなので、実行時には特に必要ではありません。</p>
+
+<h3><a name="tiger_example">使用例</a></h3>
+<p>定数アノテーションを下記のように使ったとします。</p>
+<pre>
+public interface TestMai {
+    static final String FROM = "hoge@foo.com";
+    
+    static final MailAddress TO = new MailAddress("rokugen@example.com","六");
+    
+    static final MailAddress[] sendMail2_TO = 
+        new MailAddress[]{new MailAddress("foo@example.com","ふー"),new MailAddress("bar@example.com","ばー")};
+        
+    static final MailAddress sendMail3_BCC = new MailAddress("fuga@example.com","ふが");
+    
+    void sendMail(TestDto dto);
+    
+    void sendMail2(TestDto2 dto);
+    
+    void sendMail3(TestDto3 dto);
+}
+</pre>
+<p>これをTigerアノテーションに置き換えてみます。</p>
+<pre>
+@From(@MailAddr(address="hoge@foo.com"))
+@To(@MailAddr(address="rokugen@example.com", personal="六"))
+public interface TestMai {
+    
+    void sendMail(TestDto dto);
+    
+    @To({@MailAddr(address="foo@example.com", personal="ふー"), @MailAddr(address="bar@example.com", personal="ばー")})
+    void sendMail2(TestDto2 dto);
+    
+    @Bcc("fuga@example.com");
+    void sendMail3(TestDto3 dto);
+}
+</pre>
+<p>こうなります。Mai共通に適用する場合はinterface型宣言の上、特定のメソッドに適用する場合はメソッドの上に書きます。</p>
+<p>また、Tigerアノテーションと定数アノテーションの混在も可能です。</p>
+<h3><a name="tiger_desc">解説</a></h3>
+<h5>@MailAddr</h5>
+<p>メールアドレスと名前を保持するアノテーションです。addressにメールアドレス、personalに名前を指定します。personalは省略可です。</p>
+<pre>
+@MailAddr(address="rokugen@example.com", personal="六")
+@MailAddr(address="foo@example.com")
+</pre>
+<p>このアノテーションを用いて、各メール設定値用アノテーションに値を設定します。</p>
+<h5>メールプロパティ</h5>
+<p>メール設定値用に下記のアノテーションが用意されています。</p>
+<table border="1">
+	<tr>
+		<th>アノテーション</th><th>指定出来る型、アノテーション</th>
+	</tr>
+	<tr>
+		<td>@Subject</td><td>String</td>
+	</tr>
+	<tr>
+		<td>@From</td><td>@MailAddr</td>
+	</tr>
+	<tr>
+		<td>@To</td><td>@MailAddrおよびその配列</td>
+	</tr>
+	<tr>
+		<td>@Cc</td><td>@MailAddrおよびその配列</td>
+	</tr>
+	<tr>
+		<td>@Bcc</td><td>Stringおよびその配列</td>
+	</tr>
+	<tr>
+		<td>@ReplyTo</td><td>@MailAddr</td>
+	</tr>
+	<tr>
+		<td>@ReturnPath</td><td>String</td>
+	</tr>
+</table>
+<p>@Subjectはもとより、@Bccと@ReturnPathは名前をセット出来ない（意味がない）ので、Stringになってます。</p>
+
+<h3><a name="smart">SMART deployのための設定</a></h3>
+<p>S2Maiは、SMART deployに対応しています。</p>
+<p>まず、app.diconにincludeを追加します。</p>
+<h5>app.dicon</h5>
+<pre>
+&lt;include path="s2mai.dicon"/&gt;
+</pre>
+<p>次に、creator.diconに下記を追加します。</p>
+<h5>creator.dicon</h5>
+<pre>
+&lt;component class="org.seasar.mai.creator.MaiCreator" /&gt;
+</pre>
+<p>そして、customizer.diconに下記を追加します。</p>
+<h5>customizer.dicon</h5>
+<pre>
+&lt;component name="maiAspectCustomizer" class="org.seasar.framework.container.customizer.AspectCustomizer"&gt;
+    &lt;property name="interceptorName"&gt;"s2mai.s2MaiInterceptor"&lt;/property&gt;
+&lt;/component&gt;
+<br/>
+&lt;component name="maiCustomizer" class="org.seasar.framework.container.customizer.CustomizerChain"&gt;
+    &lt;initMethod name="addCustomizer"&gt;
+        &lt;arg&gt;defaultCustomizer&lt;/arg&gt; &lt;!-- これは任意ですが、大概traceInterceptorになってると思います --&gt;
+    &lt;/initMethod&gt;
+    &lt;initMethod name="addCustomizer"&gt;
+        &lt;arg&gt;maiAspectCustomizer&lt;/arg&gt;
+    &lt;/initMethod&gt;
+&lt;/component&gt;
+</pre>
+これでSMART deployが有効になります。規約は以下になります。
+<ul>
+	<li>Maiインタフェースの名前が「Mai」で終わる</li>
+	<li>Maiインタフェースが、convention.diconで設定したルートパッケージの直下の「mai」という名前のパッケージ内にある </li>
+</ul>
+<p>例えば、ルートパッケージが「com.example」の場合、「com.example.mai.TestMai」というインタフェースはMaiのコンポーネントとして認識されます。</p>
+<p>以上の規約に従えば、Maiのコンポーネント登録を記述する必要がなくなります。</p>
+<ul>
+	<li><a href="./index.html">S2Maiトップ</a></li>
+	<li><a href="./guide1.html">セットアップ・基本的な使い方</a></li>
+</ul>
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="30" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+<td width="766"><img height="30" width="592" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+<td width="766" class="copyright">Copyright&copy; 2004-2006, The Seasar Foundation and the others. All rights reserved.</td>
+</tr></table>
+<td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
+<td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
+</tr></table></body>
+<!-- don't edit end -->
+</html>
