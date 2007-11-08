@@ -52,13 +52,14 @@ public class SendMailTestUtil {
         mailList.clear();
     }
 
-    public static final String getTextFromFile(Class testClass, String fileName) {
+    public static final String getTextFromFile(Object testObject, String fileName) {
+        Class testClass = testObject.getClass();
         S2Container container = S2ContainerFactory.create(S2MaiConstants.MAIL_PROPERTIES_DICON);
         String encoding = (String) container.getComponent(S2MaiConstants.TEMPLATE_ENCODING);
         InputStream is = null;
         try {
-            is = ResourceUtil.getResourceAsStream(testClass.getPackage().getName().replaceAll("\\.", "/") + "/"
-                    + fileName);
+            String path = ResourceUtil.convertPath(fileName, testClass); 
+            is = ResourceUtil.getResourceAsStream(path);
             Reader reader = InputStreamReaderUtil.create(is, encoding);
             return ReaderUtil.readText(reader);
         } finally {

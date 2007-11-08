@@ -21,7 +21,6 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
-import org.seasar.framework.util.TextUtil;
 import org.seasar.mai.mail.AttachedFile;
 import org.seasar.mai.mail.MailAddress;
 import org.seasar.mai.unit.SendMailTestUtil;
@@ -51,8 +50,8 @@ public class S2MaiInterceptorTest extends S2TestCase {
         data.setYear(2006);
         data.setNo(12345);
         testMai.sendMail(data);
-
-        String expected = TextUtil.readUTF8(super.convertPath("S2MaiInterceptorTest_testInvoke.txt"));
+        
+        String expected = SendMailTestUtil.getTextFromFile(this, "S2MaiInterceptorTest_testInvoke.txt");
         assertEquals(expected, SendMailTestUtil.getMail(0).getText());
     }
 

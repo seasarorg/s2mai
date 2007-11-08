@@ -3,12 +3,10 @@
 	"http://www.seasar.org/dtd/components23.dtd">
 <components namespace="s2mai">
 	<include path="jta.dicon"/>
-	<include path="mailProperties.dicon"/>
-	<include path="mailTemplate.dicon"/>
+	<include path="mailProperties.dicon"/>	
+	<include path="mailTemplate.dicon"/>		
 	
-	<component name="s2MaiInterceptor" class="org.seasar.mai.interceptors.S2MaiInterceptor"/>
 	<component name="XAResourceSortInterceptor" class="org.seasar.mai.interceptors.XAResourceSortInterceptor"/>
-	<component name="mailInterceptor" class="org.seasar.mai.unit.SendMailInterceptor"/>
 	<component class="org.seasar.mai.meta.impl.MaiMetaDataFactoryImpl"/>
 	<component class="org.seasar.mai.annotation.impl.AnnotationReaderFactoryImpl"/>
 	
@@ -30,20 +28,8 @@
 	<component name="portWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterPort" />
 	<component name="usernameWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterUsername" />
 	<component name="passwordWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterPassword" />
-	<component name="messageIdWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterMessageId" />
-		
-	<component class="org.seasar.mai.mail.impl.SendMailImpl">
-		<aspect>mailInterceptor</aspect>
-		<property name="host">host</property>
-		<property name="port">port</property>
-		<property name="username">username</property>
-		<property name="password">password</property>
-		<property name="returnPath">returnPath</property>
-		<property name="messageId">messageId</property>
-		<property name="connectionTimeout">connectionTimeout</property>
-		<property name="readTimeout">readTimeout</property>
-		<property name="charset">mailCharset</property>
-	</component>	
+	<component name="messageIdWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterMessageId" />		
+	
 	
 	<component class="org.seasar.mai.mail.impl.TransportImpl"/>
 </components>
