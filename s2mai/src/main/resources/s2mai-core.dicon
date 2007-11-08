@@ -2,10 +2,9 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.3//EN"
 	"http://www.seasar.org/dtd/components23.dtd">
 <components namespace="s2mai">
-	<!--<include path="jta.dicon"/> -->	
-	<include path="mailProperties.dicon"/>	
+	<!--<include path="jta.dicon"/> -->		
 	<include path="mailTemplate.dicon"/>		
-	
+	<include path="mailProperties.dicon"/>
 	<component name="XAResourceSortInterceptor" class="org.seasar.mai.interceptors.XAResourceSortInterceptor"/>
 	<component class="org.seasar.mai.meta.impl.MaiMetaDataFactoryImpl"/>
 	<component class="org.seasar.mai.annotation.impl.AnnotationReaderFactoryImpl"/>

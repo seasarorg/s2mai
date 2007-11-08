@@ -3,6 +3,7 @@
 	"http://www.seasar.org/dtd/components23.dtd">
 <components namespace="s2mai">
 	<include path="s2mai-core.dicon"/>
+	
 	<component name="s2MaiInterceptor" class="org.seasar.mai.interceptors.S2MaiInterceptor"/>
 	<component name="mailInterceptor" class="org.seasar.mai.unit.SendMailInterceptor"/>
 		
