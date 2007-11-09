@@ -34,7 +34,7 @@ public class LineSeparatorTest extends S2TestCase {
     public void testCrLf() {
         mai.sendMailCrLf();
 
-        Mail mail = SendMailTestUtil.getMail(0);
+        Mail mail = SendMailTestUtil.getActualMail(0);
         assertEquals("Test", mail.getSubject());
         assertEquals("MailBody\r\n", mail.getText());
     }
@@ -42,7 +42,7 @@ public class LineSeparatorTest extends S2TestCase {
     public void testCr() {
         mai.sendMailCr();
 
-        Mail mail = SendMailTestUtil.getMail(0);
+        Mail mail = SendMailTestUtil.getActualMail(0);
         assertEquals("Test", mail.getSubject());
         assertEquals("MailBody\r", mail.getText());
     }
@@ -50,7 +50,7 @@ public class LineSeparatorTest extends S2TestCase {
     public void testLf() {
         mai.sendMailLf();
 
-        Mail mail = SendMailTestUtil.getMail(0);
+        Mail mail = SendMailTestUtil.getActualMail(0);
         assertEquals("Test", mail.getSubject());
         assertEquals("MailBody\n", mail.getText());
     }

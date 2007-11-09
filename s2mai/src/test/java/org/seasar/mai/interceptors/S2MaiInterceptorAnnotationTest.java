@@ -36,6 +36,7 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
     /*
      * Test method for 'org.seasar.mai.interceptors.S2MaiIntereceptor.invoke(MethodInvocation)'
      */
+        
     public void testInvoke() throws Exception {
 
         TestData data = new TestData();
@@ -58,7 +59,7 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
         String text = SendMailTestUtil.getTextFromFile(this, "AnnotationTestMai_expectedText.txt");
 
         expected.setText(text);
-        assertEquals(expected.toString(), SendMailTestUtil.getMail(0).toString());
+        assertEquals(expected.toString(), SendMailTestUtil.getActualMail(0).toString());
 
         expected.setReturnPath(new InternetAddress("kimura"));
         expected.setFrom("takeuchi");
@@ -69,7 +70,7 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
         expected.addCc("rokugen");
         expected.addBcc("rokugen");
         expected.setSubject("アノテーションテスト-diconなしアノテーションあり - No.12,345");
-        assertEquals(expected.toString(), SendMailTestUtil.getMail(1).toString());
+        assertEquals(expected.toString(), SendMailTestUtil.getActualMail(1).toString());
 
         expected.setReturnPath(new InternetAddress());
         expected.setFrom("takeuchi");
@@ -84,8 +85,57 @@ public class S2MaiInterceptorAnnotationTest extends S2TestCase {
         expected.setReplyTo("rokugen");
         expected.setSubject("アノテーションテスト-methoddicon - No.12,345");
 
-        assertEquals(expected.toString(), SendMailTestUtil.getMail(2).toString());        
+        assertEquals(expected.toString(), SendMailTestUtil.getActualMail(2).toString());        
     }
+    
+    public void testUsingUtilCreateMethod() throws Exception {
+
+        TestData data = new TestData();
+        data.setDay(22);
+        data.setMonth(11);
+        data.setYear(2006);
+        data.setNo(12345);
+        annotationTestMai.sendMail(data);
+        annotationTestMai.sendMail2(data);
+        // methodのdiconあり
+        annotationTestMai.sendMail3(data);
+
+        Mail expected = SendMailTestUtil.createExpectedMailByFile(this, "AnnotationTestMai_expectedText.txt");
+        expected.setFrom(new InternetAddress("takeuchi"));
+        expected.addTo("kei");
+        expected.addTo("rokugen");
+        expected.addCc("kimura");
+        expected.setSubject("件名置き換えテスト");
+        
+        assertEquals(expected.toString(), SendMailTestUtil.getActualMail(0).toString());
+
+        expected.setReturnPath(new InternetAddress("kimura"));
+        expected.setFrom("takeuchi");
+        expected.clearTo();
+        expected.addTo("rokugen");
+        expected.clearCc();
+        expected.addCc("kei");
+        expected.addCc("rokugen");
+        expected.addBcc("rokugen");
+        expected.setSubject("アノテーションテスト-diconなしアノテーションあり - No.12,345");
+        assertEquals(expected.toString(), SendMailTestUtil.getActualMail(1).toString());
+
+        expected.setReturnPath(new InternetAddress());
+        expected.setFrom("takeuchi");
+        expected.clearTo();
+        expected.addTo("kei");
+        expected.addTo("rokugen");
+        expected.clearCc();
+        expected.addCc("takeuchi");
+        expected.clearBcc();
+        expected.addBcc("kei");
+        expected.addBcc("rokugen");
+        expected.setReplyTo("rokugen");
+        expected.setSubject("アノテーションテスト-methoddicon - No.12,345");
+
+        assertEquals(expected.toString(), SendMailTestUtil.getActualMail(2).toString());        
+    }
+
 
     /**
      * @param annotationTestMai

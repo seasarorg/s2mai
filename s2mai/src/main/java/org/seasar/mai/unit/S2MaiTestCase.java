@@ -40,8 +40,12 @@ public class S2MaiTestCase extends S2TestCase {
         return SendMailTestUtil.getTextFromFile(this, fileName);
     }
     
+    public Mail createExpectedMailByFile(String fileName){        
+        return SendMailTestUtil.createExpectedMailByFile(this, fileName);
+    }
+    
     public Mail getActualMail(int index){
-        return SendMailTestUtil.getMail(index);
+        return SendMailTestUtil.getActualMail(index);
     }
 
 }

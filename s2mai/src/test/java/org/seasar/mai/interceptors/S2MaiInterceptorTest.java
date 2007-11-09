@@ -52,7 +52,7 @@ public class S2MaiInterceptorTest extends S2TestCase {
         testMai.sendMail(data);
         
         String expected = SendMailTestUtil.getTextFromFile(this, "S2MaiInterceptorTest_testInvoke.txt");
-        assertEquals(expected, SendMailTestUtil.getMail(0).getText());
+        assertEquals(expected, SendMailTestUtil.getActualMail(0).getText());
     }
 
     public void testInvokeWithDynamicProperty() throws UnsupportedEncodingException {
@@ -74,7 +74,7 @@ public class S2MaiInterceptorTest extends S2TestCase {
         data.setAttachedFile(af);
         testMai.sendMail(data);
 
-        Mail mail = SendMailTestUtil.getMail(0);
+        Mail mail = SendMailTestUtil.getActualMail(0);
         assertEquals("kei", mail.getFrom().getAddress());
         assertEquals("rokugen", mail.getTo()[0].getAddress());
         assertEquals("六", mail.getTo()[0].getPersonal());

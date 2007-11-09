@@ -27,6 +27,7 @@ import org.seasar.framework.util.InputStreamUtil;
 import org.seasar.framework.util.ReaderUtil;
 import org.seasar.framework.util.ResourceUtil;
 import org.seasar.mai.S2MaiConstants;
+import org.seasar.mai.util.MailTextUtil;
 
 import com.ozacc.mail.Mail;
 
@@ -40,7 +41,7 @@ public class SendMailTestUtil {
         mailList.add(mail);
     }
 
-    public static final Mail getMail(int index) {
+    public static final Mail getActualMail(int index) {
         return (Mail) mailList.get(index);
     }
 
@@ -51,8 +52,8 @@ public class SendMailTestUtil {
     public static final void clear() {
         mailList.clear();
     }
-
-    public static final String getTextFromFile(Object testObject, String fileName) {
+    
+    private static final String getStringFromFile(Object testObject, String fileName){
         Class testClass = testObject.getClass();
         S2Container container = S2ContainerFactory.create(S2MaiConstants.MAIL_PROPERTIES_DICON);
         String encoding = (String) container.getComponent(S2MaiConstants.TEMPLATE_ENCODING);
@@ -65,6 +66,22 @@ public class SendMailTestUtil {
         } finally {
             InputStreamUtil.close(is);
         }
+    }
+
+    public static final String getTextFromFile(Object testObject, String fileName) {
+        String str = getStringFromFile(testObject, fileName);
+        return MailTextUtil.getText(str);
+    }
+
+    public static final Mail createExpectedMailByFile(Object testObject, String fileName) {
+        String fileText = getStringFromFile(testObject, fileName);
+        String subject = MailTextUtil.getSubject(fileText);
+        String text = MailTextUtil.getText(fileText);
+        
+        Mail expected = new Mail();
+        expected.setSubject(subject);
+        expected.setText(text);
+        return expected;
     }
 
 }

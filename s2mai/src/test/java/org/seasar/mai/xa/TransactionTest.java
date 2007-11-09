@@ -34,10 +34,10 @@ public class TransactionTest extends S2TestCase {
 
     public void testCommit() {
         service.execute();
-        Mail mail = SendMailTestUtil.getMail(0);
+        Mail mail = SendMailTestUtil.getActualMail(0);
         assertNotNull(mail);
         try {
-            SendMailTestUtil.getMail(1);
+            SendMailTestUtil.getActualMail(1);
             fail();
         } catch (IndexOutOfBoundsException success) {
         }
@@ -50,7 +50,7 @@ public class TransactionTest extends S2TestCase {
         } catch (SQLRuntimeException success) {
         }
         try {
-            SendMailTestUtil.getMail(0);
+            SendMailTestUtil.getActualMail(0);
             fail();
         } catch (IndexOutOfBoundsException success) {
         }
@@ -63,16 +63,16 @@ public class TransactionTest extends S2TestCase {
         } catch (SQLRuntimeException success) {
         }
         try {
-            SendMailTestUtil.getMail(0);
+            SendMailTestUtil.getActualMail(0);
             fail();
         } catch (IndexOutOfBoundsException success) {
         }
         service.execute();
 
-        Mail mail = SendMailTestUtil.getMail(0);
+        Mail mail = SendMailTestUtil.getActualMail(0);
         assertNotNull(mail);
         try {
-            SendMailTestUtil.getMail(1);
+            SendMailTestUtil.getActualMail(1);
             fail();
         } catch (IndexOutOfBoundsException success) {
         }

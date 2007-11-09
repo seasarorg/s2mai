@@ -15,16 +15,11 @@
  */
 package org.seasar.mai.interceptors;
 
-import java.io.IOException;
-import java.io.LineNumberReader;
-import java.io.StringReader;
 import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.seasar.framework.aop.interceptors.AbstractInterceptor;
-import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.framework.util.MethodUtil;
-import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.mail.Transport;
 import org.seasar.mai.meta.MaiMetaData;
@@ -32,6 +27,7 @@ import org.seasar.mai.meta.MaiMetaDataFactory;
 import org.seasar.mai.property.PropertyWriterForBean;
 import org.seasar.mai.template.ContextHelper;
 import org.seasar.mai.template.TemplateProcessor;
+import org.seasar.mai.util.MailTextUtil;
 
 import com.ozacc.mail.Mail;
 
@@ -104,8 +100,8 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         Mail mail = metaData.getMail(method);
         String path = metaData.getTemplatePath(method);
         String text = templateProcessor.processResource(path, context);
-        String subject = getSubject(text);
-        text = getText(text);
+        String subject = MailTextUtil.getSubject(text);
+        text = MailTextUtil.getText(text);
         if (subject != null) {
             mail.setSubject(subject);
         }
@@ -117,28 +113,6 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         templateProcessor.init();
     }
 
-    private String getText(String text) {
-        if (text.startsWith(S2MaiConstants.TEMPLATE_SUBJECT) == false) {
-            return text;
-        }
-
-        return text.replaceFirst(".*((\r\n\r\n)|(\n\n)|(\r\r))", "");
-    }
-
-    private String getSubject(String text) {
-        if (text.startsWith(S2MaiConstants.TEMPLATE_SUBJECT) == false) {
-            return null;
-        }
-        LineNumberReader reader = new LineNumberReader(new StringReader(text));
-        reader.setLineNumber(0);
-        String subjectLine = null;
-        try {
-            subjectLine = reader.readLine();
-        } catch (IOException e) {
-            throw new IORuntimeException(e);
-        }
-        return subjectLine.substring(S2MaiConstants.TEMPLATE_SUBJECT.length(), subjectLine.length());
-    }
 
     public void setMaiMetaDataFactory(MaiMetaDataFactory maiMetaDataFactory) {
         this.maiMetaDataFactory = maiMetaDataFactory;

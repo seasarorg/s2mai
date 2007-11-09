@@ -13,10 +13,12 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.interceptors;
+package org.seasar.mai.unit;
 
 import javax.mail.internet.InternetAddress;
 
+import org.seasar.mai.interceptors.AnnotationTestMai;
+import org.seasar.mai.interceptors.TestData;
 import org.seasar.mai.unit.S2MaiTestCase;
 
 import com.ozacc.mail.Mail;
@@ -42,16 +44,12 @@ public class S2MaiTestCaseTest extends S2MaiTestCase {
         // methodのdiconあり
         annotationTestMai.sendMail3(data);
 
-        Mail expected = new Mail();
+        Mail expected = createExpectedMailByFile("S2MaiTestCaseTest_expectedText.txt");
         expected.setFrom(new InternetAddress("takeuchi"));
         expected.addTo("kei");
         expected.addTo("rokugen");
-        expected.addCc("kimura");
-        expected.setSubject("件名置き換えテスト");
-
-        String text = getTextFromFile("AnnotationTestMai_expectedText.txt");
-
-        expected.setText(text);
+        expected.addCc("kimura");        
+        
         assertEquals(expected, getActualMail(0));
 
         expected.setReturnPath(new InternetAddress("kimura"));
@@ -91,7 +89,7 @@ public class S2MaiTestCaseTest extends S2MaiTestCase {
         // methodのdiconあり
         annotationTestMai.sendMail3(data);
 
-        Mail expected = new Mail();
+        Mail expected = createExpectedMailByFile("S2MaiTestCaseTest_expected_nosubject.txt");
         expected.setReturnPath(new InternetAddress());
         expected.setFrom("takeuchi");
         expected.clearTo();
@@ -105,9 +103,7 @@ public class S2MaiTestCaseTest extends S2MaiTestCase {
         expected.setReplyTo("rokugen");
         expected.setSubject("アノテーションテスト-methoddicon - No.12,345");
 
-        String text = getTextFromFile("AnnotationTestMai_expectedText.txt");
-
-        expected.setText(text);
+        
         assertEquals("2個目のテストメソッド",expected, getActualMail(0));
 
     }
