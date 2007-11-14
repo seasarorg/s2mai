@@ -3,7 +3,7 @@
 	"http://www.seasar.org/dtd/components23.dtd">
 <components namespace="test" >
 	<include path="j2ee.dicon"/>
-	<include path="s2mai_for_unit.dicon"/>
+	<include path="s2mai_ut.dicon"/>
 	<include path="org/seasar/mai/interceptors/test.dicon"/>
 
 	<component class="org.seasar.mai.xa.TestServiceImpl">
