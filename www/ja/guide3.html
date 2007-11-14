@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head>
+<title>Seasar - DI Container with AOP - </title>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link href="http://www.seasar.org/seasar_b.css" type="text/css" rel="stylesheet" media="screen">
+<link href="http://www.seasar.org/seasar_p.css" type="text/css" rel="stylesheet" media="print">
+</head><body><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="http://www.seasar.org/images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="http://www.seasar.org/images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="http://www.seasar.org/images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="http://www.seasar.org/images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/index.html"><img src="http://www.seasar.org/images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01"></a></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="101" border="0" alt="" id="menu02"></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="110" border="0" alt="" id="menu03"></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="113" border="0" alt="" id="menu04"></td>
+<td><img src="http://www.seasar.org/images/menu06.gif" height="30" width="109" border="0" alt="" id="menu05"></td>
+<td><img height="30" width="34" src="http://www.seasar.org/images/menu06.gif" alt=""></td></tr><tr>
+<td colspan="6"><img height="19" width="545" src="http://www.seasar.org/images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td><td width="740" class="main">
+<!-- don't edit end -->
+<!-- document start -->
+<ul>
+	<li><a href="#ut">Maiのテスト</a></li>
+	<ul>
+		<li><a href="#setup">セットアップ</a></li>	
+		<li><a href="#testcase">S2MaiTestCaseを使う方法</a></li>
+		<li><a href="#util">ユーティリティクラスを使う方法</a></li>
+	</ul>	
+</ul>
+<h2><a name="ut">Maiのテスト</a></h2>
+
+<p>
+テンプレートに想定通りにデータが埋め込まれているか確かめたい。でもテストは自動化したいので、実行の度にSMTPサーバに送信されては困る。
+</p>
+<p>
+そのような場合に対応出来るよう、S2Maiではテスト用のクラスを用意しています。
+</p>
+<p>
+テストの方法には、専用のS2MaiTestCaseクラスを継承してテストクラスを作る方法と、任意のテストクラスからS2Maiテスト用ユーティリティクラスを使う方法の2通りがあります。
+</p>
+<h3><a name="setup">セットアップ</a></h3>
+<h4>diconファイル</h4>
+<p>
+s2mai.diconの代わりに、s2mai_test.diconを使います。s2mai.diconが使われている場合、テスト実行時にエラーになります。
+</p>
+<h5>test.dicon</h5>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.4//EN"
+	"http://www.seasar.org/dtd/components24.dtd"&gt;
+&lt;components&gt;
+    &lt;include path="s2mai_test.dicon"/&gt;
+	
+&lt;/components&gt;
+</pre>
+<p>SMART deployの場合、このdiconファイルを、S2TestCaseを継承したテストクラスのinclude()で読み込めば、Maiのテストは可能です。SMART deployでない場合、適宜テスト対象のMaiインタフェースにアスペクトの設定をして下さい。設定方法は本番の場合と同じです。</p>
+<pre>
+&lt;include path="s2mai_test.dicon"/&gt;
+&lt;component class="com.example.TestMai"&gt;
+    &lt;aspect&gt;s2MaiInterceptor&lt;/aspect&gt;
+&lt;/component&gt;
+</pre>
+<p>また、SMART deployの場合、app.diconに条件インクルードを用いて設定してもよいでしょう。</p>
+<h5>app.dicon</h5>
+<pre>
+&lt;include condition="#ENV == 'ut'" path="s2mai_test.dicon"/&gt;
+&lt;include condition="#ENV != 'ut'" path="s2mai.dicon"/&gt;
+</pre>
+
+<h4>期待値テキストファイルの準備</h4>
+<p>S2Maiがテンプレートファイルを読み込んで出力すると期待される内容を、テキストファイルで作成し、保存します。保存先はテストクラスと同じパッケージにすると後々楽です。</p>
+<p>例えば、テンプレートが以下の内容だとします。</p>
+<h5>TestMai_sendMail.ftl</h5>
+<pre>
+Subject: てすとまいです。No.${data.number}
+ 
+ ここからデータ。
+ ${data.text}
+</pre>
+<p>そして、送信内容として下記のようになる事を期待するとします。</p>
+<h5>TestMaiTest_expected.txt</h5>
+<pre>
+Subject: てすとまいです。No.4
+ 
+ここからデータ。
+埋め込みデータはこんな感じで。
+改行も入れてみるか。
+</pre>
+<p>
+期待値テキストファイルの拡張子は任意のものでかまいません。文字コードはmailProperties.diconで設定したtemplateEncodingの値に合わせて下さい。デフォルトはUTF-8です。また、改行コードは、テンプレートに合わせて下さい。
+</p>
+<p>
+期待値テキストファイルの「Subject: 」は省略する事も出来ます。その場合は、後述する期待値のMailクラスのSubjectプロパティに件名をセットして下さい。
+</p>
+
+<h3><a name="testcase">S2MaiTestCaseを使う方法</a></h3>
+
+<p>
+S2Maiでは、S2TestCaseを拡張したS2MaiTestCaseを提供しています。まず、S2MaiTestCaseを継承してテストクラスを作ります。ここでは、TestMaiというMaiインターフェースをテストします。
+</p>
+<pre>
+import org.seasar.mai.unit.S2MaiTestCase;
+import com.ozacc.mail.Mail;
+
+public class TestMaiTest extends S2MaiTestCase {
+
+    private TestMai testMai;
+    
+    protected void setUp() throws Exception{
+        include("app.dicon");
+    }
+    
+    public void testメール送信(){
+        TestMaiDto dto = new TestMaiDto();
+        dto.setFrom("hoge@example.com");
+        dto.setTo("fuga@foo.co.jp");
+        dto.setText("埋め込みデータはこんな感じで。\r\n改行も入れてみるか。");
+        dto.setNumber("4");
+        
+        Mail expected = createExpectedMailByFile("TestMaiTest_expected.txt");
+        expected.setFrom("hoge@example.com");
+        expected.addTo("fuga@foo.co.jp");
+
+        testMai.sendMail(dto);
+
+        Mail actual = getActualMail(0);
+
+        assertEquals(expected, actual);
+    }
+
+}
+</pre>
+<p>
+まず、実際の処理のようにTestMai#sendMail()の引数となるDtoを設定します。
+</p>
+<p>
+次に、実行結果として期待されるMailオブジェクトを生成します。createExpectedMailByFile(String)というメソッドを使います。
+</p>
+<pre>
+Mail expected = createExpectedMailByFile("TestMaiTest_expected.txt");
+</pre>
+<p>
+引数に先程作成した期待値テキストファイルの名前を指定すると、それを本文としたMailオブジェクトを生成して戻します。期待値テキストファイルがテストクラスと同じパッケージにある場合は、パスを書かずにファイル名だけでOKです。
+</p>
+<p>
+この状態だと、期待値Mailオブジェクトには本文の内容と、期待値テキストファイルに「Subject: 」を書いた場合はSubjectプロパティのみがセットされています。他のプロパティを検証する場合は適宜プロパティに値をセットします。この場合、Dtoにセットした内容がきちんとMailオブジェクトに反映される事が期待されるので、以下のようになります。
+</p>
+<pre>
+expected.setFrom("hoge@example.com");
+expected.addTo("fuga@foo.co.jp");
+</pre>
+<p>
+テスト対象のMaiのメール送信メソッドを実行した後、getActualMail(int)というメソッドで、実行結果としてS2Maiが生成したMailオブジェクトを取得します。
+</p>
+<pre>
+testMai.sendMail(dto);
+
+Mail actual = getActualMail(0);
+</pre>
+<p>
+1つのテストメソッドの中で複数回メール送信処理が実行された場合にも対応しています。それぞれの処理の結果をリストで保持しているので、第1引数に取得したい実行結果のインデックスを指定します。1回目の送信の結果は0、2回目の送信の結果は1を指定すると取得出来ます。これはテストメソッド実行前に自動的に初期化されます。
+</p>
+<p>
+これで、期待値のMailオブジェクトと、実際の値のMailオブジェクトが取得出来たので、assertEquals(Mail, Mail)で検証します。内部的に、それぞれのMailオブジェクトをtoString()で文字列に変換し、比較しています。
+</p>
+
+<h3><a name="util">ユーティリティクラスを使う方法</a></h3>
+<p>
+S2MaiTestCaseではない任意のテストクラスから検証したい場合もあるかと思います。その場合は、SendMailTestUtilというテスト用のユーティリティクラスがありますので、そちらを利用します。先程のテストをS2TestCaseで書き直します。
+</p>
+<pre>
+
+public class TestMaiTest extends S2TestCase {
+
+    private TestMai testMai;
+    
+    protected void setUp() throws Exception{
+        include("app.dicon");
+        SendMailTestUtil.init();
+    }
+    
+    public void testメール送信(){
+        TestMaiDto dto = new TestMaiDto();
+        dto.setFrom("hoge@example.com");
+        dto.setTo("fuga@foo.co.jp");
+        dto.setText("埋め込みデータはこんな感じで。\r\n改行も入れてみるか。");
+        dto.setNumber("4");
+        
+        Mail expected = SendMailTestUtil.createExpectedMailByFile(this, "TestMaiTest_expected.txt");
+        expected.setFrom("hoge@example.com");
+        expected.addTo("fuga@foo.co.jp");
+
+        testMai.sendMail(dto);
+
+        Mail actual = SendMailTestUtil.getActualMail(0);
+
+        assertEquals(expected.toString(), actual.toString());
+    }
+
+}
+</pre>
+<p>
+まず、setUpメソッドの中で、かならず初期化して下さい。
+</p>
+<pre>
+protected void setUp() throws Exception{
+    include("app.dicon");
+    SendMailTestUtil.init();
+}
+</pre>
+<p>
+期待値Mailを取得する時は、S2MaiTestCaseの時と違い、第1引数にthisを指定して下さい。
+</p>
+<pre>
+Mail expected = SendMailTestUtil.createExpectedMailByFile(this, "TestMaiTest_expected.txt");
+</pre>
+<p>
+実行結果のMailの取得方法はほぼ同じです。検証する場合は、それぞれtoString()して比較するとよいでしょう。
+</p>
+<pre>
+assertEquals(expected.toString(), actual.toString());
+</pre>
+<ul>
+	<li><a href="./index.html">S2Maiトップ</a></li>
+</ul>
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="30" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+<td width="766"><img height="30" width="592" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td>
+<td width="766" class="copyright">Copyright&copy; 2004-2006, The Seasar Foundation and the others. All rights reserved.</td>
+</tr></table>
+<td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
+<td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
+</tr></table></body>
+<!-- don't edit end -->
+</html>
