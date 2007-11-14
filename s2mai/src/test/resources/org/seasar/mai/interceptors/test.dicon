@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.3//EN"
 	"http://www.seasar.org/dtd/components23.dtd">
 <components namespace="test" >
-	<include path="s2mai_ut.dicon"/>
+	<include path="s2mai_test.dicon"/>
 	<component class="org.seasar.mai.interceptors.TestMai">
 		<aspect>s2MaiInterceptor</aspect>
 	</component>

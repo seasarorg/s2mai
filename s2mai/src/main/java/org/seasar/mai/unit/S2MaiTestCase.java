@@ -22,7 +22,15 @@ import com.ozacc.mail.Mail;
 /**
  * @author kei
  */
-public class S2MaiTestCase extends S2TestCase {
+public abstract class S2MaiTestCase extends S2TestCase {
+    public S2MaiTestCase(){
+        
+    }
+    
+    public S2MaiTestCase(String name) {
+        super(name);
+    }
+    
     public void runBare() throws Throwable {
         SendMailTestUtil.init();
         super.runBare();
