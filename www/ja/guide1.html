@@ -30,6 +30,7 @@
 	<ul>
 		<li><a href="#s2mai">S2Mai本体</a></li>
 		<li><a href="#s2mai-tiger">S2Mai-Tiger</a></li>
+		<li><a href="#m2">Maven2からのご利用</a></li>
 		<li><a href="#eclipse">Eclipseへのインポート</a></li>
 	</ul>		
 	<li><a href="#startup">まずは使ってみる</a></li>
@@ -47,7 +48,7 @@
 <p>ダウンロードしたs2mai-Vx.x.x.zipを解凍すると、s2maiディレクトリが出来ます。そのなかのlibディレクトリにある「s2mai-0.9.1.jar」をクラスパスに含めて下さい。</p>
 <p>他、必要となるjarファイルもlibディレクトリ内にありますが、その内、S2Mai本体が必要とするものは以下になります。</p>
 <ul>
-	<li>mail.jar</li>
+	<li>mail-x.x.jar</li>
 	<li>activation-x.x.x.jar</li>
 	<li>ozacc-mail-x.x.x.jar</li>
 	<li>s2-framework-2.4.x.jar</li>
@@ -81,11 +82,42 @@
 	<li>geronimo-ejb_2.1_spec-1.0.jar</li>
 </ul>
 <p>geronimo-ejb_2.1_spec-1.0.jarは、動作環境がJavaEEにフルに対応している場合は不要となります。詳しくは<a href="http://s2container.seasar.org/ja/setup.html" target="_blank">こちら</a>をご参照下さい。</p>
+<h4>注意!!</h4>
 <p>geronimo-j2ee_1.4_spec-1.0.jar がクラスパスにある場合、こちらにもJavaMailが部分的に実装されており、参照順序によってこちらが優先されると不具合が発生する事が確認されています。出来る限りSUNのJavaMail実装（ここではmail.jar）を使うようにして下さい。</p>
 <h3><a name="s2mai-tiger">S2Mai-Tiger</a></h3>
-S2Maiでは定数アノテーションを用いて各種プロパティを設定する事が出来ます。これを定数ではなく、Javaのアノテーションを使って設定する事が出来ます。その際には、s2mai-tiger-Vx.x.x.zipをダウンロードした後、解凍し、それに含まれる「s2mai-tiger-x.x.x.jar」をクラスパスに含めて下さい。
+<p>S2Maiでは定数アノテーションを用いて各種プロパティを設定する事が出来ます。これを定数ではなく、Javaのアノテーションを使って設定する事が出来ます。その際には、s2mai-tiger-Vx.x.x.zipをダウンロードした後、解凍し、それに含まれる「s2mai-tiger-x.x.x.jar」をクラスパスに含めて下さい。</p>
+
+<h3><a name="m2">Maven2からのご利用</a></h3>
+<p>S2MaiはMaven2からもご利用いただけます。まず、SeasarのMaven2リポジトリのrepository要素を追加します。</p>
+<pre>
+  &lt;repositories&gt;
+    &lt;repository&gt;
+      &lt;id&gt;maven.seasar.org&lt;/id&gt;
+      &lt;name&gt;The Seasar Foundation Maven2 Repository&lt;/name&gt;
+      &lt;url&gt;http://maven.seasar.org/maven2&lt;/url&gt;
+    &lt;/repository&gt;
+  &lt;/repositories&gt;
+</pre>
+<p>そして、S2MaiもしくはS2Mai-Tigerをdependencies要素の中に追加して下さい。S2Mai-Tigerをご利用の場合は、S2Maiへの依存はMaven2が解決しますので、要素を追加する必要はありません。</p>
+<pre>
+&lt;dependency&gt;
+    &lt;groupId&gt;org.seasar.mai&lt;/groupId&gt;
+    &lt;artifactId&gt;s2mai&lt;/artifactId&gt;
+    &lt;version&gt;0.9.4&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+<pre>
+&lt;dependency&gt;
+    &lt;groupId&gt;org.seasar.mai&lt;/groupId&gt;
+    &lt;artifactId&gt;s2mai-tiger&lt;/artifactId&gt;
+    &lt;version&gt;0.9.4&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+<p>versionは適宜指定して下さい。</p>
 <h3><a name="eclipse">Eclipseへのインポート</a></h3>
 <p>配布ファイルは、Eclipseのプロジェクト形式となっています。Eclipseへインポートすることで参照する事も出来ます。</p>
+<p>Eclipseのm2eclipseプラグインを使用したプロジェクト構成になっていますので、プラグインをインストールして参照下さい。</p>
+<p>更新サイトは「<a href="http://m2eclipse.codehaus.org/update/">http://m2eclipse.codehaus.org/update/</a>」になります。</p>
 <p>s2mai-Vx.x.x.zipを解凍し、できたs2maiディレクトリをEclipseで「ファイル→インポート→既存のプロジェクトをワークスペースへ」してインポートしてください。</p>
 
 <h2><a name="startup">まずは使ってみる</a></h2>
