@@ -13,7 +13,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.interceptors;
+package org.seasar.mai.xa;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -32,7 +32,6 @@ import org.seasar.framework.util.ClassUtil;
 import org.seasar.framework.util.FieldUtil;
 import org.seasar.framework.util.MethodUtil;
 import org.seasar.mai.util.TransactionManagerUtil;
-import org.seasar.mai.xa.XAResourceImpl;
 
 /**
  * @author Satoshi Kimura

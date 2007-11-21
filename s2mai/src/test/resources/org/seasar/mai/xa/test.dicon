@@ -8,6 +8,6 @@
 
 	<component class="org.seasar.mai.xa.TestServiceImpl">
 		<aspect>j2ee.requiresNewTx</aspect>
-		<aspect>s2mai.XAResourceSortInterceptor</aspect>
+		<aspect>s2mai.XAResourceSortInterceptor</aspect>		
 	</component>
 </components>

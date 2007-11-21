@@ -15,6 +15,8 @@
  */
 package org.seasar.mai.xa;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -23,6 +25,7 @@ import javax.sql.DataSource;
 import org.seasar.framework.exception.SQLRuntimeException;
 import org.seasar.mai.interceptors.TestData;
 import org.seasar.mai.interceptors.TestMai;
+import org.seasar.mai.mail.AttachedFile;
 
 /**
  * @author Satsohi Kimura
@@ -36,6 +39,12 @@ public class TestServiceImpl implements TestService {
     public void execute() {
         sendMail();
         getConnection();
+    }
+
+    public void executeMultipleSending() {
+        sendMailMulti();
+        getConnection();
+
     }
 
     public void throwSQLException() {
@@ -61,6 +70,26 @@ public class TestServiceImpl implements TestService {
         data.setYear(2006);
         data.setNo(12345);
         mai.sendMail(data);
+    }
+
+    private void sendMailMulti() {
+        try {
+            TestData data = new TestData();
+            data.setDay(22);
+            data.setMonth(11);
+            data.setYear(2006);
+            data.setNo(12345);
+
+            data.setAttachedFile(new AttachedFile(new URL("http://example.com"), "file1.txt"));
+            mai.sendMail(data);
+
+            data.setNo(3456);
+            data.setAttachedFile(new AttachedFile(new URL("http://example.com"), "file2.txt"));
+            mai.sendMail(data);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void setDataSource(DataSource dataSource) {

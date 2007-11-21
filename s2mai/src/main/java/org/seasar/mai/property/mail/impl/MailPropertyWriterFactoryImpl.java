@@ -18,7 +18,6 @@ package org.seasar.mai.property.mail.impl;
 import org.seasar.framework.container.ComponentNotFoundRuntimeException;
 import org.seasar.framework.container.S2Container;
 import org.seasar.mai.S2MaiConstants;
-import org.seasar.mai.mail.AttachedFile;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 import org.seasar.mai.property.mail.MailPropertyWriterFactory;
 

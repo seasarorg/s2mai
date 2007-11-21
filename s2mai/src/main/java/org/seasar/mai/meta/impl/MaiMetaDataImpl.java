@@ -90,7 +90,8 @@ public class MaiMetaDataImpl implements MaiMetaData {
     }
 
     public Mail getMail(Method method) {
-        return (Mail) mails.get(method.getName());
+        Mail origin = (Mail) mails.get(method.getName());
+        return new Mail(origin);
     }
 
     public synchronized String getTemplatePath(Method method) {

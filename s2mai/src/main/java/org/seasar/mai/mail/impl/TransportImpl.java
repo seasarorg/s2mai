@@ -15,50 +15,37 @@
  */
 package org.seasar.mai.mail.impl;
 
-import javax.transaction.Transaction;
-import javax.transaction.TransactionManager;
-
-import org.seasar.framework.util.TransactionUtil;
-import org.seasar.mai.mail.MailStack;
+import org.seasar.framework.log.Logger;
+import org.seasar.mai.mail.MailExceptionHandler;
 import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.mail.Transport;
-import org.seasar.mai.util.TransactionManagerUtil;
-import org.seasar.mai.xa.XAResourceImpl;
 
 import com.ozacc.mail.Mail;
+import com.ozacc.mail.MailException;
 
 /**
  * @author Satsohi Kimura
  */
 public class TransportImpl implements Transport {
 
-    private TransactionManager transactionManager;
+    private Logger logger = Logger.getLogger(Invocation.class);
+
+    private MailExceptionHandler mailExceptionHandler = new MailExceptionHandlerImpl();
 
     public void send(Mail mail, SendMail sendMail) {
-        Invocation invocation = new Invocation(sendMail, mail);
 
-        if (TransactionManagerUtil.hasTransaction(transactionManager)) {
-            MailStack mailStack = getMailStack();
-            if (mailStack != null) {
-                mailStack.push(invocation);
-                return;
-            }
+        logger.debug("send mail...");
+        logger.debug(mail);
+        try {
+            sendMail.send(mail);
+        } catch (MailException e) {
+            mailExceptionHandler.handle(e);
         }
-        invocation.send();
+        logger.debug("success send mail.");
     }
 
-    private MailStack getMailStack() {
-        Transaction tx = TransactionManagerUtil.getTransaction(transactionManager);
-        if (tx == null) {
-            return null;
-        }
-        XAResourceImpl resource = new XAResourceImpl();
-        TransactionUtil.enlistResource(tx, resource);
-        return resource.getMailStack();
-    }
-
-    public void setTransactionManager(TransactionManager transactionManager) {
-        this.transactionManager = transactionManager;
+    public void setMailExceptionHandler(MailExceptionHandler mailExceptionHandler) {
+        this.mailExceptionHandler = mailExceptionHandler;
     }
 
 }

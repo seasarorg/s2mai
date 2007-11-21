@@ -2,11 +2,11 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.3//EN"
 	"http://www.seasar.org/dtd/components23.dtd">
 <components namespace="s2mai">
-	<include path="jta.dicon"/>	
+	<include path="org/seasar/mai/transport/transport-xa.dicon"/>
+	<!--<include path="org/seasar/mai/transport/transport.dicon"/> -->
 	<include path="mailTemplate.dicon"/>		
-	<include path="mailProperties.dicon"/>
-	
-	<component name="XAResourceSortInterceptor" class="org.seasar.mai.interceptors.XAResourceSortInterceptor"/>
+	<include path="mailProperties.dicon"/>	
+
 	<component class="org.seasar.mai.meta.impl.MaiMetaDataFactoryImpl"/>
 	<component class="org.seasar.mai.annotation.impl.AnnotationReaderFactoryImpl"/>
 	
@@ -29,7 +29,5 @@
 	<component name="usernameWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterUsername" />
 	<component name="passwordWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterPassword" />
 	<component name="messageIdWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterMessageId" />		
-	
-	
-	<component class="org.seasar.mai.mail.impl.TransportImpl"/>
+
 </components>

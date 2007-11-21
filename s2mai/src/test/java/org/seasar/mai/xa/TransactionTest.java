@@ -20,6 +20,7 @@ import org.seasar.framework.exception.SQLRuntimeException;
 import org.seasar.mai.unit.SendMailTestUtil;
 
 import com.ozacc.mail.Mail;
+import com.ozacc.mail.Mail.AttachmentFile;
 
 /**
  * @author Satsohi Kimura
@@ -76,5 +77,23 @@ public class TransactionTest extends S2TestCase {
             fail();
         } catch (IndexOutOfBoundsException success) {
         }
+    }
+    
+    public void testMultipleSending(){
+        service.executeMultipleSending();
+        Mail mail1 = SendMailTestUtil.getActualMail(0);
+        Mail mail2 = SendMailTestUtil.getActualMail(1);
+        String sub1 = mail1.getSubject();
+        String sub2 = mail2.getSubject();
+        
+        assertFalse(sub1.equals(sub2));
+        
+        AttachmentFile[] files1 =  mail1.getAttachmentFiles();
+        AttachmentFile[] files2 =  mail2.getAttachmentFiles();
+        
+        assertEquals(1, files1.length );
+        assertEquals(1, files2.length );
+        assertNotSame(files1[0].getName(),files2[0].getName());
+        
     }
 }

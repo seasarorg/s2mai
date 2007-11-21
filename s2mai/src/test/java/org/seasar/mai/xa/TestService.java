@@ -20,6 +20,7 @@ package org.seasar.mai.xa;
  */
 public interface TestService {
     void execute();
+    void executeMultipleSending();
 
     void throwSQLException();
 }
