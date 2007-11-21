@@ -25,35 +25,94 @@
 <tr align="left" valign="top"><td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td><td width="740" class="main">
 <!-- don't edit end -->
 <!-- document start -->
-<h1><a name="s2dxo">S2Mai</a></h1>
-<h3><a name="abstraction">概要</a></h3>
-<P>S2Mai（S2 Mail Access Interface）は、インタフェースに対しアスペクトを適用し、メール送信処理を簡単に実現する事が出来ます。</P>
+<ul>
+	<li><a href="#tx">トランザクション連携</a></li>
+	<ul>
+		<li><a href="#outline">概要</a></li>
+		<li><a href="#setup">セットアップ</a></li>
+	</ul>	
+</ul>
+<h2><a name="tx">トランザクション連携</a></h2>
 
-<h3>ドキュメント</h3>
+<p>
+S2Maiには、メール送信処理をトランザクションと連携する機能があります。同一トランザクション内で送信されたメールは、トランザクションがコミットされた時点で送信されるようになります。
+</p>
+<h3><a name="outline">概要</a></h3>
+<p>
+例えば、ある1つのトランザクション内に以下のような順番で処理があるとします。
+</p>
+<pre>
+update1(); // DBへの更新
+
+mai.sendMail1(dto);
+
+update2(); //DBへの更新
+
+mai.sendMail2(dto2);
+</pre>
+<p>
+update1で更新が成功し、update2で更新が失敗してロールバックがかかった場合、通常は、sendMail2()は実行されませんが、sendMail1()は実行され、メールは送信されます。
+</p>
+<p>
+トランザクションがロールバックされた場合、sendMail1()とsendMail2()の両方の送信をストップしたい場合、つまり、トランザクションがコミットされて初めて全てのメールを送信したい場合、トランザクション連携機能を有効にします。
+</p>
+
+<h3><a name="setup">セットアップ</a></h3>
+<p>
+トランザクション連携を行うという事で、クラスパスに既にJTAの実装がある事を前提とします。
+</p>
+<p>
+s2mai-x.x.x.jarの中にあるs2mai-core.diconを取り出し、ルートパッケージに置いて、下記の様に編集して下さい。
+</p>
+<h5>s2mai-core.dicon(編集前)</h5>
+<pre>
+&lt;components namespace="s2mai"&gt;
+  &lt;include path="org/seasar/mai/transport/transport.dicon"/&gt;
+  &lt;!--&lt;include path="org/seasar/mai/transport/transport-xa.dicon"/&gt; --&gt;
+(以下略)
+&lt;/components&gt;
+</pre>
+<h5>s2mai-core.dicon(編集後)</h5>
+<pre>
+&lt;components namespace="s2mai"&gt;
+  &lt;include path="org/seasar/mai/transport/transport-xa.dicon"/&gt;
+(以下略)
+&lt;/components&gt;
+</pre>
+<p>
+インクルードされている「transport.dicon」を「transport-xa.dicon」に置き換えるだけです。
+</p>
+<p>
+また、トランザクション境界となっているコンポーネントに、アスペクトを追加します。例えば、HogeServiceImplをトランザクション境界とした場合、以下にようになります。
+</p>
+<pre>
+&lt;components&gt;
+    &lt;include path="j2ee.dicon"/&gt;
+    &lt;include path="s2mai.dicon"/&gt;
+
+    &lt;component class="com.example.HogeServiceImpl"&gt;
+        &lt;aspect&gt;j2ee.requiresNewTx&lt;/aspect&gt;
+        &lt;aspect&gt;s2mai.XAResourceSortInterceptor&lt;/aspect&gt;
+    &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+<p>
+SMART deployの場合は、以下のようなAspectCustomizerを定義して、トランザクション境界となっている層のCustomizerにaddCustomizerで追加するとよいでしょう。
+</p>
+<pre>
+&lt;component class="org.seasar.framework.container.customizer.AspectCustomizer"&gt;
+  &lt;initMethod name="addInterceptorName"&gt;
+    &lt;arg&gt;"s2mai.XAResourceSortInterceptor"&lt;/arg&gt;
+  &lt;/initMethod&gt;
+&lt;/component&gt;
+</pre>
+<p>
+これでトランザクション連携が行われます。
+</p>
 <ul>
-<li><a href="./guide1.html">セットアップ・基本的な使い方</a></li>
-<li><a href="./guide2.html">Tigerアノテーション・SMART deploy</a></li>
-<li><a href="./guide3.html">Maiのテスト</a></li>
-<li><a href="./tx.html">トランザクション連携</a></li>
-</ul>
-<p>コミッタのブログに最新の情報が掲載される事があります。こちらもご参照下さい。</p>
-<ul>
-<li><a href="http://d.hatena.ne.jp/rokugen/" target="_blank">六の日記はここにはないぞ</a></li>
+	<li><a href="./index.html">S2Maiトップ</a></li>
 </ul>
 
-<h3>トラッキングシステム</h3>
-<ul>
-<li><a href="https://www.seasar.org/issues/browse/MAI" target="_blank">トラッキングはこちら</a></li>
-</ul>
-
-<h3><a name="download">ダウンロード</a></h3>
-<!--
-<h4>安定版</h4>
--->
-<ul>
-<li><a href="../download/2007-11-21/s2mai-0.9.5.zip">S2Mai ver 0.9.5</a></li>
-<li><a href="../download/2007-11-21/s2mai-tiger-0.9.5.zip">S2Mai-Tiger ver 0.9.5</a></li>
-</ul>
 <!-- document end -->
 <!-- don't edit start -->
 </td>
