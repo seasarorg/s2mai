@@ -32,6 +32,7 @@ import org.seasar.framework.util.ClassUtil;
 import org.seasar.framework.util.FieldUtil;
 import org.seasar.framework.util.MethodUtil;
 import org.seasar.mai.util.TransactionManagerUtil;
+import org.seasar.mai.xa.impl.XAResourceImpl;
 
 /**
  * @author Satoshi Kimura

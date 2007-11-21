@@ -28,7 +28,7 @@ import com.ozacc.mail.MailException;
  */
 public class TransportImpl implements Transport {
 
-    private Logger logger = Logger.getLogger(Invocation.class);
+    private Logger logger = Logger.getLogger(TransportImpl.class);
 
     private MailExceptionHandler mailExceptionHandler = new MailExceptionHandlerImpl();
 

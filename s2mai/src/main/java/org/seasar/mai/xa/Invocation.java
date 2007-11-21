@@ -13,11 +13,12 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.mail.impl;
+package org.seasar.mai.xa;
 
 import org.seasar.framework.log.Logger;
 import org.seasar.mai.mail.MailExceptionHandler;
 import org.seasar.mai.mail.SendMail;
+import org.seasar.mai.mail.impl.MailExceptionHandlerImpl;
 
 import com.ozacc.mail.Mail;
 import com.ozacc.mail.MailException;
@@ -40,7 +41,7 @@ public class Invocation {
     }
 
     public void send() {
-        logger.debug("send mail...");
+        logger.debug("send mail...(xa)");
         logger.debug(mail);
         try {
             sendMail.send(mail);

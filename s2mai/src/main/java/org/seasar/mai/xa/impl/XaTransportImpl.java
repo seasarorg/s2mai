@@ -13,17 +13,17 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.xa;
+package org.seasar.mai.xa.impl;
 
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
 
 import org.seasar.framework.util.TransactionUtil;
-import org.seasar.mai.mail.MailStack;
 import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.mail.Transport;
-import org.seasar.mai.mail.impl.Invocation;
 import org.seasar.mai.util.TransactionManagerUtil;
+import org.seasar.mai.xa.Invocation;
+import org.seasar.mai.xa.MailStack;
 
 import com.ozacc.mail.Mail;
 

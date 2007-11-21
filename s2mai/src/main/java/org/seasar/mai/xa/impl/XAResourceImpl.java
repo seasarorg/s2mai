@@ -13,7 +13,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.xa;
+package org.seasar.mai.xa.impl;
 
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
@@ -21,9 +21,8 @@ import javax.transaction.xa.Xid;
 
 import org.seasar.extension.jta.xa.DefaultXAResource;
 import org.seasar.framework.log.Logger;
-import org.seasar.mai.mail.MailStack;
-import org.seasar.mai.mail.impl.Invocation;
-import org.seasar.mai.mail.impl.MailStackImpl;
+import org.seasar.mai.xa.Invocation;
+import org.seasar.mai.xa.MailStack;
 
 /**
  * @author Satsohi Kimura

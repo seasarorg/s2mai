@@ -13,20 +13,34 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.mai.mail;
+package org.seasar.mai.xa.impl;
 
-import org.seasar.mai.mail.impl.Invocation;
+import java.util.Stack;
+
+import org.seasar.mai.xa.Invocation;
+import org.seasar.mai.xa.MailStack;
+
 
 /**
  * @author Satsohi Kimura
  */
-public interface MailStack {
-    boolean empty();
+public class MailStackImpl implements MailStack {
+    private Stack stack = new Stack();
 
-    void clear();
+    public boolean empty() {
+        return stack.empty();
+    }
 
-    Invocation pop();
+    public Invocation pop() {
+        return (Invocation) stack.pop();
+    }
 
-    void push(Invocation invocation);
+    public void push(Invocation invocation) {
+        stack.push(invocation);
+    }
+
+    public void clear() {
+        stack.clear();
+    }
 
 }

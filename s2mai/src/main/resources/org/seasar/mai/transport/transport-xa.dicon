@@ -4,5 +4,5 @@
 <components namespace="s2mai">
 	<include path="jta.dicon"/>
 	<component name="XAResourceSortInterceptor" class="org.seasar.mai.xa.XAResourceSortInterceptor"/>
-	<component class="org.seasar.mai.xa.XaTransportImpl"/>
+	<component class="org.seasar.mai.xa.impl.XaTransportImpl"/>
 </components>
