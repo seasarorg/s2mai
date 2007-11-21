@@ -3,7 +3,7 @@
 	"http://www.seasar.org/dtd/components23.dtd">
 <components namespace="s2mai">
 	<include path="org/seasar/mai/transport/transport-xa.dicon"/>
-	<!--<include path="org/seasar/mai/transport/transport.dicon"/>-->
+	<!--<include path="org/seasar/mai/transport/transport.dicon"/> -->
 	<include path="mailTemplate.dicon"/>		
 	<include path="mailProperties.dicon"/>	
 

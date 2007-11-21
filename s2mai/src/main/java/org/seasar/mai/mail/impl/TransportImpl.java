@@ -30,7 +30,7 @@ public class TransportImpl implements Transport {
 
     private Logger logger = Logger.getLogger(TransportImpl.class);
 
-    private MailExceptionHandler mailExceptionHandler = new MailExceptionHandlerImpl();
+    private MailExceptionHandler mailExceptionHandler;
 
     public void send(Mail mail, SendMail sendMail) {
 
