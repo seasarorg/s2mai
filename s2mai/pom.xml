@@ -7,7 +7,7 @@
   <artifactId>s2mai</artifactId>
   <packaging>jar</packaging>
   <name>s2mai</name>
-  <version>0.9.5-beta1-SNAPSHOT</version>
+  <version>0.9.5</version>
   <description></description>
   <url>http://s2mai.sandbox.seasar.org/</url>
   <inceptionYear>2006</inceptionYear>
@@ -197,13 +197,13 @@
       <type>jar</type>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.geronimo.specs</groupId>
-      <artifactId>geronimo-j2ee_1.4_spec</artifactId>
-      <version>1.0</version>
-      <type>jar</type>
-      <scope>test</scope>
-    </dependency>
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-servlet_2.4_spec</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>    
     <dependency>
       <groupId>hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
