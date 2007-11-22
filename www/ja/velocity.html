@@ -25,36 +25,104 @@
 <tr align="left" valign="top"><td width="14"><img height="14" width="14" src="http://www.seasar.org/images/spacer.gif" alt=""></td><td width="740" class="main">
 <!-- don't edit end -->
 <!-- document start -->
-<h1><a name="s2dxo">S2Mai</a></h1>
-<h3><a name="abstraction">概要</a></h3>
-<P>S2Mai（S2 Mail Access Interface）は、インタフェースに対しアスペクトを適用し、メール送信処理を簡単に実現する事が出来ます。</P>
+<ul>
+	<li><a href="#velo">テンプレートエンジンをVelocityに切り替える</a></li>
+	<ul>
+		<li><a href="#setup">セットアップ</a></li>
+		<li><a href="#template">テンプレートの書き方</a></li>
+	</ul>	
+</ul>
+<h2><a name="velo">テンプレートエンジンをVelocityに切り替える</a></h2>
 
-<h3>ドキュメント</h3>
+<p>
+S2Maiは、初期状態ではテンプレートエンジンとして<a href="http://freemarker.org/" target="_blank">FreeMarker</a>を利用していますが、これを<a href="http://velocity.apache.org/">Velocity</a>に替える事が出来ます。
+</p>
+<h3><a name="setup">セットアップ</a></h3>
+<h4>依存jarの削除・追加</h4>
+<p>
+Velocityの以下のjarをクラスパスに追加して下さい。
 <ul>
-<li><a href="./guide1.html">セットアップ・基本的な使い方</a></li>
-<li><a href="./guide2.html">Tigerアノテーション・SMART deploy</a></li>
-<li><a href="./guide3.html">Maiのテスト</a></li>
-<li><a href="./velocity.html">テンプレートエンジンをVelocityに切り替える</a></li>
-<li><a href="./tx.html">トランザクション連携</a></li>
+	<li>velocity-x.x.jar</li>
+	<li>velocity-tools-generic-x.x.jar</li>
 </ul>
-<p>コミッタのブログに最新の情報が掲載される事があります。こちらもご参照下さい。</p>
+</p>
+<p>
+FreeMarkerのjarは不要になりますので、削除して構いません。
+</p>
+<p>
+Maven2からご利用の方は、pom.xmlのdependency要素を以下のようにして下さい。
+</p>
+<pre>
+&lt;dependency&gt;
+  &lt;groupId&gt;org.seasar.mai&lt;/groupId&gt;
+  &lt;artifactId&gt;s2mai&lt;/artifactId&gt;
+  &lt;version&gt;x.x.x&lt;/version&gt;
+  &lt;exclusions&gt;
+    &lt;exclusion&gt;
+      &lt;artifactId&gt;freemarker&lt;/artifactId&gt;
+      &lt;groupId&gt;freemarker&lt;/groupId&gt;
+    &lt;/exclusion&gt;
+  &lt;/exclusions&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;velocity&lt;/groupId&gt;
+  &lt;artifactId&gt;velocity&lt;/artifactId&gt;
+  &lt;version&gt;x.x&lt;/version&gt;
+  &lt;type&gt;jar&lt;/type&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;velocity-tools&lt;/groupId&gt;
+  &lt;artifactId&gt;velocity-tools-generic&lt;/artifactId&gt;
+  &lt;version&gt;x.x&lt;/version&gt;
+  &lt;type&gt;jar&lt;/type&gt;
+&lt;/dependency&gt;
+</pre>
+<p>
+各versionは適宜指定して下さい。
+</p>
+<h4>diconファイルの編集</h4>
+<p>
+s2mai-x.x.x.jarの中にあるmailTemplate.diconを取り出し、ルートパッケージに置いて、下記の様に編集して下さい。
+</p>
+<h5>mailTemplate.dicon(編集前)</h5>
+<pre>
+&lt;components namespace="mailTemplate" &gt;
+    &lt;!--     FreeMarker   --&gt;
+    &lt;include path="org/seasar/mai/template/freemarker.dicon"/&gt;
+
+    &lt;!--     Velocity   --&gt;
+    &lt;!--
+    &lt;include path="org/seasar/mai/template/velocity.dicon"/&gt;
+    --&gt;
+&lt;/components&gt;
+</pre>
+<h5>mailTemplate.dicon(編集後)</h5>
+<pre>
+&lt;components namespace="mailTemplate" &gt;
+    &lt;!--     Velocity   --&gt;
+    &lt;include path="org/seasar/mai/template/velocity.dicon"/&gt;
+&lt;/components&gt;
+</pre>
+<p>
+freemarker.diconの代わりに、velocity.diconをincludeする形にします。
+</p>
+<h3><a name="template">テンプレートの書き方</a></h3>
+<p>
+ファイル名の命名規則はFreeMarkerの場合と変わりませんが、拡張子は「vm」になります。例えば、TestMai#sendMail()が読み込むテンプレートは、Maiと同じパッケージ内の「TestMai_sendMail.vm」です。
+</p>
+<h5>TestMai_sendMail.vm</h5>
+<pre>
+Subject: テストメールです。
+
+$data.nameさんこんにちは。
+</pre>
+<p>
+テンプレート内で引数Dtoを表す要素名は「data」固定なのはFreeMarker利用時と一緒です。詳細は<a href="guide1.html#basic">こちら</a>を参照して下さい。
+</p>
 <ul>
-<li><a href="http://d.hatena.ne.jp/rokugen/" target="_blank">六の日記はここにはないぞ</a></li>
+	<li><a href="./index.html">S2Maiトップ</a></li>
 </ul>
 
-<h3>トラッキングシステム</h3>
-<ul>
-<li><a href="https://www.seasar.org/issues/browse/MAI" target="_blank">トラッキングはこちら</a></li>
-</ul>
-
-<h3><a name="download">ダウンロード</a></h3>
-<!--
-<h4>安定版</h4>
--->
-<ul>
-<li><a href="../download/2007-11-21/s2mai-0.9.5.zip">S2Mai ver 0.9.5</a></li>
-<li><a href="../download/2007-11-21/s2mai-tiger-0.9.5.zip">S2Mai-Tiger ver 0.9.5</a></li>
-</ul>
 <!-- document end -->
 <!-- don't edit start -->
 </td>
