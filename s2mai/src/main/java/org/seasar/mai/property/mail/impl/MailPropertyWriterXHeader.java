@@ -18,7 +18,6 @@ package org.seasar.mai.property.mail.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -60,26 +59,24 @@ public class MailPropertyWriterXHeader implements MailPropertyWriter {
 
         String header = (String) value;
         BufferedReader reader = new BufferedReader(new StringReader(header));
-        String line = null;
-        Map map = new HashMap();
+        String line = null;        
         try {
             while ((line = reader.readLine()) != null) {
-                addHeaderToMap(line, map);
+                addLine(line, mail);
             }
         } catch (IOException e) {
             throw new IORuntimeException(e);
-        }
-        addMap(mail, map);
+        }        
     }
     
-    private void addHeaderToMap(String line, Map map){
+    private void addLine(String line, Mail mail){
         int index = line.indexOf(S2MaiConstants.XHEADER_DELIMITER);
         if(index < 0){
             return;
         }
         String key = line.substring(0, index);
         String val = line.substring(index + S2MaiConstants.XHEADER_DELIMITER.length());
-        map.put(key, val);
+        mail.addHeader(key, val);
     }
     
     
