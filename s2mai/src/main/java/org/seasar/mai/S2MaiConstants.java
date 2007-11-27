@@ -17,6 +17,7 @@ package org.seasar.mai;
 
 /**
  * @author Satsohi Kimura
+ * @author rokugen
  */
 public interface S2MaiConstants {
     String FREEMARKER_EXT = "ftl";
@@ -44,8 +45,10 @@ public interface S2MaiConstants {
     String RETURN_PATH = "returnPath";
 
     String ATTACHED_FILE = "attachedFile";
+    
+    String XHEADER = "XHeader";
 
-    String[] MAIL_PROPERTIES = new String[] { FROM, TO, CC, BCC, REPLY_TO, SUBJECT, RETURN_PATH,ATTACHED_FILE };
+    String[] MAIL_PROPERTIES = new String[] { FROM, TO, CC, BCC, REPLY_TO, SUBJECT, RETURN_PATH,ATTACHED_FILE ,XHEADER};
 
     String HOST = "host";
 

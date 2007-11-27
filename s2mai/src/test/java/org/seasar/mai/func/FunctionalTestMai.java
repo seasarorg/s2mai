@@ -37,6 +37,7 @@ public class FunctionalTestMai extends S2TestCase {
         data.setYear(2006);
         data.setNo(12345);
         data.setFrom("rokugen@example.com");
+        data.setXHeader("X-Mailer: fromTestCase");
         testMai.sendMail(data);
         
         

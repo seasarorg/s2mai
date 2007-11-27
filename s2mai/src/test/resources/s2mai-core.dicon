@@ -22,6 +22,7 @@
 	<component name="subjectWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterSubject" />
 	<component name="returnPathWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterReturnPath" />
 	<component name="attachedFileWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterAttachedFile" />	
+	<component name="XHeaderWriter" class="org.seasar.mai.property.mail.impl.MailPropertyWriterXHeader" />
 	
 	<component class="org.seasar.mai.property.server.impl.ServerPropertyWriterFactoryImpl" />
 	<component name="hostWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterHost" />

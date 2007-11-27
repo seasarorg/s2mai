@@ -19,7 +19,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.InternetAddress;
 
@@ -51,8 +53,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         testDto.setPort("1234");
         testDto.setUsername("tesetuser");
         testDto.setPassword("testpw");
-        testDto.setMessageId("messageIdTest@example.com");
-
+        testDto.setMessageId("messageIdTest@example.com");        
+        
         propertyWriterImpl.setServerProperty(sendMail, testDto);
 
         assertEquals("host", testDto.getHost(), sendMail.getHost());
@@ -60,6 +62,7 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("username", testDto.getUsername(), sendMail.getUsername());
         assertEquals("password", testDto.getPassword(), sendMail.getPassword());
         assertEquals("messageId", testDto.getMessageId(), sendMail.getMessageId());
+        
     }
 
     public void testSetMailProperty() throws UnsupportedEncodingException, MalformedURLException {
@@ -91,6 +94,13 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         testDto.setReplyTo("replyTo@address");
         testDto.setReturnPath("returnPath@address");
         testDto.setAttachedFile(new AttachedFile(new URL("http://example.com"), "添付ファイル"));
+        
+        Map xheader = new HashMap();
+        xheader.put("X-Mailer", "hogeMailer");
+        xheader.put("MIME-Version", "1.0");
+        testDto.setXHeader(xheader);
+
+        
         testDto.setDummy("dummy");
 
         propertyWriterImpl.setMailProperty(mail, testDto);
@@ -111,6 +121,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("replyTo address ", testDto.getReplyTo(), mail.getReplyTo().getAddress());
         assertEquals("return path address", testDto.getReturnPath(), mail.getReturnPath().getAddress());
         assertEquals("attached file", testDto.getAttachedFile().getFileName(), mail.getAttachmentFiles()[0].getName());
+        assertEquals("xheader x-mailer",testDto.getXHeader().get("X-Mailer"), mail.getHeaders().get("X-Mailer"));
+        assertEquals("xheader mime-version",testDto.getXHeader().get("MIME-Version"), mail.getHeaders().get("MIME-Version"));
 
         mail = new Mail();
         TestDto2 testDto2 = new TestDto2();
@@ -124,6 +136,9 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         testDto2.setFiles(new AttachedFile[] { new AttachedFile(new URL("http://example.com"), "添付ファイル1"),
                 new AttachedFile(new URL("http://example.com"), "添付ファイル2") });
         testDto2.setTempuFile(new AttachedFile(new URL("http://example.com"), "添付ファイル3"));
+        
+        String header = "MIME-Version: 2.3\nMessage-ID: hogehoge@example.com";
+        testDto2.setXHeader(header);
 
         propertyWriterImpl.setMailProperty(mail, testDto2);
         assertEquals("from address", testDto2.getFrom().getAddress(), mail.getFrom().getAddress());
@@ -135,6 +150,9 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("attached file 1", testDto2.getFiles()[0].getFileName(), mail.getAttachmentFiles()[0].getName());
         assertEquals("attached file 2", testDto2.getFiles()[1].getFileName(), mail.getAttachmentFiles()[1].getName());
         assertEquals("attached file 3", testDto2.getTempuFile().getFileName(), mail.getAttachmentFiles()[2].getName());
+        assertEquals("xheader message-id","hogehoge@example.com", mail.getHeaders().get("Message-ID"));
+        assertEquals("xheader mime-version","2.3", mail.getHeaders().get("MIME-Version"));
+        
         // 配列の場合とか
         mail = new Mail();
         TestDto3 testDto3 = new TestDto3();
@@ -223,6 +241,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         private String returnPath;
 
         private AttachedFile attachedFile;
+        
+        private Map xHeader;
 
         private String dummy;
 
@@ -337,6 +357,14 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         public final void setMessageId(String messageId) {
             this.messageId = messageId;
         }
+        
+        public final Map getXHeader() {
+            return xHeader;
+        }
+
+        public final void setXHeader(Map xheader) {
+            this.xHeader = xheader;
+        }
 
     }
 
@@ -350,6 +378,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         private AttachedFile[] files;
 
         private AttachedFile tempuFile;
+        
+        private String XHeader;
 
         public InternetAddress getFrom() {
             return from;
@@ -390,6 +420,16 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         public final void setTempuFile(AttachedFile tempuFile) {
             this.tempuFile = tempuFile;
         }
+
+        public final String getXHeader() {
+            return XHeader;
+        }
+
+        public final void setXHeader(String header) {
+            XHeader = header;
+        }
+        
+        
     }
 
     public class TestDto3 {

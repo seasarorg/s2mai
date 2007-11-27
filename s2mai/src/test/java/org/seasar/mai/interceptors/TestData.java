@@ -41,6 +41,8 @@ public class TestData {
     private int month;
 
     private int day;
+    
+    private String XHeader;
 
     public int getDay() {
         return day;
@@ -147,6 +149,14 @@ public class TestData {
      */
     public final void setAttachedFile(AttachedFile attachedFile) {
         this.attachedFile = attachedFile;
+    }
+
+    public String getXHeader() {
+        return XHeader;
+    }
+
+    public void setXHeader(String header) {
+        XHeader = header;
     }
 
 }
