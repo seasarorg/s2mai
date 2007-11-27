@@ -24,7 +24,7 @@ import org.seasar.mai.unit.S2MaiTestCase;
 import com.ozacc.mail.Mail;
 
 /**
- * @author kei
+ * @author rokugen
  */
 public class S2MaiTestCaseTest extends S2MaiTestCase {
     private AnnotationTestMai annotationTestMai;

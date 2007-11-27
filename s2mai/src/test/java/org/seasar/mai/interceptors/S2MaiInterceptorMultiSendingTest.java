@@ -23,7 +23,7 @@ import org.seasar.mai.unit.SendMailTestUtil;
 import com.ozacc.mail.Mail;
 
 /**
- * @author Satsohi Kimura
+ * @author rokugen
  */
 public class S2MaiInterceptorMultiSendingTest extends S2TestCase {
     private AnnotationTestMai annotationTestMai;

@@ -24,7 +24,7 @@ import com.ozacc.mail.Mail;
 import com.ozacc.mail.MailException;
 
 /**
- * @author Satsohi Kimura
+ * @author rokugen
  */
 public class TransportImpl implements Transport {
 

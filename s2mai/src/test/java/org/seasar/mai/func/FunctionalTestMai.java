@@ -20,7 +20,7 @@ import org.seasar.mai.interceptors.TestData;
 import org.seasar.mai.interceptors.TestMai;
 
 /**
- * @author kei
+ * @author rokugen
  */
 public class FunctionalTestMai extends S2TestCase {
     private TestMai testMai;

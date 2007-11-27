@@ -23,7 +23,7 @@ import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.mai.S2MaiConstants;
 
 /**
- * @author kei
+ * @author rokugen
  */
 public class MailTextUtil {
     public static String getText(String text) {

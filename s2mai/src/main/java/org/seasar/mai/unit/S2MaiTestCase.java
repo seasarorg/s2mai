@@ -20,7 +20,7 @@ import org.seasar.extension.unit.S2TestCase;
 import com.ozacc.mail.Mail;
 
 /**
- * @author kei
+ * @author rokugen
  */
 public abstract class S2MaiTestCase extends S2TestCase {
     public S2MaiTestCase(){

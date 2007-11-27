@@ -62,5 +62,7 @@ public interface S2MaiConstants {
     String TEMPLATE_ENCODING = "templateEncoding";
 
     String MAIL_CHARSET = "mailCharset";
+    
+    String XHEADER_DELIMITER = ": ";
 
 }
