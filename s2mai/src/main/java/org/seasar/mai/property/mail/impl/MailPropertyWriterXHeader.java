@@ -56,7 +56,7 @@ public class MailPropertyWriterXHeader implements MailPropertyWriter {
                 continue;
             }
             String val = (String) map.get(key);
-            mail.addHeader(key, val);
+            addHeader(mail, key, val);
         }
     }
 
@@ -84,11 +84,43 @@ public class MailPropertyWriterXHeader implements MailPropertyWriter {
             return;
         }
         String val = line.substring(index + S2MaiConstants.XHEADER_DELIMITER.length());
-        mail.addHeader(key, val);
+        addHeader(mail, key, val);
     }
     
     private boolean isAllowedKey(String value){
-        return !StringUtil.isEmpty(value) && value.startsWith(XHEADER_PREFIX);        
+        //return !StringUtil.isEmpty(value) && value.startsWith(XHEADER_PREFIX);        
+        return !StringUtil.isEmpty(value) && StringUtil.startsWithIgnoreCase(value,XHEADER_PREFIX);        
+    }
+    
+    private void addHeader(Mail mail, String key, String value){
+        if(isKeyAlreadyExists(mail, key)){
+            return;
+        }        
+        key = capitalizePrefix(key);
+        
+        mail.addHeader(key, value);
+        
+    }
+    
+    private boolean isKeyAlreadyExists(Mail mail, String newKey){
+        Map map = mail.getHeaders();
+        if(map == null){
+            return false;
+        }
+        Set keySet = map.keySet();
+        for(Iterator itr = keySet.iterator(); itr.hasNext();){
+            String key = (String) itr.next();
+            if(key.equalsIgnoreCase(newKey)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private String capitalizePrefix(String key){
+        key = key.trim();
+        key = key.replaceAll("^x-", XHEADER_PREFIX);
+        return key;
         
     }
     

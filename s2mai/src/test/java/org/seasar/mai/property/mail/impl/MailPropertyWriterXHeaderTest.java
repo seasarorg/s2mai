@@ -137,6 +137,22 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         
     }
     
+    public void testStringから設定_キーにスペースがあった場合(){
+        Mail mail = new Mail();        
+        String value = "X-foo    : foo\nX-bar      : bar";
+        
+        writer.setProperty(mail, value);
+        
+        Map actual = mail.getHeaders();
+        
+        assertEquals("size",2, actual.size());
+        assertNotNull("foo not null",actual.get("X-foo"));
+        assertNotNull("bar not null",actual.get("X-bar"));        
+
+        assertEquals("foo","foo", actual.get("X-foo"));
+        assertEquals("bar","bar", actual.get("X-bar"));        
+    }
+    
     public void testMapから設定_Mapが空っぽ(){
         Mail mail = new Mail();
         Map expected = new HashMap();
@@ -200,17 +216,41 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         assertEquals("foo", actual.get("X-Subject"));
         assertNull(actual.get("Z-Subject"));
         
-        //ケースセンシティブなんだと思う。
-        mail = new Mail();
-        value = new HashMap();        
-        value.put("x-Subject", "bar");
+    }
+    
+    public void testキーは大文字小文字区別しない(){
+        //ケースインセンシティブらしい。重複したらスキップ。x-はX-に置き換える。
+        Mail mail = new Mail();
+        Map value = new HashMap();        
         value.put("X-Subject", "foo");
-        writer.setProperty(mail, value);        
-        actual = mail.getHeaders();        
+        value.put("x-Subject", "bar");
+        value.put("X-Hoge", "hoge_upper");
+        value.put("x-hoge", "hoge_lawer");
+        value.put("x-x-hoge", "x-x-");
+        
+        writer.setProperty(mail, value);
+        
+        System.out.println(mail);
+        
+        Map actual = mail.getHeaders();
         assertNull(actual.get("x-Subject"));
-        assertEquals("foo", actual.get("X-Subject"));
+        if(! "foo".equals(actual.get("X-Subject"))){
+            assertEquals("bar", actual.get("X-Subject"));
+        }else{
+            assertEquals("foo", actual.get("X-Subject"));
+        }        
         
-        
+        String hogeKey = "X-hoge";
+        String hogeVal = "hoge_lawer";
+        String nullKey = "X-Hoge";
+        if(actual.get(hogeKey) == null){            
+            hogeKey = nullKey;
+            hogeVal = "hoge_upper";
+            nullKey = "X-hoge";
+        }
+        assertEquals(hogeVal, actual.get(hogeKey));
+        assertNull(actual.get(nullKey));
+        assertEquals("x-x-", actual.get("X-x-hoge"));
     }
     
     private Map getExpected(){
