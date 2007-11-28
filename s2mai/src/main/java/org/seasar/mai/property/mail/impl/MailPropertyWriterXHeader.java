@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.seasar.framework.exception.IORuntimeException;
+import org.seasar.framework.util.StringUtil;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 
@@ -32,6 +33,7 @@ import com.ozacc.mail.Mail;
  * @author rokugen
  */
 public class MailPropertyWriterXHeader implements MailPropertyWriter {
+    private static final String XHEADER_PREFIX = "X-";
 
     public void init(Mail mail) {
         // no code.
@@ -50,6 +52,9 @@ public class MailPropertyWriterXHeader implements MailPropertyWriter {
         Set keys = map.keySet();
         for (Iterator itr = keys.iterator(); itr.hasNext();) {
             String key = (String) itr.next();
+            if(isAllowedKey(key) == false){
+                continue;
+            }
             String val = (String) map.get(key);
             mail.addHeader(key, val);
         }
@@ -75,8 +80,16 @@ public class MailPropertyWriterXHeader implements MailPropertyWriter {
             return;
         }
         String key = line.substring(0, index);
+        if(isAllowedKey(key) == false){
+            return;
+        }
         String val = line.substring(index + S2MaiConstants.XHEADER_DELIMITER.length());
         mail.addHeader(key, val);
+    }
+    
+    private boolean isAllowedKey(String value){
+        
+        return StringUtil.startsWithIgnoreCase(value, XHEADER_PREFIX);
     }
     
     

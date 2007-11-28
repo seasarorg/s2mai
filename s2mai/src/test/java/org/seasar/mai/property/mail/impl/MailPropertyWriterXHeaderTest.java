@@ -46,9 +46,13 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         writer.setProperty(mail, expected);
         Map actual = mail.getHeaders();
         
-        assertEquals("size",expected.size(), actual.size());        
-        assertEquals("message id",expected.get("Message-ID"), actual.get("Message-ID"));
-        assertEquals("mime version",expected.get("MIME-Version"), actual.get("MIME-Version"));
+        assertEquals("size",expected.size(), actual.size());
+        assertNotNull("foo not null",actual.get("X-foo"));
+        assertNotNull("bar not null",actual.get("X-bar"));
+        assertNotNull("mailer not null",actual.get("X-Mailer"));
+        
+        assertEquals("foo",expected.get("X-foo"), actual.get("X-foo"));
+        assertEquals("bar",expected.get("X-bar"), actual.get("X-bar"));
         assertEquals("mailer",expected.get("X-Mailer"), actual.get("X-Mailer"));
         
     }
@@ -63,8 +67,12 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         Map actual = mail.getHeaders();
         
         assertEquals("size",expected.size(), actual.size());
-        assertEquals("message id",expected.get("Message-ID"), actual.get("Message-ID"));
-        assertEquals("mime version",expected.get("MIME-Version"), actual.get("MIME-Version"));
+        assertNotNull("foo not null",actual.get("X-foo"));
+        assertNotNull("bar not null",actual.get("X-bar"));
+        assertNotNull("mailer not null",actual.get("X-Mailer"));
+
+        assertEquals("foo",expected.get("X-foo"), actual.get("X-foo"));
+        assertEquals("bar",expected.get("X-bar"), actual.get("X-bar"));
         assertEquals("mailer",expected.get("X-Mailer"), actual.get("X-Mailer"));
         
     }
@@ -79,8 +87,12 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         Map actual = mail.getHeaders();
         
         assertEquals("size",expected.size(), actual.size());
-        assertEquals("message id",expected.get("Message-ID"), actual.get("Message-ID"));
-        assertEquals("mime version",expected.get("MIME-Version"), actual.get("MIME-Version"));
+        assertNotNull("foo not null",actual.get("X-foo"));
+        assertNotNull("bar not null",actual.get("X-bar"));
+        assertNotNull("mailer not null",actual.get("X-Mailer"));
+
+        assertEquals("foo",expected.get("X-foo"), actual.get("X-foo"));
+        assertEquals("bar",expected.get("X-bar"), actual.get("X-bar"));
         assertEquals("mailer",expected.get("X-Mailer"), actual.get("X-Mailer"));
         
     }
@@ -95,8 +107,12 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         Map actual = mail.getHeaders();
         
         assertEquals("size",expected.size(), actual.size());
-        assertEquals("message id",expected.get("Message-ID"), actual.get("Message-ID"));
-        assertEquals("mime version",expected.get("MIME-Version"), actual.get("MIME-Version"));
+        assertNotNull("foo not null",actual.get("X-foo"));
+        assertNotNull("bar not null",actual.get("X-bar"));
+        assertNotNull("mailer not null",actual.get("X-Mailer"));
+
+        assertEquals("foo",expected.get("X-foo"), actual.get("X-foo"));
+        assertEquals("bar",expected.get("X-bar"), actual.get("X-bar"));
         assertEquals("mailer",expected.get("X-Mailer"), actual.get("X-Mailer"));
         
     }
@@ -111,8 +127,12 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         Map actual = mail.getHeaders();
         
         assertEquals("size",expected.size(), actual.size());
-        assertEquals("message id",expected.get("Message-ID"), actual.get("Message-ID"));
-        assertEquals("mime version",expected.get("MIME-Version"), actual.get("MIME-Version"));
+        assertNotNull("foo not null",actual.get("X-foo"));
+        assertNotNull("bar not null",actual.get("X-bar"));
+        assertNotNull("mailer not null",actual.get("X-Mailer"));
+
+        assertEquals("foo",expected.get("X-foo"), actual.get("X-foo"));
+        assertEquals("bar",expected.get("X-bar"), actual.get("X-bar"));
         assertEquals("mailer",expected.get("X-Mailer"), actual.get("X-Mailer"));
         
     }
@@ -146,18 +166,39 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         assertNull(actual);        
     }
     
+    public void testXで始まらないキーは設定されない(){
+        Mail mail = new Mail();
+        Map value = new HashMap();
+        value.put("Subject", "hoge");
+        value.put("X-Subject", "foo");
+
+        writer.setProperty(mail, value);        
+        Map actual = mail.getHeaders();        
+        assertNull(actual.get("Subject"));
+        assertEquals("foo", actual.get("X-Subject"));
+        
+        String str = buildHeaderString(value, "\n");
+        mail = new Mail();
+        writer.setProperty(mail, str);
+        actual = mail.getHeaders();        
+        assertNull(actual.get("Subject"));
+        assertEquals("foo", actual.get("X-Subject"));
+        
+        
+    }
+    
     private Map getExpected(){
         Map expected = new HashMap();
-        expected.put("Message-ID", "TEST0001@example.com");
-        expected.put("MIME-Version", "2.3");
+        expected.put("X-foo", "TEST0001@example.com");
+        expected.put("X-bar", "2.3");
         expected.put("X-Mailer", "hogeMailer");
         return expected;        
     }
     
     private Map getExpectedWithColon(){
         Map expected = new HashMap();
-        expected.put("Message-ID", "TEST0001@example.com: hoge");
-        expected.put("MIME-Version", "2.3");
+        expected.put("X-foo", "TEST0001@example.com: hoge");
+        expected.put("X-bar", "2.3");
         expected.put("X-Mailer", "hogeMailer");
         return expected;        
     }

@@ -97,7 +97,7 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         
         Map xheader = new HashMap();
         xheader.put("X-Mailer", "hogeMailer");
-        xheader.put("MIME-Version", "1.0");
+        xheader.put("X-hoge", "1.0");
         testDto.setXHeader(xheader);
 
         
@@ -122,7 +122,7 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("return path address", testDto.getReturnPath(), mail.getReturnPath().getAddress());
         assertEquals("attached file", testDto.getAttachedFile().getFileName(), mail.getAttachmentFiles()[0].getName());
         assertEquals("xheader x-mailer",testDto.getXHeader().get("X-Mailer"), mail.getHeaders().get("X-Mailer"));
-        assertEquals("xheader mime-version",testDto.getXHeader().get("MIME-Version"), mail.getHeaders().get("MIME-Version"));
+        assertEquals("xheader x-hoge",testDto.getXHeader().get("X-hoge"), mail.getHeaders().get("X-hoge"));
 
         mail = new Mail();
         TestDto2 testDto2 = new TestDto2();
@@ -137,7 +137,7 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
                 new AttachedFile(new URL("http://example.com"), "添付ファイル2") });
         testDto2.setTempuFile(new AttachedFile(new URL("http://example.com"), "添付ファイル3"));
         
-        String header = "MIME-Version: 2.3\nMessage-ID: hogehoge@example.com";
+        String header = "X-hoge: 2.3\nX-fuga: hogehoge@example.com";
         testDto2.setXHeader(header);
 
         propertyWriterImpl.setMailProperty(mail, testDto2);
@@ -150,8 +150,8 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("attached file 1", testDto2.getFiles()[0].getFileName(), mail.getAttachmentFiles()[0].getName());
         assertEquals("attached file 2", testDto2.getFiles()[1].getFileName(), mail.getAttachmentFiles()[1].getName());
         assertEquals("attached file 3", testDto2.getTempuFile().getFileName(), mail.getAttachmentFiles()[2].getName());
-        assertEquals("xheader message-id","hogehoge@example.com", mail.getHeaders().get("Message-ID"));
-        assertEquals("xheader mime-version","2.3", mail.getHeaders().get("MIME-Version"));
+        assertEquals("xheader x-fuga","hogehoge@example.com", mail.getHeaders().get("X-fuga"));
+        assertEquals("xheader x-hoge","2.3", mail.getHeaders().get("X-hoge"));
         
         // 配列の場合とか
         mail = new Mail();
