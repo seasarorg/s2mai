@@ -147,6 +147,19 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         
     }
     
+    public void testMapから設定_キーが空っぽ(){
+        Mail mail = new Mail();
+        Map value = new HashMap();
+        value.put(null, "hoge");
+        value.put("", "fuga");
+        value.put(" ", "funga-");
+        writer.setProperty(mail, value);
+        System.out.println(mail);
+        Map actual = mail.getHeaders();        
+        assertNull(actual);
+        
+    }
+    
     public void testStringがコロンまるでなし(){
         Mail mail = new Mail();
         String value = "hogehoge";
@@ -171,17 +184,30 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         Map value = new HashMap();
         value.put("Subject", "hoge");
         value.put("X-Subject", "foo");
+        value.put("Z-Subject", "bar");
 
         writer.setProperty(mail, value);        
         Map actual = mail.getHeaders();        
         assertNull(actual.get("Subject"));
         assertEquals("foo", actual.get("X-Subject"));
+        assertNull(actual.get("Z-Subject"));
         
         String str = buildHeaderString(value, "\n");
         mail = new Mail();
         writer.setProperty(mail, str);
         actual = mail.getHeaders();        
         assertNull(actual.get("Subject"));
+        assertEquals("foo", actual.get("X-Subject"));
+        assertNull(actual.get("Z-Subject"));
+        
+        //ケースセンシティブなんだと思う。
+        mail = new Mail();
+        value = new HashMap();        
+        value.put("x-Subject", "bar");
+        value.put("X-Subject", "foo");
+        writer.setProperty(mail, value);        
+        actual = mail.getHeaders();        
+        assertNull(actual.get("x-Subject"));
         assertEquals("foo", actual.get("X-Subject"));
         
         

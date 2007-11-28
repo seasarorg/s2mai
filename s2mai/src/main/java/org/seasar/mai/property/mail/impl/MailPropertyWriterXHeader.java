@@ -88,8 +88,8 @@ public class MailPropertyWriterXHeader implements MailPropertyWriter {
     }
     
     private boolean isAllowedKey(String value){
+        return !StringUtil.isEmpty(value) && value.startsWith(XHEADER_PREFIX);        
         
-        return StringUtil.startsWithIgnoreCase(value, XHEADER_PREFIX);
     }
     
     
