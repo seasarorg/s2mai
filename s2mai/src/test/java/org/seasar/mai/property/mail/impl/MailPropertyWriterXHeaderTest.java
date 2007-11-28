@@ -234,12 +234,13 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         
         Map actual = mail.getHeaders();
         assertNull(actual.get("x-Subject"));
+        //どっちが来るのか判らないので・・・。        
         if(! "foo".equals(actual.get("X-Subject"))){
             assertEquals("bar", actual.get("X-Subject"));
         }else{
             assertEquals("foo", actual.get("X-Subject"));
-        }        
-        
+        }
+        //どっちが来るのか判らないので・・・。
         String hogeKey = "X-hoge";
         String hogeVal = "hoge_lawer";
         String nullKey = "X-Hoge";
@@ -250,6 +251,7 @@ public class MailPropertyWriterXHeaderTest extends TestCase {
         }
         assertEquals(hogeVal, actual.get(hogeKey));
         assertNull(actual.get(nullKey));
+        
         assertEquals("x-x-", actual.get("X-x-hoge"));
     }
     
