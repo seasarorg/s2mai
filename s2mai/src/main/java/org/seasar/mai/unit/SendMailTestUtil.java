@@ -83,5 +83,12 @@ public class SendMailTestUtil {
         expected.setText(text);
         return expected;
     }
+    
+    public static final int sentMailCount(){
+        if(mailList == null){
+            return 0;
+        }
+        return mailList.size();
+    }
 
 }

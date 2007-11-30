@@ -76,7 +76,9 @@ public class S2MaiTestCaseTest extends S2MaiTestCase {
         expected.setReplyTo("rokugen");
         expected.setSubject("アノテーションテスト-methoddicon - No.12,345");
 
-        assertEquals("3通目",expected, getActualMail(2));        
+        assertEquals("3通目",expected, getActualMail(2));
+        
+        assertEquals(3, sentMailCount());
     }
 
     public void testInvoke2() throws Exception {

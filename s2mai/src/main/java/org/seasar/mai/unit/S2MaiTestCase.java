@@ -55,5 +55,9 @@ public abstract class S2MaiTestCase extends S2TestCase {
     public Mail getActualMail(int index){
         return SendMailTestUtil.getActualMail(index);
     }
+    
+    public int sentMailCount(){
+        return SendMailTestUtil.sentMailCount();
+    }
 
 }
