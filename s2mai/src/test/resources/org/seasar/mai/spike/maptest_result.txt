@@ -1,0 +1,6 @@
+number is 112.
+name is rokugen.
+
+- child1
+- child2
+- child3

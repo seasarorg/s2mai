@@ -1,0 +1,6 @@
+number is $data.number.
+name is $data.name.
+
+#foreach($child in $data.children)
+- $child.childName
+#end
