@@ -16,6 +16,9 @@
 package org.seasar.mai.interceptors;
 
 import org.seasar.extension.unit.S2TestCase;
+import org.seasar.mai.unit.SendMailTestUtil;
+
+import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen
@@ -29,19 +32,18 @@ public class S2MaiInterceptorWithTigerTest extends S2TestCase {
 
 	protected void setUp() throws Exception {
         //TODO メール用テストがリリース対象になるまで取り敢えずコメント
-		//include("tiger_test.dicon");
-        //SendMailTestUtil.init();
+		include("tiger_test.dicon");
+        SendMailTestUtil.init();
 	}
 	
 	public void testSendMail(){
         //TODO メール用テストがリリース対象になるまで取り敢えずコメント        
-        /*
 		TigerTestDto dto = new TigerTestDto();
 		dto.setText("あいうえお");
 		tigerTestMai.sendMail(dto);
-		tigerTestMai.sendMail2(dto);		
+		tigerTestMai.sendMail2(dto);
 		
-		Mail actual = SendMailTestUtil.getMail(0);
+		Mail actual = SendMailTestUtil.getActualMail(0);
 		assertEquals("件名1", actual.getSubject());
 		assertEquals("FROM1名前", actual.getFrom().getPersonal());
 		assertEquals("TO1送信先", actual.getTo()[0].getPersonal());
@@ -50,7 +52,7 @@ public class S2MaiInterceptorWithTigerTest extends S2TestCase {
 		assertEquals("replyTo1@address", actual.getReplyTo().getAddress());
 		assertEquals("returnPath1@address", actual.getReturnPath().getAddress());
 		
-		actual = SendMailTestUtil.getMail(1);
+		actual = SendMailTestUtil.getActualMail(1);
 		assertEquals("件名2", actual.getSubject());
 		assertEquals("FROM2名前", actual.getFrom().getPersonal());
 		assertEquals("TO3送信先", actual.getTo()[0].getPersonal());
@@ -58,7 +60,7 @@ public class S2MaiInterceptorWithTigerTest extends S2TestCase {
 		assertEquals("bcc3@address",actual.getBcc()[0].getAddress());
 		assertEquals("replyTo2@address", actual.getReplyTo().getAddress());
 		assertEquals("returnPath2@address", actual.getReturnPath().getAddress());
-			*/	
+			
 	}
 
 }

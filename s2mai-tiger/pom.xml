@@ -7,7 +7,7 @@
   <artifactId>s2mai-tiger</artifactId>
   <packaging>jar</packaging>
   <name>s2mai-tiger</name>
-  <version>0.9.6</version>
+  <version>0.9.7-SNAPSHOT</version>
   <description></description>
   <url>http://s2mai.sandbox.seasar.org/</url>
   <inceptionYear>2006</inceptionYear>
@@ -141,9 +141,18 @@
     <dependency>
       <groupId>org.seasar.mai</groupId>
       <artifactId>s2mai</artifactId>
-      <version>0.9.6</version>
+      <version>0.9.7-SNAPSHOT</version>
       <type>jar</type>
     </dependency>
+    
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jta_1.1_spec</artifactId>
+      <version>1.0</version>
+      <type>jar</type>
+      <optional>true</optional>
+      <scope>test</scope>
+    </dependency>    
 
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
