@@ -25,9 +25,8 @@ import java.util.Set;
 import org.seasar.framework.exception.IORuntimeException;
 import org.seasar.framework.util.StringUtil;
 import org.seasar.mai.S2MaiConstants;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.property.mail.MailPropertyWriter;
-
-import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen

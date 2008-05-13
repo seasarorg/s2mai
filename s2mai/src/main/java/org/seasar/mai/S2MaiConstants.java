@@ -58,9 +58,7 @@ public interface S2MaiConstants {
 
     String PASSWORD = "password";
 
-    String MESSAGE_ID = "messageId";
-
-    String[] SERVER_PROPERTIES = new String[] { HOST, PORT, USERNAME, PASSWORD, MESSAGE_ID };
+    String[] SERVER_PROPERTIES = new String[] { HOST, PORT, USERNAME, PASSWORD};
 
     String TEMPLATE_ENCODING = "templateEncoding";
 

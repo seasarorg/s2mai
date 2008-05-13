@@ -16,12 +16,10 @@
 package org.seasar.mai.mail.impl;
 
 import org.seasar.framework.log.Logger;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.mail.MailExceptionHandler;
 import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.mail.Transport;
-
-import com.ozacc.mail.Mail;
-import com.ozacc.mail.MailException;
 
 /**
  * @author rokugen
@@ -36,11 +34,7 @@ public class TransportImpl implements Transport {
 
         logger.debug("send mail...");
         logger.debug(mail);
-        try {
             sendMail.send(mail);
-        } catch (MailException e) {
-            mailExceptionHandler.handle(e);
-        }
         logger.debug("success send mail.");
     }
 

@@ -24,14 +24,13 @@ import org.seasar.framework.beans.factory.BeanDescFactory;
 import org.seasar.framework.util.MethodUtil;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.mail.AttachedFile;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.property.PropertyWriterForBean;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 import org.seasar.mai.property.mail.MailPropertyWriterFactory;
 import org.seasar.mai.property.server.ServerPropertyWriter;
 import org.seasar.mai.property.server.ServerPropertyWriterFactory;
-
-import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen

@@ -27,12 +27,12 @@ import org.seasar.framework.util.InputStreamUtil;
 import org.seasar.framework.util.ReaderUtil;
 import org.seasar.framework.util.ResourceUtil;
 import org.seasar.mai.S2MaiConstants;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.util.MailTextUtil;
-
-import com.ozacc.mail.Mail;
 
 /**
  * @author Satsohi Kimura
+ * @author rokugen
  */
 public class SendMailTestUtil {
     private static List mailList;

@@ -18,8 +18,7 @@ package org.seasar.mai.mail;
 /**
  * @author Satsohi Kimura
  */
-public interface SendMail extends com.ozacc.mail.SendMail {
-    Object clone();
+public interface SendMail  {
 
     String getCharset();
 
@@ -37,8 +36,6 @@ public interface SendMail extends com.ozacc.mail.SendMail {
 
     int getConnectionTimeout();
 
-    String getMessageId();
-
     int getReadTimeout();
 
     void setCharset(String charset);
@@ -46,8 +43,6 @@ public interface SendMail extends com.ozacc.mail.SendMail {
     void setConnectionTimeout(int connectionTimeout);
 
     void setHost(String host);
-
-    void setMessageId(String messageId);
 
     void setPassword(String password);
 
@@ -60,4 +55,6 @@ public interface SendMail extends com.ozacc.mail.SendMail {
     void setReturnPath(String returnPath);
 
     void setUsername(String username);
+
+    void send(Mail mail);
 }

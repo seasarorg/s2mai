@@ -15,7 +15,7 @@
  */
 package org.seasar.mai.property.mail;
 
-import com.ozacc.mail.Mail;
+import org.seasar.mai.mail.Mail;
 
 /**
  * @author rokugen

@@ -22,11 +22,9 @@ import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
 import org.seasar.mai.mail.AttachedFile;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.mail.MailAddress;
 import org.seasar.mai.unit.SendMailTestUtil;
-
-import com.ozacc.mail.Mail;
-import com.ozacc.mail.Mail.AttachmentFile;
 
 /**
  * @author Satsohi Kimura
@@ -81,9 +79,9 @@ public class S2MaiInterceptorTest extends S2TestCase {
         assertEquals("rokugen", mail.getCc()[0].getAddress());
         assertEquals("六のCC", mail.getCc()[0].getPersonal());
         assertEquals("件名です", mail.getSubject());
-        AttachmentFile[] attachmentFiles = mail.getAttachmentFiles();
+        AttachedFile[] attachmentFiles = mail.getAttachedFiles();
         assertEquals(1, attachmentFiles.length);
-        assertEquals("添付ファイル.txt", attachmentFiles[0].getName());
+        assertEquals("添付ファイル.txt", attachmentFiles[0].getFileName());
 
     }
 

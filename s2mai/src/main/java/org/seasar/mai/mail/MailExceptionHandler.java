@@ -15,11 +15,12 @@
  */
 package org.seasar.mai.mail;
 
-import com.ozacc.mail.MailException;
+import org.apache.commons.mail.EmailException;
 
 /**
  * @author Satsohi Kimura
+ * @author rokugen
  */
 public interface MailExceptionHandler {
-    void handle(MailException e);
+    void handle(EmailException e);
 }

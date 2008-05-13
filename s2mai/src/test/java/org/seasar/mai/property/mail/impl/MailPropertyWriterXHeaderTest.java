@@ -22,7 +22,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import com.ozacc.mail.Mail;
+import org.seasar.mai.mail.Mail;
 
 /**
  * @author rokugen

@@ -19,17 +19,18 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.mail.MultiPartEmail;
 import org.seasar.framework.container.S2Container;
 import org.seasar.framework.container.factory.S2ContainerFactory;
 import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.mai.S2MaiConstants;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.meta.MaiMetaData;
 import org.seasar.mai.property.PropertyWriterForAnnotation;
 
-import com.ozacc.mail.Mail;
-
 /**
  * @author Satsohi Kimura
+ * @author rokugen
  */
 public class MaiMetaDataImpl implements MaiMetaData {
     private Map mails = new HashMap();

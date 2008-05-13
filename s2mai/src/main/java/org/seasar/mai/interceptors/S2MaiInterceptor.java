@@ -18,8 +18,10 @@ package org.seasar.mai.interceptors;
 import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.mail.Email;
 import org.seasar.framework.aop.interceptors.AbstractInterceptor;
 import org.seasar.framework.util.MethodUtil;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.mail.Transport;
 import org.seasar.mai.meta.MaiMetaData;
@@ -28,8 +30,6 @@ import org.seasar.mai.property.PropertyWriterForBean;
 import org.seasar.mai.template.ContextHelper;
 import org.seasar.mai.template.TemplateProcessor;
 import org.seasar.mai.util.MailTextUtil;
-
-import com.ozacc.mail.Mail;
 
 /**
  * @author Satoshi Kimura
@@ -56,9 +56,6 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         if (!MethodUtil.isAbstract(method)) {
             return invocation.proceed();
         }
-        if (isGetSendMail(method)) {
-            return sendMail.clone();
-        }
         sendMail(invocation);
         return null;
     }
@@ -71,7 +68,8 @@ public class S2MaiInterceptor extends AbstractInterceptor {
         Object context = contextHelper.createContext(bean);
         Mail mail = createMail(method, context, metaData);
         propertyWriter.setMailProperty(mail, bean);
-        SendMail mailSender = (SendMail) sendMail.clone();
+        //TODO 見直し
+        SendMail mailSender = (SendMail) sendMail;
         propertyWriter.setServerProperty(mailSender, bean);
         send(mail, mailSender);
     }
@@ -93,7 +91,7 @@ public class S2MaiInterceptor extends AbstractInterceptor {
     }
 
     private void send(Mail mail, SendMail sendMail) {
-        transport.send(mail, sendMail);
+        transport.send(mail,sendMail);
     }
 
     private Mail createMail(Method method, Object context, MaiMetaData metaData) {

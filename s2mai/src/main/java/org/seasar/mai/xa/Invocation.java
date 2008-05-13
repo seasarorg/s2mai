@@ -15,13 +15,12 @@
  */
 package org.seasar.mai.xa;
 
+import org.apache.commons.mail.EmailException;
 import org.seasar.framework.log.Logger;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.mail.MailExceptionHandler;
 import org.seasar.mai.mail.SendMail;
 import org.seasar.mai.mail.impl.MailExceptionHandlerImpl;
-
-import com.ozacc.mail.Mail;
-import com.ozacc.mail.MailException;
 
 /**
  * @author Satsohi Kimura
@@ -43,11 +42,7 @@ public class Invocation {
     public void send() {
         logger.debug("send mail...(xa)");
         logger.debug(mail);
-        try {
             sendMail.send(mail);
-        } catch (MailException e) {
-            mailExceptionHandler.handle(e);
-        }
         logger.debug("success send mail.");
     }
 

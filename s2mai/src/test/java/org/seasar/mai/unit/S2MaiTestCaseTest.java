@@ -19,9 +19,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.seasar.mai.interceptors.AnnotationTestMai;
 import org.seasar.mai.interceptors.TestData;
-import org.seasar.mai.unit.S2MaiTestCase;
-
-import com.ozacc.mail.Mail;
+import org.seasar.mai.mail.Mail;
 
 /**
  * @author rokugen

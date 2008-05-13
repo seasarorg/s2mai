@@ -17,11 +17,11 @@ package org.seasar.mai.unit;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.seasar.framework.aop.interceptors.AbstractInterceptor;
-
-import com.ozacc.mail.Mail;
+import org.seasar.mai.mail.Mail;
 
 /**
  * @author Satsohi Kimura
+ * @author rokugen
  */
 public class SendMailInterceptor extends AbstractInterceptor {
 

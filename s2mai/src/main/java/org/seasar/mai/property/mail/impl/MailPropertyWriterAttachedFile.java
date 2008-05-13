@@ -21,9 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.seasar.mai.mail.AttachedFile;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.property.mail.MailPropertyWriter;
-
-import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen

@@ -18,9 +18,8 @@ package org.seasar.mai.interceptors;
 import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.unit.SendMailTestUtil;
-
-import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen

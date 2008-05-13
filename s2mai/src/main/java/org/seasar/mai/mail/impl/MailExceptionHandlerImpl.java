@@ -15,15 +15,16 @@
  */
 package org.seasar.mai.mail.impl;
 
+import org.apache.commons.mail.EmailException;
 import org.seasar.mai.mail.MailExceptionHandler;
-
-import com.ozacc.mail.MailException;
 
 /**
  * @author Satsohi Kimura
+ * @author rokugen
  */
 public class MailExceptionHandlerImpl implements MailExceptionHandler {
-    public void handle(MailException e) {
-        throw e;
+    public void handle(EmailException e) {
+        //TODO 独自Exception実装したほうがいい
+        throw new RuntimeException(e);
     }
 }

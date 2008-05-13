@@ -15,9 +15,9 @@
  */
 package org.seasar.mai.unit;
 
+import org.apache.commons.mail.Email;
 import org.seasar.extension.unit.S2TestCase;
-
-import com.ozacc.mail.Mail;
+import org.seasar.mai.mail.Mail;
 
 /**
  * @author rokugen
@@ -36,11 +36,11 @@ public abstract class S2MaiTestCase extends S2TestCase {
         super.runBare();
     }
     
-    public void assertEquals(Mail expected, Mail actual){
+    public void assertEquals(Email expected, Email actual){
         assertEquals(null, expected, actual);
     }
     
-    public void assertEquals(String message, Mail expected, Mail actual){
+    public void assertEquals(String message, Email expected, Email actual){
         assertEquals(message, expected.toString(), actual.toString());
     }
     

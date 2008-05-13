@@ -20,11 +20,10 @@ import java.lang.reflect.Method;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.annotation.AnnotationReader;
 import org.seasar.mai.annotation.AnnotationReaderFactory;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.property.PropertyWriterForAnnotation;
 import org.seasar.mai.property.mail.MailPropertyWriter;
 import org.seasar.mai.property.mail.MailPropertyWriterFactory;
-
-import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen

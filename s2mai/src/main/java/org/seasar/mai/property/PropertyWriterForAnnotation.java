@@ -17,7 +17,7 @@ package org.seasar.mai.property;
 
 import java.lang.reflect.Method;
 
-import com.ozacc.mail.Mail;
+import org.seasar.mai.mail.Mail;
 
 /**
  * @author rokugen

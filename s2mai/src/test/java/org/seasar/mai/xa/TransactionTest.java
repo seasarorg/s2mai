@@ -17,10 +17,9 @@ package org.seasar.mai.xa;
 
 import org.seasar.extension.unit.S2TestCase;
 import org.seasar.framework.exception.SQLRuntimeException;
+import org.seasar.mai.mail.AttachedFile;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.unit.SendMailTestUtil;
-
-import com.ozacc.mail.Mail;
-import com.ozacc.mail.Mail.AttachmentFile;
 
 /**
  * @author Satsohi Kimura
@@ -88,12 +87,12 @@ public class TransactionTest extends S2TestCase {
         
         assertFalse(sub1.equals(sub2));
         
-        AttachmentFile[] files1 =  mail1.getAttachmentFiles();
-        AttachmentFile[] files2 =  mail2.getAttachmentFiles();
+        AttachedFile[] files1 =  mail1.getAttachedFiles();
+        AttachedFile[] files2 =  mail2.getAttachedFiles();
         
         assertEquals(1, files1.length );
         assertEquals(1, files2.length );
-        assertNotSame(files1[0].getName(),files2[0].getName());
+        assertNotSame(files1[0].getFileName(),files2[0].getFileName());
         
     }
 }

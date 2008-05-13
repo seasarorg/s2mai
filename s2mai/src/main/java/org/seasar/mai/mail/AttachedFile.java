@@ -33,6 +33,7 @@ public class AttachedFile {
 
     public AttachedFile(File file) {
         this.file = file;
+        this.fileName = file.getName();
     }
 
     public AttachedFile(File file, String fileName) {

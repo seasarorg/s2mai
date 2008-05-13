@@ -15,7 +15,6 @@
  */
 package org.seasar.mai.mail;
 
-import com.ozacc.mail.Mail;
 
 /**
  * @author Satsohi Kimura

@@ -17,9 +17,9 @@ package org.seasar.mai.property.mail.impl;
 
 import javax.mail.internet.InternetAddress;
 
+import org.apache.commons.mail.Email;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.mail.MailAddress;
-
-import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen
@@ -39,7 +39,7 @@ public class MailPropertyWriterTo extends AbstractMailPropertyWriter {
     }
 
     protected void setPropertyToMail(Mail mail, MailAddress mailAddress) {
-        mail.addTo(mailAddress.getAddress(), mailAddress.getPersonal());
+        mail.addTo(mailAddress);
     }
 
 }

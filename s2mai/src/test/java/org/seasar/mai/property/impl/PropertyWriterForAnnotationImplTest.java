@@ -20,10 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.seasar.extension.unit.S2TestCase;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.mail.MailAddress;
 import org.seasar.mai.property.PropertyWriterForAnnotation;
-
-import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen

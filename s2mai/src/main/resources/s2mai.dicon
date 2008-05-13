@@ -12,7 +12,6 @@
 		<property name="username">username</property>
 		<property name="password">password</property>
 		<property name="returnPath">returnPath</property>
-		<property name="messageId">messageId</property>
 		<property name="connectionTimeout">connectionTimeout</property>
 		<property name="readTimeout">readTimeout</property>
 		<property name="charset">mailCharset</property>

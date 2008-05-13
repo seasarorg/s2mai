@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container 2.3//EN"
 	"http://www.seasar.org/dtd/components23.dtd">
 <components>
-	<component class="com.ozacc.mail.Mail">
+    <component class="org.seasar.mai.mail.Mail">
 		<initMethod name="addTo"><arg>"kimura"</arg></initMethod>
 	</component>
 </components>

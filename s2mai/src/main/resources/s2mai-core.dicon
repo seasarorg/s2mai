@@ -28,7 +28,6 @@
 	<component name="hostWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterHost" />
 	<component name="portWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterPort" />
 	<component name="usernameWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterUsername" />
-	<component name="passwordWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterPassword" />
-	<component name="messageIdWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterMessageId" />				
+	<component name="passwordWriter" class="org.seasar.mai.property.server.impl.ServerPropertyWriterPassword" />					
 
 </components>

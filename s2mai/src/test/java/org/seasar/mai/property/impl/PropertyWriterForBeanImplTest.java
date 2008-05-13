@@ -27,10 +27,9 @@ import javax.mail.internet.InternetAddress;
 
 import org.seasar.extension.unit.S2TestCase;
 import org.seasar.mai.mail.AttachedFile;
+import org.seasar.mai.mail.Mail;
 import org.seasar.mai.mail.MailAddress;
 import org.seasar.mai.mail.impl.SendMailImpl;
-
-import com.ozacc.mail.Mail;
 
 /**
  * @author rokugen
@@ -53,7 +52,6 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         testDto.setPort("1234");
         testDto.setUsername("tesetuser");
         testDto.setPassword("testpw");
-        testDto.setMessageId("messageIdTest@example.com");        
         
         propertyWriterImpl.setServerProperty(sendMail, testDto);
 
@@ -61,7 +59,6 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("port", Integer.parseInt(testDto.getPort()), sendMail.getPort());
         assertEquals("username", testDto.getUsername(), sendMail.getUsername());
         assertEquals("password", testDto.getPassword(), sendMail.getPassword());
-        assertEquals("messageId", testDto.getMessageId(), sendMail.getMessageId());
         
     }
 
@@ -120,7 +117,7 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("bcc name 2", ((InternetAddress) bccList.get(1)).getPersonal(), actualBccAddrs[1].getPersonal());
         assertEquals("replyTo address ", testDto.getReplyTo(), mail.getReplyTo().getAddress());
         assertEquals("return path address", testDto.getReturnPath(), mail.getReturnPath().getAddress());
-        assertEquals("attached file", testDto.getAttachedFile().getFileName(), mail.getAttachmentFiles()[0].getName());
+        assertEquals("attached file", testDto.getAttachedFile().getFileName(), mail.getAttachedFiles()[0].getFileName());
         assertEquals("xheader x-mailer",testDto.getXHeader().get("X-Mailer"), mail.getHeaders().get("X-Mailer"));
         assertEquals("xheader x-hoge",testDto.getXHeader().get("X-hoge"), mail.getHeaders().get("X-hoge"));
 
@@ -147,9 +144,9 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("to address", testDto2.getTo(), mail.getTo()[0].getAddress());
         assertEquals("cc address", testDto2.getCc().getAddress(), mail.getCc()[0].getAddress());
         assertEquals("cc name", testDto2.getCc().getPersonal(), mail.getCc()[0].getPersonal());
-        assertEquals("attached file 1", testDto2.getFiles()[0].getFileName(), mail.getAttachmentFiles()[0].getName());
-        assertEquals("attached file 2", testDto2.getFiles()[1].getFileName(), mail.getAttachmentFiles()[1].getName());
-        assertEquals("attached file 3", testDto2.getTempuFile().getFileName(), mail.getAttachmentFiles()[2].getName());
+        assertEquals("attached file 1", testDto2.getFiles()[0].getFileName(), mail.getAttachedFiles()[0].getFileName());
+        assertEquals("attached file 2", testDto2.getFiles()[1].getFileName(), mail.getAttachedFiles()[1].getFileName());
+        assertEquals("attached file 3", testDto2.getTempuFile().getFileName(), mail.getAttachedFiles()[2].getFileName());
         assertEquals("xheader x-fuga","hogehoge@example.com", mail.getHeaders().get("X-fuga"));
         assertEquals("xheader x-hoge","2.3", mail.getHeaders().get("X-hoge"));
         
@@ -179,10 +176,10 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("bcc name 1", bccs[0].getPersonal(), mail.getBcc()[0].getPersonal());
         assertEquals("bcc address 2", bccs[1].getAddress(), mail.getBcc()[1].getAddress());
         assertEquals("bcc name 2", bccs[1].getPersonal(), mail.getBcc()[1].getPersonal());
-        assertEquals("attached file 1", ((AttachedFile) fileList.get(0)).getFileName(), mail.getAttachmentFiles()[0]
-                .getName());
-        assertEquals("attached file 2", ((AttachedFile) fileList.get(1)).getFileName(), mail.getAttachmentFiles()[1]
-                .getName());
+        assertEquals("attached file 1", ((AttachedFile) fileList.get(0)).getFileName(), mail.getAttachedFiles()[0]
+                .getFileName());
+        assertEquals("attached file 2", ((AttachedFile) fileList.get(1)).getFileName(), mail.getAttachedFiles()[1]
+                .getFileName());
 
     }
     
@@ -196,7 +193,6 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         testDto.setPort("1234");
         testDto.setUsername("tesetuser");
         testDto.setPassword("testpw");
-        testDto.setMessageId("messageIdTest@example.com");
 
         testDto.setFrom("from@address");
         testDto.setSubject("件名です");
@@ -208,7 +204,6 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         assertEquals("port", Integer.parseInt(testDto.getPort()), sendMail.getPort());
         assertEquals("username", testDto.getUsername(), sendMail.getUsername());
         assertEquals("password", testDto.getPassword(), sendMail.getPassword());
-        assertEquals("messageId", testDto.getMessageId(), sendMail.getMessageId());
 
         assertEquals("from address only", testDto.getFrom(), mail.getFrom().getAddress());
         assertEquals("subject", testDto.getSubject(), mail.getSubject());
@@ -223,8 +218,6 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
         private String username;
 
         private String password;
-
-        private String messageId;
 
         private String subject;
 
@@ -350,13 +343,6 @@ public class PropertyWriterForBeanImplTest extends S2TestCase {
             this.attachedFile = attachedFile;
         }
 
-        public final String getMessageId() {
-            return messageId;
-        }
-
-        public final void setMessageId(String messageId) {
-            this.messageId = messageId;
-        }
         
         public final Map getXHeader() {
             return xHeader;
