@@ -7,7 +7,7 @@
   <artifactId>s2mai</artifactId>
   <packaging>jar</packaging>
   <name>s2mai</name>
-  <version>0.9.6</version>
+  <version>0.9.7-SNAPSHOT</version>
   <description></description>
   <url>http://s2mai.sandbox.seasar.org/</url>
   <inceptionYear>2006</inceptionYear>
@@ -68,7 +68,7 @@
           <configuration>
             <updateReleaseInfo>true</updateReleaseInfo>
           </configuration>
-        </plugin>        
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -84,19 +84,19 @@
           </execution>
         </executions>
       </plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>				
-				<configuration>
-					<finalName>
-						s2mai
-					</finalName>
-					<outputDirectory>${project.build.directory}/assembly</outputDirectory>
-					<descriptors>
-						<descriptor>src/main/assembly/bin.xml</descriptor>
-					</descriptors>					
-				</configuration>
-			</plugin>
-<!-- 
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <finalName>
+            s2mai
+          </finalName>
+          <outputDirectory>${project.build.directory}/assembly</outputDirectory>
+          <descriptors>
+            <descriptor>src/main/assembly/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+<!--
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
@@ -105,7 +105,7 @@
           <docencoding>UTF-8</docencoding>
           <charset>UTF-8</charset>
           <links>
-          	<link>http://java.sun.com/j2se/1.5.0/ja/docs/ja/api/</link>
+            <link>http://java.sun.com/j2se/1.5.0/ja/docs/ja/api/</link>
             <link>http://java.sun.com/j2ee/1.4/docs/api/</link>
             <link>http://aopalliance.sourceforge.net/doc/</link>
           </links>
@@ -120,15 +120,15 @@
           </execution>
         </executions>
       </plugin>
--->     
-    </plugins>    
-  	<extensions>
-  		<extension>
-  			<groupId>org.apache.maven.wagon</groupId>
-  			<artifactId>wagon-webdav</artifactId>  			
- 				<version>1.0-beta-2</version>
-  		</extension>
-  	</extensions>
+-->
+    </plugins>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+         <version>1.0-beta-2</version>
+      </extension>
+    </extensions>
   </build>
   <repositories>
     <repository>
@@ -197,13 +197,13 @@
       <type>jar</type>
       <scope>runtime</scope>
     </dependency>
-		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-servlet_2.4_spec</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-			<scope>test</scope>
-		</dependency>    
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-servlet_2.4_spec</artifactId>
+      <version>1.0</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
@@ -219,11 +219,11 @@
       <name>The Seasar Foundation Maven2 Repository</name>
       <url>dav:https://www.seasar.org/maven/maven2</url>
     </repository>
-		<snapshotRepository>
-			<uniqueVersion>true</uniqueVersion>
-			<id>maven.seasar.org</id>
-			<name>The Seasar Foundation Maven2 Snapshot Repository</name>
-			<url>dav:https://www.seasar.org/maven/maven2-snapshot</url>
-   </snapshotRepository>    
+    <snapshotRepository>
+      <uniqueVersion>true</uniqueVersion>
+      <id>maven.seasar.org</id>
+      <name>The Seasar Foundation Maven2 Snapshot Repository</name>
+      <url>dav:https://www.seasar.org/maven/maven2-snapshot</url>
+   </snapshotRepository>
   </distributionManagement>
 </project>
