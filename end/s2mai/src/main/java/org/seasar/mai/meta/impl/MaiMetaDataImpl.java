@@ -20,7 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.seasar.framework.container.S2Container;
-import org.seasar.framework.container.factory.S2ContainerFactory;
+import org.seasar.framework.container.factory.S2ContainerBuilder;
+import org.seasar.framework.container.factory.XmlS2ContainerBuilder;
 import org.seasar.framework.exception.ResourceNotFoundRuntimeException;
 import org.seasar.mai.S2MaiConstants;
 import org.seasar.mai.meta.MaiMetaData;
@@ -37,6 +38,8 @@ public class MaiMetaDataImpl implements MaiMetaData {
     private Map templatePaths = new HashMap();
 
     private String ext;
+    
+    private S2ContainerBuilder builder = new XmlS2ContainerBuilder();
 
 
     public MaiMetaDataImpl(Class maiClass, PropertyWriterForAnnotation propertyWriterForAnnotation, String ext) {
@@ -44,7 +47,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
         Mail classMail = null;
         try {
             String path = maiClass.getName().replaceAll("\\.", "/") + ".dicon";
-            S2Container container = S2ContainerFactory.create(path);
+            S2Container container = createContainer(path);
             classMail = (Mail) container.getComponent(Mail.class);
         } catch (ResourceNotFoundRuntimeException e) {
             classMail = new Mail();
@@ -65,7 +68,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
         Mail mail = null;
         try {
             String path = maiClass.getName().replaceAll("\\.", "/") + "_" + method.getName() + ".dicon";
-            S2Container container = S2ContainerFactory.create(path);
+            S2Container container = createContainer(path);
             mail = (Mail) container.getComponent(Mail.class);
         } catch (ResourceNotFoundRuntimeException e) {
             mail = new Mail(classMail);
@@ -77,7 +80,7 @@ public class MaiMetaDataImpl implements MaiMetaData {
     }
 
     private void setPropertiesFromMailPropertiesDicon(Mail mail) {
-        S2Container container = S2ContainerFactory.create(S2MaiConstants.MAIL_PROPERTIES_DICON);
+        S2Container container = createContainer(S2MaiConstants.MAIL_PROPERTIES_DICON);
         String from = (String) container.getComponent("from");
         if (from != null && mail.getFrom() == null) {
             mail.setFrom(from);
@@ -108,4 +111,11 @@ public class MaiMetaDataImpl implements MaiMetaData {
         return path;
     }
 
+    private S2Container createContainer(String path){
+        S2Container container = builder.build(path);
+        if(container.isInitializeOnCreate() == false){
+            container.init();
+        }
+        return container;
+    }
 }
