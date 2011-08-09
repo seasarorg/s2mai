@@ -45,7 +45,7 @@
 <h2><a name="setup">セットアップ</a></h2>
 <p>Seasar2と同様にJDK1.4以上が必要です。</p>
 <h3><a name="s2mai">S2Mai本体</a></h3>
-<p>ダウンロードしたs2mai-Vx.x.x.zipを解凍すると、s2maiディレクトリが出来ます。そのなかのlibディレクトリにある「s2mai-0.9.1.jar」をクラスパスに含めて下さい。</p>
+<p>ダウンロードしたs2mai-x.x.x.zipを解凍すると、s2maiディレクトリが出来ます。そのなかのlibディレクトリにある「s2mai-x.x.x.jar」をクラスパスに含めて下さい。</p>
 <p>他、必要となるjarファイルもlibディレクトリ内にありますが、その内、S2Mai本体が必要とするものは以下になります。</p>
 <ul>
 	<li>mail-x.x.jar</li>
@@ -81,7 +81,7 @@
 <h4>注意!!</h4>
 <p>geronimo-j2ee_1.4_spec-1.0.jar がクラスパスにある場合、こちらにもJavaMailが部分的に実装されており、参照順序によってこちらが優先されると不具合が発生する事が確認されています。出来る限りSUNのJavaMail実装（ここではmail.jar）を使うようにして下さい。</p>
 <h3><a name="s2mai-tiger">S2Mai-Tiger</a></h3>
-<p>S2Maiでは定数アノテーションを用いて各種プロパティを設定する事が出来ます。これを定数ではなく、Javaのアノテーションを使って設定する事が出来ます。その際には、s2mai-tiger-Vx.x.x.zipをダウンロードした後、解凍し、それに含まれる「s2mai-tiger-x.x.x.jar」をクラスパスに含めて下さい。</p>
+<p>S2Maiでは定数アノテーションを用いて各種プロパティを設定する事が出来ます。これを定数ではなく、Javaのアノテーションを使って設定する事が出来ます。その際には、s2mai-tiger-x.x.x.zipをダウンロードした後、解凍し、それに含まれる「s2mai-tiger-x.x.x.jar」をクラスパスに含めて下さい。</p>
 
 <h3><a name="m2">Maven2からのご利用</a></h3>
 <p>S2MaiはMaven2からもご利用いただけます。まず、SeasarのMaven2リポジトリのrepository要素を追加します。</p>
@@ -110,11 +110,6 @@
 &lt;/dependency&gt;
 </pre>
 <p>versionは適宜指定して下さい。</p>
-<h3><a name="eclipse">Eclipseへのインポート</a></h3>
-<p>配布ファイルは、Eclipseのプロジェクト形式となっています。Eclipseへインポートすることで参照する事も出来ます。</p>
-<p>Eclipseのm2eclipseプラグインを使用したプロジェクト構成になっていますので、プラグインをインストールして参照下さい。</p>
-<p>更新サイトは「<a href="http://download.eclipse.org/technology/m2e/releases">http://download.eclipse.org/technology/m2e/releases</a>」になります。</p>
-<p>s2mai-Vx.x.x.zipを解凍し、できたs2maiディレクトリをEclipseで「ファイル→インポート→既存のプロジェクトをワークスペースへ」してインポートしてください。</p>
 
 <h2><a name="startup">まずは使ってみる</a></h2>
 
